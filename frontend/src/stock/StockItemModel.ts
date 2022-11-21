@@ -1,7 +1,7 @@
 export type StockItemModel = {
     id: string,
     name: string,
-    stockType: string,
+    type: string,
     amountInStock: number,
     pricePerKilo: number
 }
