@@ -18,6 +18,8 @@ class StockIntegrationTest {
     private MockMvc mockMvc;
 
 
+
+
     @Test
     void getAllStockItems_AndExpectEmptyList_200() throws Exception {
         mockMvc.perform(get
