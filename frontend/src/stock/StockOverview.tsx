@@ -3,10 +3,11 @@ import axios from "axios";
 import "./css/StockOverview.css";
 import {StockItemModel} from "./StockItemModel";
 import AddIcon from "./AddIcon";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function StockOverview() {
 
-    const [stockItems, setStockItems] = useState<StockItemModel[]>([])
+    const [stockItems, setStockItems] = useState<StockItemModel[]>()
 
     const getAllStockItems = () => {
         axios.get("/lager/ueberblick")
@@ -21,7 +22,14 @@ function StockOverview() {
     }, [])
 
 
-
+    if (stockItems === undefined) {
+        console.log("Cliploader")
+        return <ClipLoader
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+        />
+    }
     return (
         <>
             {stockItems.length > 0 ?
