@@ -1,0 +1,8 @@
+.add-record-icon {
+    font-size: 5em;
+    color: #408900;
+}
+
+.add-record-icon :hover {
+    color: #408900c4;
+}
