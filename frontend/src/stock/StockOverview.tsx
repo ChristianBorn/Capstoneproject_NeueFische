@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import "./css/StockOverview.css";
 
 function StockOverview() {
 
@@ -20,7 +23,18 @@ function StockOverview() {
         <div>
             {stockItems.length > 0 ? stockItems.map(singleItem => <div>{singleItem}</div>)
             :
-            <p>Keine Items im Lager</p>}
+            <div>
+                <p>Keine Items im Lager</p>
+
+                <a  href={"/lager/uebersicht"}>
+                        <span className={"add-record-icon"}>
+                    <FontAwesomeIcon icon={faCirclePlus} />
+                            </span>
+                    </a>
+
+            </div>
+
+            }
         </div>
     );
 }
