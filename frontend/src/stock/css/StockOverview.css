@@ -6,3 +6,9 @@
 .add-record-icon :hover {
     color: #408900c4;
 }
+.stock-overview-table-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 2em;
+}
