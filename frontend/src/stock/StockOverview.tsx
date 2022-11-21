@@ -32,7 +32,7 @@ function StockOverview() {
                 <tr>
                     <th>Name</th>
                     <th>Typ</th>
-                    <th>Vergübare Menge in Kilogramm</th>
+                    <th>Verfügbare Menge in Kilogramm</th>
                     <th>Preis pro Kilogramm</th>
                     <th>Täglicher Verbrauch</th>
                     <th>Aufgebraucht in</th>
