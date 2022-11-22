@@ -1,10 +1,13 @@
+import axios from 'axios';
 import React, {ChangeEvent, useState} from 'react';
 import Modal from 'react-modal';
 import {StockItemModel} from "./StockItemModel";
+import "./css/AddStockItemModal.css.css";
 
 type ModalProps = {
     modalIsOpen: boolean,
     closeModal: () => void,
+    reloadStockItems: () => void,
 }
 
 function AddStockItemModal(props: ModalProps) {
@@ -12,8 +15,16 @@ function AddStockItemModal(props: ModalProps) {
         id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""
     })
 
+    const saveNewStockitem = () => {
+        axios.post("/lager/ueberblick", newStockItem)
+            .catch((e) => console.log("POST Error: " + e))
+            .then(props.reloadStockItems)
+            .then(props.closeModal)
+    }
+
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
+        saveNewStockitem()
         console.log(newStockItem)
     }
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -37,9 +48,8 @@ function AddStockItemModal(props: ModalProps) {
     return (
         <Modal
             isOpen={props.modalIsOpen}
-            // onAfterOpen={afterOpenModal}
             onRequestClose={props.closeModal}
-            // style={customStyles}
+
             contentLabel="Example Modal"
         >
             <section>
@@ -58,8 +68,8 @@ function AddStockItemModal(props: ModalProps) {
                            id={"amount"} name={"amountInStock"}/>
 
                     <label htmlFor={"type"}>Typ:</label>
-                    <select onChange={handleSelectChange} required id={"type"} name={"type"}>
-                        <option selected disabled value={""}>Bitte auswählen</option>
+                    <select  onChange={handleSelectChange} required id={"type"} name={"type"}>
+                        <option disabled defaultValue={""} >Bitte auswählen</option>
                         <option value={"Futter"}>Futter</option>
                         <option value={"Einstreu"}>Einstreu</option>
                     </select>

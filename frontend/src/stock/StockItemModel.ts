@@ -3,5 +3,5 @@ export type StockItemModel = {
     name: string,
     type: string,
     amountInStock: number,
-    pricePerKilo: number
+    pricePerKilo: number,
 }
