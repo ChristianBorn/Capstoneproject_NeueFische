@@ -41,7 +41,7 @@ function StockOverview() {
     }
     return (
         <>
-            <AddStockItemModal modalIsOpen={modalIsOpen} closeModal={closeModal}/>
+            <AddStockItemModal modalIsOpen={modalIsOpen} closeModal={closeModal} reloadStockItems={getAllStockItems}/>
             {stockItems.length > 0 ?
                 <>
                     <div className={"stock-overview-table-wrapper"}>
