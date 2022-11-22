@@ -1,7 +1,9 @@
 package de.ffmjava.capstone.backend.stock;
 
-import java.math.BigDecimal;
+import lombok.With;
 
+import java.math.BigDecimal;
+@With
 public record StockItem(
         String id,
         String name,

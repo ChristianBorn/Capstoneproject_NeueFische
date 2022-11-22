@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -13,7 +14,9 @@ public class StockService {
 
     public List<StockItem> getAllStockItems() {
         return repository.findAll();
-
     }
 
+    public StockItem addNewStockItem(StockItem newStockItem) {
+        return repository.save(newStockItem.withId(UUID.randomUUID().toString()));
+    }
 }
