@@ -2,13 +2,17 @@ import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";
 
-function AddIcon() {
+type iconProps = {
+    openModal: () => void
+}
+
+function AddIcon(props: iconProps) {
     return (
-        <a href={"/lager/ueberblick"}>
+        <button onClick={() => props.openModal()}>
                         <span className={"add-record-icon"}>
                     <FontAwesomeIcon icon={faCirclePlus}/>
                             </span>
-        </a>
+        </button>
     );
 }
 
