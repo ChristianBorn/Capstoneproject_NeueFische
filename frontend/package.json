@@ -18,6 +18,7 @@
     "babel-plugin-macros": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.6",
@@ -48,5 +49,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8080",
+  "devDependencies": {
+    "@types/react-modal": "^3.13.1"
+  }
 }
