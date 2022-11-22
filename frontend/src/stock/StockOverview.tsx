@@ -4,16 +4,26 @@ import "./css/StockOverview.css";
 import {StockItemModel} from "./StockItemModel";
 import AddIcon from "./AddIcon";
 import ClipLoader from "react-spinners/ClipLoader";
+import AddStockItemModal from "./AddStockItemModal";
 
 function StockOverview() {
 
     const [stockItems, setStockItems] = useState<StockItemModel[]>()
+    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
+
 
     const getAllStockItems = () => {
         axios.get("/lager/ueberblick")
             .then((response) => response.data)
             .catch((error) => console.error("Error while getting Stockitems:" + error))
             .then(data => setStockItems(data))
+    }
+    const openModal = () => {
+        setModalIsOpen(true)
+    }
+
+    const closeModal = () => {
+        setModalIsOpen(false)
     }
 
 
@@ -23,7 +33,6 @@ function StockOverview() {
 
 
     if (stockItems === undefined) {
-        console.log("Cliploader")
         return <ClipLoader
             size={150}
             aria-label="Loading Spinner"
@@ -32,6 +41,7 @@ function StockOverview() {
     }
     return (
         <>
+            <AddStockItemModal modalIsOpen={modalIsOpen} closeModal={closeModal}/>
             {stockItems.length > 0 ?
                 <>
                     <div className={"stock-overview-table-wrapper"}>
@@ -62,11 +72,11 @@ function StockOverview() {
                         </table>
 
                     </div>
-                    <AddIcon/></>
+                    <AddIcon openModal={openModal}/></>
                 :
                 <div>
                     <p>Keine Items im Lager</p>
-                    <AddIcon/>
+                    <AddIcon openModal={openModal}/>
                 </div>
 
             }
