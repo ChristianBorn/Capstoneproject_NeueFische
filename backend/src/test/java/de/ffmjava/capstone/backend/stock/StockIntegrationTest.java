@@ -13,19 +13,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(locations="classpath:application.properties")
+@TestPropertySource(locations = "classpath:application.properties")
 class StockIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
 
-
-
     @Test
     void getAllStockItems_AndExpectEmptyList_200() throws Exception {
         mockMvc.perform(get
-                ("/lager/ueberblick"))
+                        ("/lager/ueberblick"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }

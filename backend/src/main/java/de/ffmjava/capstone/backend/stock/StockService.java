@@ -10,6 +10,7 @@ import java.util.List;
 public class StockService {
 
     private final StockRepository repository;
+
     public List<StockItem> getAllStockItems() {
         return repository.findAll();
 

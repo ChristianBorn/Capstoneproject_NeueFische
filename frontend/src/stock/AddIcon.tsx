@@ -4,9 +4,9 @@ import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";
 
 function AddIcon() {
     return (
-        <a  href={"/lager/ueberblick"}>
+        <a href={"/lager/ueberblick"}>
                         <span className={"add-record-icon"}>
-                    <FontAwesomeIcon icon={faCirclePlus} />
+                    <FontAwesomeIcon icon={faCirclePlus}/>
                             </span>
         </a>
     );
