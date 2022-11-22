@@ -17,6 +17,7 @@ public class StockService {
     }
 
     public StockItem addNewStockItem(StockItem newStockItem) {
-        return repository.save(newStockItem.withId(UUID.randomUUID().toString()));
+        StockItem newStockItemWithId = newStockItem.withId(UUID.randomUUID().toString());
+        return repository.save(newStockItemWithId);
     }
 }
