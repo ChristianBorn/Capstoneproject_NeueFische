@@ -13,10 +13,10 @@ public record StockItem(
         String name,
         @NotNull (message = "Feld \"Typ\" darf nicht leer sein")
         StockType type,
-        @Min(0)
+        @Min(value = 0, message = "Der Wert muss größer als 0 sein")
         @NotNull (message = "Feld \"Menge\" in Kilogramm darf nicht leer sein")
         BigDecimal amountInStock,
-        @Min(0)
+        @Min(value = 0, message = "Der Wert muss größer als 0 sein")
         @NotNull (message = "Feld \"Preis\" pro Kilogramm darf nicht leer sein")
         BigDecimal pricePerKilo
 ) {
