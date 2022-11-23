@@ -8,7 +8,7 @@ type iconProps = {
 
 function AddIcon(props: iconProps) {
     return (
-                        <span title={"Neuen Eintrag hinzufügen"} onClick={() => props.openModal()} className={"add-record-icon"}>
+        <span title={"Neuen Eintrag hinzufügen"} onClick={() => props.openModal()} className={"add-record-icon"}>
                     <FontAwesomeIcon icon={faCirclePlus}/>
                             </span>
 
