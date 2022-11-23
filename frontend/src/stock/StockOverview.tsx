@@ -10,7 +10,7 @@ function StockOverview() {
 
     const [stockItems, setStockItems] = useState<StockItemModel[]>()
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
-
+    const [successMessage, setSuccessMessage] = useState<string>()
 
     const getAllStockItems = () => {
         axios.get("/lager/ueberblick")
@@ -20,6 +20,7 @@ function StockOverview() {
     }
     const openModal = () => {
         setModalIsOpen(true)
+        setSuccessMessage("")
     }
 
     const closeModal = () => {
@@ -41,7 +42,10 @@ function StockOverview() {
     }
     return (
         <>
-            <AddStockItemModal modalIsOpen={modalIsOpen} closeModal={closeModal} reloadStockItems={getAllStockItems}/>
+            <AddStockItemModal modalIsOpen={modalIsOpen}
+                               closeModal={closeModal}
+                               reloadStockItems={getAllStockItems}
+                               setSuccessMessage={setSuccessMessage}/>
             {stockItems.length > 0 ?
                 <>
                     <div className={"stock-overview-table-wrapper"}>
@@ -72,6 +76,7 @@ function StockOverview() {
                         </table>
 
                     </div>
+                    {successMessage && <div className={"success-message"}>{successMessage}</div>}
                     <AddIcon openModal={openModal}/></>
                 :
                 <div>
