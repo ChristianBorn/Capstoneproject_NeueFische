@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, {ChangeEvent, useState} from 'react';
 import Modal from 'react-modal';
 import {StockItemModel} from "./StockItemModel";
-import "./css/AddStockItemModal.css.css";
+import "./css/AddStockItemModal.css";
 
 type ModalProps = {
     modalIsOpen: boolean,
@@ -49,11 +49,10 @@ function AddStockItemModal(props: ModalProps) {
         <Modal
             isOpen={props.modalIsOpen}
             onRequestClose={props.closeModal}
-
             contentLabel="Example Modal"
-        >
+        ><button className={"modal-close-button"} onClick={() => props.closeModal()}>Schließen</button>
             <section>
-                <button className={"modal-close-button"} onClick={() => props.closeModal()}>Schließen</button>
+                <h2>Neue Position dem Lager hinzufügen</h2>
                 <form onSubmit={handleSubmit}>
 
                     <label htmlFor={"name"}>Name/Bezeichnung</label>
