@@ -8,6 +8,7 @@ type ModalProps = {
     modalIsOpen: boolean,
     closeModal: () => void,
     reloadStockItems: () => void,
+    setSuccessMessage: (input:string) => void,
 }
 
 function AddStockItemModal(props: ModalProps) {
@@ -15,17 +16,21 @@ function AddStockItemModal(props: ModalProps) {
         id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""
     })
 
+
     const saveNewStockitem = () => {
         axios.post("/lager/ueberblick", newStockItem)
-            .catch((e) => console.log("POST Error: " + e))
+            .then(response => props.setSuccessMessage(response.data))
+            .catch((e) => console.error("POST Error: " + e))
             .then(props.reloadStockItems)
             .then(props.closeModal)
+            .then(() => console.log(newStockItem))
+            .then(() => setNewStockItem({id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""}))
+
     }
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
         saveNewStockitem()
-        console.log(newStockItem)
     }
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
@@ -48,7 +53,7 @@ function AddStockItemModal(props: ModalProps) {
     return (
         <Modal
             isOpen={props.modalIsOpen}
-            onRequestClose={props.closeModal}
+            // onRequestClose={props.closeModal}
             contentLabel="Example Modal"
         ><button className={"modal-close-button"} onClick={() => props.closeModal()}>Schließen</button>
             <section>
@@ -67,12 +72,13 @@ function AddStockItemModal(props: ModalProps) {
                            id={"amount"} name={"amountInStock"}/>
 
                     <label htmlFor={"type"}>Typ:</label>
-                    <select  onChange={handleSelectChange} required id={"type"} name={"type"}>
-                        <option disabled defaultValue={""} >Bitte auswählen</option>
+                    <select onChange={handleSelectChange} required id={"type"} name={"type"}>
+                        <option value="" selected disabled hidden>Bitte auswählen</option>
                         <option value={"Futter"}>Futter</option>
                         <option value={"Einstreu"}>Einstreu</option>
                     </select>
                     <input type={"submit"} value={"Einlagern"}/>
+
                 </form>
             </section>
         </Modal>
