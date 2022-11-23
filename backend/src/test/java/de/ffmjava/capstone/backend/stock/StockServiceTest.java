@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -36,5 +38,17 @@ class StockServiceTest {
         StockItem expected = newStockItem.withId("1");
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void deleteStockItem_AndExpectSuccess() {
+        String idToDelete = "1";
+        when(mockRepository.existsById(idToDelete)).thenReturn(true);
+        try {
+            doNothing().when(mockRepository).deleteById(idToDelete);
+        } catch (Exception e) {
+            fail();
+        }
+
     }
 }
