@@ -25,7 +25,7 @@ class StockController {
     @PostMapping("/ueberblick")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<String> addNewStockItem(@Valid @RequestBody StockItem newStockItem, Errors errors) {
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             FieldError fieldError;
             String errorMessage = null;
             if (errors.getFieldError() != null) {
@@ -37,7 +37,7 @@ class StockController {
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
         service.addNewStockItem(newStockItem);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-
-
-} }
+        return new ResponseEntity<>("Neue Position \"<name>\" erfolgreich gespeichert!"
+                .replace("<name>", newStockItem.name()), HttpStatus.CREATED);
+    }
+}
