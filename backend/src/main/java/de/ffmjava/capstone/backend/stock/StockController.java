@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,6 +22,12 @@ class StockController {
     @GetMapping("/overview")
     public List<StockItem> getAllStockitems() {
         return service.getAllStockItems();
+    }
+
+    @DeleteMapping("/ueberblick/{id}")
+    @ResponseStatus
+    public void deleteStockItem(@PathVariable String id) throws ResponseStatusException {
+        service.deleteStockItem(id);
     }
 
     @PostMapping("/overview")
