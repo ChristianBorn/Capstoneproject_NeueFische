@@ -1,6 +1,5 @@
 package de.ffmjava.capstone.backend.stock;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,9 +22,6 @@ class StockIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
     void getAllStockItems_AndExpectEmptyList_200() throws Exception {
         mockMvc.perform(get
@@ -36,7 +32,7 @@ class StockIntegrationTest {
 
     @Test
     @DirtiesContext
-    void addNewStockItem_AndExpectStockItem_201() throws Exception {
+    void addNewStockItem_AndExpectSuccessMessage_201() throws Exception {
         String jsonString =
                 """
                     {
@@ -46,26 +42,36 @@ class StockIntegrationTest {
                       "pricePerKilo": 42.0
                     }
                 """;
-        String apiResponse = mockMvc.perform(post("/lager/ueberblick")
+        mockMvc.perform(post("/lager/ueberblick")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
                 )
                 .andExpect(status().is(201))
-                .andReturn().getResponse().getContentAsString();
+                .andExpect(content().string("Neue Position \"Pellets\" erfolgreich gespeichert!"));
 
-        StockItem createdItem = objectMapper.readValue(apiResponse, StockItem.class);
-        String returnedJson = """
-                    [{
-                      "id": <ID>,
-                      "name": "Pellets",
+
+    }
+
+    @Test
+    @DirtiesContext
+    void addNewStockItem_AndExpectErrorMessage_400() throws Exception {
+        String jsonString =
+                """
+                    {
+                      "name": "",
                       "type": "Futter",
                       "amountInStock": 42.0,
                       "pricePerKilo": 42.0
-                    }]
-                """.replace("<ID>", createdItem.id());
+                    }
+                """;
+        mockMvc.perform(post("/lager/ueberblick")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+                )
+                .andExpect(status().is(400))
+                .andExpect(content().string("Feld \"Name/Bezeichnung\" darf nicht leer sein"));
 
-        mockMvc.perform(get("/lager/ueberblick"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(returnedJson));
+
+
     }
 }
