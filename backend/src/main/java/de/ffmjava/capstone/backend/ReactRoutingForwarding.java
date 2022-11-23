@@ -14,6 +14,14 @@ public class ReactRoutingForwarding implements WebMvcConfigurer {
 
     public static final String DEFAULT_STARTING_PAGE = "static/index.html";
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/")
+                .resourceChain(true)
+                .addResolver(new ReactRoutingPathResourceResolver());
+    }
+
     static class ReactRoutingPathResourceResolver extends PathResourceResolver {
         @Override
         protected Resource getResource(@SuppressWarnings("NullableProblems") String resourcePath, Resource location) throws IOException {
@@ -25,13 +33,5 @@ public class ReactRoutingForwarding implements WebMvcConfigurer {
 
             return new ClassPathResource(DEFAULT_STARTING_PAGE);
         }
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/")
-                .resourceChain(true)
-                .addResolver(new ReactRoutingPathResourceResolver());
     }
 }

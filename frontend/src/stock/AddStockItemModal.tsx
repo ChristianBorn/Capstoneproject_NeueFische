@@ -8,7 +8,7 @@ type ModalProps = {
     modalIsOpen: boolean,
     closeModal: () => void,
     reloadStockItems: () => void,
-    setSuccessMessage: (input:string) => void,
+    setSuccessMessage: (input: string) => void,
 }
 
 function AddStockItemModal(props: ModalProps) {
@@ -55,7 +55,8 @@ function AddStockItemModal(props: ModalProps) {
             isOpen={props.modalIsOpen}
             // onRequestClose={props.closeModal}
             contentLabel="Example Modal"
-        ><button className={"modal-close-button"} onClick={() => props.closeModal()}>Schließen</button>
+        >
+            <button className={"modal-close-button"} onClick={() => props.closeModal()}>Schließen</button>
             <section>
                 <h2>Neue Position dem Lager hinzufügen</h2>
                 <form onSubmit={handleSubmit}>

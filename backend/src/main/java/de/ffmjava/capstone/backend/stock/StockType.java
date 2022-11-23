@@ -8,9 +8,10 @@ public enum StockType {
     ;
     private final String displayName;
 
-    StockType(String displayName)    {
+    StockType(String displayName) {
         this.displayName = displayName;
     }
+
     @JsonValue
     public String getDisplayName() {
         return displayName;

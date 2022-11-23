@@ -35,13 +35,13 @@ class StockIntegrationTest {
     void addNewStockItem_AndExpectSuccessMessage_201() throws Exception {
         String jsonString =
                 """
-                    {
-                      "name": "Pellets",
-                      "type": "Futter",
-                      "amountInStock": 42.0,
-                      "pricePerKilo": 42.0
-                    }
-                """;
+                            {
+                              "name": "Pellets",
+                              "type": "Futter",
+                              "amountInStock": 42.0,
+                              "pricePerKilo": 42.0
+                            }
+                        """;
         mockMvc.perform(post("/lager/ueberblick")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
@@ -57,20 +57,19 @@ class StockIntegrationTest {
     void addNewStockItem_AndExpectErrorMessage_400() throws Exception {
         String jsonString =
                 """
-                    {
-                      "name": "",
-                      "type": "Futter",
-                      "amountInStock": 42.0,
-                      "pricePerKilo": 42.0
-                    }
-                """;
+                            {
+                              "name": "",
+                              "type": "Futter",
+                              "amountInStock": 42.0,
+                              "pricePerKilo": 42.0
+                            }
+                        """;
         mockMvc.perform(post("/lager/ueberblick")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
                 )
                 .andExpect(status().is(400))
                 .andExpect(content().string("Feld \"Name/Bezeichnung\" darf nicht leer sein"));
-
 
 
     }

@@ -7,10 +7,12 @@
     margin-right: auto;
     margin-left: auto;
 }
+
 .ReactModal__Content--after-open section form {
-    display:flex;
+    display: flex;
     flex-flow: column;
 }
+
 .modal-close-button {
     position: absolute;
     right: 0;
