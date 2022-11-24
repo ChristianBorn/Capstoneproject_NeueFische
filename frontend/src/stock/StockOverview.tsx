@@ -4,6 +4,7 @@ import "./css/StockOverview.css";
 import {StockItemModel} from "./StockItemModel";
 import AddIcon from "./AddIcon";
 import ClipLoader from "react-spinners/ClipLoader";
+import DeleteIcon from "../icons/DeleteIcon";
 import AddStockItemModal from "./AddStockItemModal";
 
 function StockOverview() {
@@ -40,6 +41,15 @@ function StockOverview() {
             data-testid="loader"
         />
     }
+
+    const deleteStockItem = (id: string) => {
+        axios.delete("/stock/overview/" + id)
+            .catch(error => console.error("DELETE Error: " + error))
+            .then(() => alert("Eintrag gelöscht!"))
+            .then(getAllStockItems)
+
+    }
+
     return (
         <>
             <AddStockItemModal modalIsOpen={modalIsOpen}
@@ -68,7 +78,8 @@ function StockOverview() {
                                     <td>{singleItem.pricePerKilo}</td>
                                     <td>Lorem</td>
                                     <td>Lorem</td>
-                                    <td>Lorem</td>
+                                    <td><DeleteIcon onClickAction={deleteStockItem}
+                                                    idToDelete={singleItem.id}/></td>
                                 </tr>
                             })
                             }
