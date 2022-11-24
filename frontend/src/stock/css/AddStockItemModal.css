@@ -6,6 +6,7 @@
     position: relative;
     margin-right: auto;
     margin-left: auto;
+    overflow: hidden;
 }
 
 .ReactModal__Content--after-open section form {
@@ -17,4 +18,12 @@
     position: absolute;
     right: 0;
     top: 0;
+}
+
+.modal-close-button {
+    cursor: pointer;
+    font-size: 2em;
+    color: orangered;
+    padding-right: 0.5em;
+    padding-top: 0.5em;
 }

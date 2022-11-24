@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import Modal from 'react-modal';
 import {StockItemModel} from "./StockItemModel";
 import "./css/AddStockItemModal.css";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 type ModalProps = {
     modalIsOpen: boolean,
@@ -47,7 +49,9 @@ function AddStockItemModal(props: ModalProps) {
             isOpen={props.modalIsOpen}
             contentLabel="Add Modal"
         >
-            <button className={"modal-close-button"} onClick={() => props.closeModal()}>Schließen</button>
+            <span className={"modal-close-button"} onClick={() => props.closeModal()}>
+            <FontAwesomeIcon icon={faXmark}/>
+            </span>
             <section>
                 <h2>Neue Position dem Lager hinzufügen</h2>
                 <form onSubmit={handleSubmit}>
