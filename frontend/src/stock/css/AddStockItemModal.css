@@ -6,19 +6,16 @@
     position: relative;
     margin-right: auto;
     margin-left: auto;
-    overflow: hidden;
 }
 .ReactModal__Content--after-open section form {
     display: flex;
     flex-flow: column;
 }
+
 .modal-close-button {
     position: absolute;
     right: 0;
     top: 0;
-}
-
-.modal-close-button {
     cursor: pointer;
     font-size: 2em;
     color: orangered;
