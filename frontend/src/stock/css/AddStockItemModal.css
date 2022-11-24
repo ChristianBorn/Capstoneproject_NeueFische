@@ -8,12 +8,10 @@
     margin-left: auto;
     overflow: hidden;
 }
-
 .ReactModal__Content--after-open section form {
     display: flex;
     flex-flow: column;
 }
-
 .modal-close-button {
     position: absolute;
     right: 0;
@@ -26,4 +24,35 @@
     color: orangered;
     padding-right: 0.5em;
     padding-top: 0.5em;
+}
+
+.form-3-rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 8em;
+    justify-content: space-evenly;
+}
+
+.field-label-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: .5em;
+    margin-bottom: 1em;
+}
+
+.submit-button {
+    transition-duration: 0.4s;
+    background-color: #408900;
+    padding: 16px 32px;
+    text-align: center;
+    max-width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.submit-button:hover {
+    background-color: #408900c4;
+    color: white;
+    cursor: pointer;
+
 }
