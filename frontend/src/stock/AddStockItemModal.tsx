@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {ChangeEvent, useState} from 'react';
+import React, {useState} from 'react';
 import Modal from 'react-modal';
 import {StockItemModel} from "./StockItemModel";
 import "./css/AddStockItemModal.css";
@@ -32,7 +32,7 @@ function AddStockItemModal(props: ModalProps) {
         event.preventDefault()
         saveNewStockitem()
     }
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: any) => {
         const name = event.target.name;
         const value = event.target.value;
         setNewStockItem({
@@ -41,14 +41,14 @@ function AddStockItemModal(props: ModalProps) {
         })
     }
 
-    const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setNewStockItem({
-            ...newStockItem,
-            [name]: value
-        })
-    }
+    // const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    //     const name = event.target.name;
+    //     const value = event.target.value;
+    //     setNewStockItem({
+    //         ...newStockItem,
+    //         [name]: value
+    //     })
+    // }
 
     return (
         <Modal
@@ -73,7 +73,7 @@ function AddStockItemModal(props: ModalProps) {
                            id={"amount"} name={"amountInStock"}/>
 
                     <label htmlFor={"type"}>Typ:</label>
-                    <select onChange={handleSelectChange} required id={"type"} name={"type"}>
+                    <select onChange={handleChange} required id={"type"} name={"type"}>
                         <option value="" selected disabled hidden>Bitte auswählen</option>
                         <option value={"Futter"}>Futter</option>
                         <option value={"Einstreu"}>Einstreu</option>
