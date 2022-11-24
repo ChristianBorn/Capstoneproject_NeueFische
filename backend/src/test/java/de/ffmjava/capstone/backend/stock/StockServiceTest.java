@@ -7,7 +7,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,14 +47,17 @@ class StockServiceTest {
     void deleteStockItem_AndExpectSuccess() {
         String idToDelete = "1";
         when(mockRepository.existsById(idToDelete)).thenReturn(true);
+        doNothing().when(mockRepository).deleteById(idToDelete);
         try {
-            doNothing().when(mockRepository).deleteById(idToDelete);
+            service.deleteStockItem(idToDelete);
         } catch (Exception e) {
             fail();
         }
+        verify(mockRepository).existsById(idToDelete);
     }
+
     @Test
-    void deleteStockItem_AndExpectException() {
+    void deleteStockItem_AndExpectException_404() {
         String idToDelete = "1";
         ResponseStatusException expectedException = new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
         when(mockRepository.existsById(idToDelete))
@@ -66,4 +70,5 @@ class StockServiceTest {
             assertEquals(expectedException, e);
         }
     }
+
 }
