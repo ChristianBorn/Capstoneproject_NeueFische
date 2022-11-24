@@ -1,7 +1,20 @@
+.clickable-icon {
+    cursor: pointer;
+}
+
 .add-record-icon {
     font-size: 5em;
     color: #408900;
     cursor: pointer;
+}
+
+.delete-record-icon {
+    font-size: 2em;
+    color: orangered;
+}
+
+.delete-record-icon :hover {
+    opacity: 0.8;
 }
 
 .add-record-icon :hover {
@@ -14,6 +27,8 @@
     flex-direction: column;
     margin-top: 2em;
 }
+
+
 
 .success-message {
     margin-bottom: 2em;
