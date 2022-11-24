@@ -60,7 +60,8 @@ function StockOverview() {
                 <>
                     <div className={"stock-overview-table-wrapper"}>
                         <table>
-                            <tbody>
+
+                            <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Typ</th>
@@ -70,6 +71,8 @@ function StockOverview() {
                                 <th>Aufgebraucht in</th>
                                 <th>Aktionen</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             {stockItems.map(singleItem => {
                                 return <tr key={singleItem.id}>
                                     <td>{singleItem.name}</td>
