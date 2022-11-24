@@ -16,3 +16,12 @@
 .App-link {
     color: #61dafb;
 }
+
+main {
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ebf6ff;
+    min-height: auto;
+    padding-bottom: 10em;
+}
