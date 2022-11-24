@@ -56,25 +56,34 @@ function AddStockItemModal(props: ModalProps) {
                 <h2>Neue Position dem Lager hinzufügen</h2>
                 <form onSubmit={handleSubmit}>
 
-                    <label htmlFor={"name"}>Name/Bezeichnung</label>
-                    <input onChange={handleChange} required type={"text"} id={"name"} name={"name"}/>
+                    <div className={"field-label-group"}>
+                        <label htmlFor={"name"}>Name/Bezeichnung</label>
+                        <input onChange={handleChange} required type={"text"} id={"name"} name={"name"}/>
+                    </div>
+                    <div className={"form-3-rows"}>
+                        <div className={"field-label-group"}>
+                            <label htmlFor={"price"}>Preis pro Kilogramm</label>
+                            <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required
+                                   type={"number"}
+                                   id={"price"} name={"pricePerKilo"}/>
+                        </div>
+                        <div className={"field-label-group"}>
+                            <label htmlFor={"amount"}>Menge in Kilogramm</label>
+                            <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required
+                                   type={"number"}
+                                   id={"amount"} name={"amountInStock"}/>
+                        </div>
+                        <div className={"field-label-group"}>
+                            <label htmlFor={"type"}>Typ</label>
+                            <select onChange={handleChange} required id={"type"} name={"type"}>
+                                <option value="" selected disabled hidden>Bitte auswählen</option>
+                                <option value={"Futter"}>Futter</option>
+                                <option value={"Einstreu"}>Einstreu</option>
+                            </select>
+                        </div>
 
-                    <label htmlFor={"price"}>Preis pro Kilogramm</label>
-                    <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required type={"number"}
-                           id={"price"} name={"pricePerKilo"}/>
-
-                    <label htmlFor={"amount"}>Menge in Kilogramm</label>
-                    <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required type={"number"}
-                           id={"amount"} name={"amountInStock"}/>
-
-                    <label htmlFor={"type"}>Typ:</label>
-                    <select onChange={handleChange} required id={"type"} name={"type"}>
-                        <option value="" selected disabled hidden>Bitte auswählen</option>
-                        <option value={"Futter"}>Futter</option>
-                        <option value={"Einstreu"}>Einstreu</option>
-                    </select>
-                    <input type={"submit"} value={"Einlagern"}/>
-
+                    </div>
+                    <input className={"submit-button"} type={"submit"} value={"Einlagern"}/>
                 </form>
             </section>
         </Modal>
