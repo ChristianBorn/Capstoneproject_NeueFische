@@ -11,8 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -49,6 +48,11 @@ class StockIntegrationTest {
                 .andExpect(status().is(201))
                 .andExpect(content().string("Neue Position \"Pellets\" erfolgreich gespeichert!"));
 
+        mockMvc.perform(get("/stock/overview"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$..id").isNotEmpty())
+                .andExpect(jsonPath("$..type").isNotEmpty())
+                .andExpect(jsonPath("$..amountInStock").isNotEmpty());
 
     }
 
