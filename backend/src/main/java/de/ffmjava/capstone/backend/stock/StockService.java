@@ -19,14 +19,11 @@ public class StockService {
     }
 
     public void deleteStockItem(String id) throws ResponseStatusException{
-        if(!repository.existsById(id)) {
+        if (!repository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
         }
-        try {
-            repository.deleteById(id);
-        } catch (IllegalArgumentException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Keine ID im Request vorhanden");
-        }
+        repository.deleteById(id);
+
     }
     public StockItem addNewStockItem(StockItem newStockItem) {
         StockItem newStockItemWithId = newStockItem.withId(UUID.randomUUID().toString());
