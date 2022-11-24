@@ -2,6 +2,7 @@ package de.ffmjava.capstone.backend.stock;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -24,8 +25,8 @@ class StockController {
         return service.getAllStockItems();
     }
 
-    @DeleteMapping("/ueberblick/{id}")
-    @ResponseStatus
+    @DeleteMapping("/overview/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStockItem(@PathVariable String id) throws ResponseStatusException {
         service.deleteStockItem(id);
     }
