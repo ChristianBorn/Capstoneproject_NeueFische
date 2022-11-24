@@ -31,6 +31,7 @@ class StockIntegrationTest {
                 .andExpect(content().json("[]"));
     }
 
+
     @Test
     @DirtiesContext
     void deleteStockItem_AndExpect_204() throws Exception {
@@ -110,5 +111,25 @@ class StockIntegrationTest {
                 )
                 .andExpect(status().is(400))
                 .andExpect(content().string("Feld \"Name/Bezeichnung\" darf nicht leer sein"));
+    }
+
+    @Test
+    @DirtiesContext
+    void addNewStockItem_negativeAmountInStock_AndExpectErrorMessage_400() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "name": "name",
+                              "type": "Futter",
+                              "amountInStock": -42.0,
+                              "pricePerKilo": 42.0
+                            }
+                        """;
+        mockMvc.perform(post("/stock/overview")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+                )
+                .andExpect(status().is(400))
+                .andExpect(content().string("Der Wert muss größer als 0 sein"));
     }
 }
