@@ -9,6 +9,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -27,6 +28,13 @@ class StockIntegrationTest {
                         ("/stock/overview"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
+    }
+
+    @Test
+    void deleteStockItem_AndExpect_404() throws Exception {
+        mockMvc.perform(delete
+                        ("/stock/overview/1"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
