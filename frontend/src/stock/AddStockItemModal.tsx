@@ -18,7 +18,7 @@ function AddStockItemModal(props: ModalProps) {
 
 
     const saveNewStockitem = () => {
-        axios.post("/lager/ueberblick", newStockItem)
+        axios.post("/stock/overview", newStockItem)
             .then(response => props.setSuccessMessage(response.data))
             .catch((e) => console.error("POST Error: " + e))
             .then(props.reloadStockItems)
@@ -41,14 +41,6 @@ function AddStockItemModal(props: ModalProps) {
         })
     }
 
-    // const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    //     const name = event.target.name;
-    //     const value = event.target.value;
-    //     setNewStockItem({
-    //         ...newStockItem,
-    //         [name]: value
-    //     })
-    // }
 
     return (
         <Modal
