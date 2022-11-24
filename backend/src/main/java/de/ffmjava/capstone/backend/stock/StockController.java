@@ -11,18 +11,18 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/lager")
+@RequestMapping("/stock")
 @RequiredArgsConstructor
 class StockController {
 
     private final StockService service;
 
-    @GetMapping("/ueberblick")
+    @GetMapping("/overview")
     public List<StockItem> getAllStockitems() {
         return service.getAllStockItems();
     }
 
-    @PostMapping("/ueberblick")
+    @PostMapping("/overview")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<String> addNewStockItem(@Valid @RequestBody StockItem newStockItem, Errors errors) {
         if (errors.hasErrors()) {

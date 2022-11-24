@@ -25,7 +25,7 @@ class StockIntegrationTest {
     @Test
     void getAllStockItems_AndExpectEmptyList_200() throws Exception {
         mockMvc.perform(get
-                        ("/lager/ueberblick"))
+                        ("/stock/overview"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
@@ -42,7 +42,7 @@ class StockIntegrationTest {
                               "pricePerKilo": 42.0
                             }
                         """;
-        mockMvc.perform(post("/lager/ueberblick")
+        mockMvc.perform(post("/stock/overview")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
                 )
@@ -64,7 +64,7 @@ class StockIntegrationTest {
                               "pricePerKilo": 42.0
                             }
                         """;
-        mockMvc.perform(post("/lager/ueberblick")
+        mockMvc.perform(post("/stock/overview")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
                 )

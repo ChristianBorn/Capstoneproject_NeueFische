@@ -13,7 +13,7 @@ function StockOverview() {
     const [successMessage, setSuccessMessage] = useState<string>()
 
     const getAllStockItems = () => {
-        axios.get("/lager/ueberblick")
+        axios.get("/stock/overview")
             .then((response) => response.data)
             .catch((error) => console.error("Error while getting Stockitems:" + error))
             .then(data => setStockItems(data))
