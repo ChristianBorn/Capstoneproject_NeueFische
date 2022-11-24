@@ -45,7 +45,7 @@ function AddStockItemModal(props: ModalProps) {
     return (
         <Modal
             isOpen={props.modalIsOpen}
-            contentLabel="Example Modal"
+            contentLabel="Add Modal"
         >
             <button className={"modal-close-button"} onClick={() => props.closeModal()}>Schließen</button>
             <section>
