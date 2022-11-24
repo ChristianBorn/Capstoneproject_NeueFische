@@ -9,8 +9,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -28,6 +26,22 @@ class StockServiceTest {
         List<StockItem> actual = service.getAllStockItems();
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void getAllStockItems_AndExpectListWithOneElement() {
+        StockItem newItem = new StockItem("1", "name", StockType.FUTTER, new BigDecimal("42.0"), new BigDecimal("42.0"));
+        StockItem itemToReturn = newItem.withName("new Name")
+                .withType(StockType.EINSTREU)
+                .withAmountInStock(new BigDecimal("3.4"))
+                .withPricePerKilo(new BigDecimal("3.76"));
+        when(mockRepository.findAll()).thenReturn(List.of(itemToReturn));
+
+        List<StockItem> expected = List.of(itemToReturn);
+        List<StockItem> actual = service.getAllStockItems();
+
+        assertEquals(expected, actual);
+
     }
 
     @Test
