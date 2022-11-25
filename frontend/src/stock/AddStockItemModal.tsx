@@ -5,6 +5,8 @@ import {StockItemModel} from "./StockItemModel";
 import "./css/AddStockItemModal.css";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Form3Rows from "../structuralComponents/Form3Rows";
+import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 
 type ModalProps = {
     modalIsOpen: boolean,
@@ -60,29 +62,30 @@ function AddStockItemModal(props: ModalProps) {
                         <label htmlFor={"name"}>Name/Bezeichnung</label>
                         <input onChange={handleChange} required type={"text"} id={"name"} name={"name"}/>
                     </div>
-                    <div className={"form-3-rows"}>
-                        <div className={"field-label-group"}>
-                            <label htmlFor={"price"}>Preis pro Kilogramm</label>
+
+                    <Form3Rows>
+                        <FieldLabelGroup>
+                            <label htmlFor={"price"}>Preis pro <abbr title={"Kilogramm"}>kg</abbr></label>
                             <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required
                                    type={"number"}
                                    id={"price"} name={"pricePerKilo"}/>
-                        </div>
-                        <div className={"field-label-group"}>
-                            <label htmlFor={"amount"}>Menge in Kilogramm</label>
+                        </FieldLabelGroup>
+                        <FieldLabelGroup>
+                            <label htmlFor={"amount"}>Menge in <abbr title={"Kilogramm"}>kg</abbr></label>
                             <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required
                                    type={"number"}
                                    id={"amount"} name={"amountInStock"}/>
-                        </div>
-                        <div className={"field-label-group"}>
+                        </FieldLabelGroup>
+                        <FieldLabelGroup>
                             <label htmlFor={"type"}>Typ</label>
                             <select onChange={handleChange} required id={"type"} name={"type"}>
                                 <option value="" selected disabled hidden>Bitte auswählen</option>
                                 <option value={"Futter"}>Futter</option>
                                 <option value={"Einstreu"}>Einstreu</option>
                             </select>
-                        </div>
+                        </FieldLabelGroup>
+                    </Form3Rows>
 
-                    </div>
                     <input className={"submit-button"} type={"submit"} value={"Einlagern"}/>
                 </form>
             </section>

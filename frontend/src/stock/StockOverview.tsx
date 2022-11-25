@@ -73,8 +73,8 @@ function StockOverview() {
                             <tr>
                                 <th>Name</th>
                                 <th>Typ</th>
-                                <th>Verfügbare Menge in <abbr title={"Kilogramm"}>KG</abbr></th>
-                                <th>Preis pro <abbr title={"Kilogramm"}>KG</abbr></th>
+                                <th>Verfügbare Menge in <abbr title={"Kilogramm"}>kg</abbr></th>
+                                <th>Preis pro <abbr title={"Kilogramm"}>kg</abbr></th>
                                 <th>Täglicher Verbrauch</th>
                                 <th>Aufgebraucht in</th>
                                 <th>Aktionen</th>

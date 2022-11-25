@@ -1,0 +1,8 @@
+.delete-record-icon {
+    font-size: 2em;
+    color: orangered;
+}
+
+.delete-record-icon :hover {
+    opacity: 0.8;
+}

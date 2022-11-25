@@ -1,26 +1,3 @@
-.clickable-icon {
-    cursor: pointer;
-}
-
-.add-record-icon {
-    font-size: 5em;
-    color: #408900;
-    cursor: pointer;
-}
-
-.delete-record-icon {
-    font-size: 2em;
-    color: orangered;
-}
-
-.delete-record-icon :hover {
-    opacity: 0.8;
-}
-
-.add-record-icon :hover {
-    color: #408900c4;
-}
-
 .stock-overview-table-wrapper {
     display: flex;
     justify-content: center;

@@ -1,0 +1,8 @@
+.field-label-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: .5em;
+    margin-bottom: 1em;
+    font-size: 1.2em;
+    font-weight: bold;
+}
