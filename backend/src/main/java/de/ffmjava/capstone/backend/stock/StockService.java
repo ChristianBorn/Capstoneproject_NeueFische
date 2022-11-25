@@ -2,6 +2,8 @@ package de.ffmjava.capstone.backend.stock;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -30,5 +32,14 @@ public class StockService {
     public StockItem addNewStockItem(StockItem newStockItem) {
         StockItem newStockItemWithId = newStockItem.withId(UUID.randomUUID().toString());
         return repository.save(newStockItemWithId);
+    }
+
+    public ResponseEntity<Object> updateStockItem(StockItem updatedStockItem) {
+        repository.save(updatedStockItem);
+        if (repository.existsById(updatedStockItem.id())) {
+            return new ResponseEntity<>(updatedStockItem, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(updatedStockItem, HttpStatus.CREATED);
+        }
     }
 }

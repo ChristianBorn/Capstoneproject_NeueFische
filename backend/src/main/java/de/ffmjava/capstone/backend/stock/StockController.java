@@ -3,6 +3,7 @@ package de.ffmjava.capstone.backend.stock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,22 @@ class StockController {
     @PostMapping("/overview")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<Object> addNewStockItem(@Valid @RequestBody StockItem newStockItem, Errors errors) {
+        ResponseEntity<Object> errorMessage = handlePossibleErrors(errors);
+        if (errorMessage != null) return errorMessage;
+        service.addNewStockItem(newStockItem);
+        return new ResponseEntity<>("Neue Position \"<name>\" erfolgreich gespeichert!"
+                .replace("<name>", newStockItem.name()), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/overview")
+    public ResponseEntity<Object> updateStockItem(@Valid @RequestBody StockItem updatedStockItem, Errors errors) {
+        ResponseEntity<Object> errorMessage = handlePossibleErrors(errors);
+        if (errorMessage != null) return errorMessage;
+        return service.updateStockItem(updatedStockItem);
+    }
+
+    @Nullable
+    private ResponseEntity<Object> handlePossibleErrors(Errors errors) {
         if (errors.hasErrors()) {
             FieldError fieldError;
             String errorMessage = null;
@@ -43,6 +60,7 @@ class StockController {
             }
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
+        return null;
         StockItem createdItem = service.addNewStockItem(newStockItem);
         return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
     }
