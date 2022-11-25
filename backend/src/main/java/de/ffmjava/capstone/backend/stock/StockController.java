@@ -35,9 +35,8 @@ class StockController {
     public ResponseEntity<Object> addNewStockItem(@Valid @RequestBody StockItem newStockItem, Errors errors) {
         ResponseEntity<Object> errorMessage = handlePossibleErrors(errors);
         if (errorMessage != null) return errorMessage;
-        service.addNewStockItem(newStockItem);
-        return new ResponseEntity<>("Neue Position \"<name>\" erfolgreich gespeichert!"
-                .replace("<name>", newStockItem.name()), HttpStatus.CREATED);
+        StockItem createdItem = service.addNewStockItem(newStockItem);
+        return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
     }
 
     @PutMapping("/overview")
