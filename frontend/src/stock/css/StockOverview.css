@@ -5,6 +5,12 @@
     margin-top: 2em;
 }
 
+.action-cell {
+    display: flex;
+    justify-content: space-between;
+    border-left: none;
+}
+
 table {
     border-collapse: collapse;
     overflow: hidden;
