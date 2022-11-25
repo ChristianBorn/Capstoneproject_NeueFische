@@ -169,37 +169,31 @@ class StockIntegrationTest {
                 .andExpect(status().is(201))
                 .andExpect(jsonPath("$.name").isNotEmpty());
     }
-//    @Test
-//    @DirtiesContext
-//    void putStockItem_AndExpect_200() throws Exception {
-//        String jsonString =
-//                """
-//                            {
-//                              "name": "Test",
-//                              "type": "Futter",
-//                              "amountInStock": 42.0,
-//                              "pricePerKilo": 42.0
-//                            }
-//                        """;
-//        String postResponse = mockMvc.perform(post("/stock/overview")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(jsonString)).andReturn().getResponse().getContentAsString();
-//
-//        StockItem createdStockItem = objectMapper.readValue(postResponse, StockItem.class);
-//
-//        mockMvc.perform(put("/stock/overview")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(postResponse.replace("Futter", "Einstreu"))
-//                )
-//                .andExpect(status().is(200))
-//                .andExpect(content().string("""
-//                            {
-//                              "id": <id>
-//                              "name": "Test",
-//                              "type": "Einstreu",
-//                              "amountInStock": 42.0,
-//                              "pricePerKilo": 42.0
-//                            }
-//                        """.replace("<id>", createdStockItem.id())));
-//    }
+
+    @Test
+    @DirtiesContext
+    void putStockItem_AndExpect_200() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "name": "Test",
+                              "type": "Futter",
+                              "amountInStock": 42.0,
+                              "pricePerKilo": 42.0
+                            }
+                        """;
+        String postResponse = mockMvc.perform(post("/stock/overview")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonString)).andReturn().getResponse().getContentAsString();
+
+        StockItem createdStockItem = objectMapper.readValue(postResponse, StockItem.class);
+
+        mockMvc.perform(put("/stock/overview")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postResponse.replace("Futter", "Einstreu"))
+                )
+                .andExpect(status().is(200))
+                .andExpect(content().string("{\"id\":\"<ID>\",\"name\":\"Test\",\"type\":\"Einstreu\",\"amountInStock\":42.0,\"pricePerKilo\":42.0}"
+                        .replace("<ID>", createdStockItem.id())));
+    }
 }
