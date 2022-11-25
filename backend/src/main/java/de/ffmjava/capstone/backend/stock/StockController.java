@@ -61,7 +61,5 @@ class StockController {
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
         return null;
-        StockItem createdItem = service.addNewStockItem(newStockItem);
-        return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
     }
 }
