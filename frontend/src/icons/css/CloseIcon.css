@@ -1,0 +1,10 @@
+.modal-close-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    font-size: 2em;
+    color: orangered;
+    padding-right: 0.5em;
+    padding-top: 0.5em;
+}
