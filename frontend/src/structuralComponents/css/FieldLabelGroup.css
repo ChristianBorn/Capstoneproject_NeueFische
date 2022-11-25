@@ -6,3 +6,7 @@
     font-size: 1.2em;
     font-weight: bold;
 }
+
+label {
+    margin-bottom: .5em;
+}
