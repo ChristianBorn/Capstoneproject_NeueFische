@@ -2,6 +2,8 @@ import axios from 'axios';
 import React from 'react';
 import Modal from 'react-modal';
 import "./css/AddStockItemModal.css";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
 
 type ModalProps = {
     modalIsOpen: boolean,
@@ -27,8 +29,12 @@ function DeleteItemModal(props: ModalProps) {
             isOpen={props.modalIsOpen}
             contentLabel="Delete Modal"
         >
+            <span><p>Soll der Eintrag wirklich gelöscht werden?</p></span>
             <button onClick={() => deleteStockItem(props.idToDelete)}>Eintrag löschen</button>
-            <button className={"modal-close-button"} onClick={() => props.closeModal()}>Schließen</button>
+            <button onClick={() => props.closeModal()}>Abbrechen</button>
+            <span className={"modal-close-button"} onClick={() => props.closeModal()}>
+            <FontAwesomeIcon icon={faXmark}/>
+            </span>
 
         </Modal>
     );
