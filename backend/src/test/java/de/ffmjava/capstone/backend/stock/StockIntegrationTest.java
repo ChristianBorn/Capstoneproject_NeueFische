@@ -127,4 +127,79 @@ class StockIntegrationTest {
                 .andExpect(status().is(400))
                 .andExpect(content().string("Der Wert muss größer als 0 sein"));
     }
+
+    @Test
+    @DirtiesContext
+    void putStockItem_AndExpectErrorMessage_400() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "id": "1",
+                              "name": "",
+                              "type": "Futter",
+                              "amountInStock": 42.0,
+                              "pricePerKilo": 42.0
+                            }
+                        """;
+        mockMvc.perform(put("/stock/overview")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+                )
+                .andExpect(status().is(400))
+                .andExpect(content().string("Feld \"Name/Bezeichnung\" darf nicht leer sein"));
+    }
+
+    @Test
+    @DirtiesContext
+    void putStockItem_AndExpect_201() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "id": "1",
+                              "name": "Test",
+                              "type": "Futter",
+                              "amountInStock": 42.0,
+                              "pricePerKilo": 42.0
+                            }
+                        """;
+        mockMvc.perform(put("/stock/overview")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+                )
+                .andExpect(status().is(201))
+                .andExpect(jsonPath("$.name").isNotEmpty());
+    }
+//    @Test
+//    @DirtiesContext
+//    void putStockItem_AndExpect_200() throws Exception {
+//        String jsonString =
+//                """
+//                            {
+//                              "name": "Test",
+//                              "type": "Futter",
+//                              "amountInStock": 42.0,
+//                              "pricePerKilo": 42.0
+//                            }
+//                        """;
+//        String postResponse = mockMvc.perform(post("/stock/overview")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(jsonString)).andReturn().getResponse().getContentAsString();
+//
+//        StockItem createdStockItem = objectMapper.readValue(postResponse, StockItem.class);
+//
+//        mockMvc.perform(put("/stock/overview")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(postResponse.replace("Futter", "Einstreu"))
+//                )
+//                .andExpect(status().is(200))
+//                .andExpect(content().string("""
+//                            {
+//                              "id": <id>
+//                              "name": "Test",
+//                              "type": "Einstreu",
+//                              "amountInStock": 42.0,
+//                              "pricePerKilo": 42.0
+//                            }
+//                        """.replace("<id>", createdStockItem.id())));
+//    }
 }

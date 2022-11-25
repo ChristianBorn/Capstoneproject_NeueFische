@@ -35,8 +35,9 @@ public class StockService {
     }
 
     public ResponseEntity<Object> updateStockItem(StockItem updatedStockItem) {
+        boolean stockItemExists = repository.existsById(updatedStockItem.id());
         repository.save(updatedStockItem);
-        if (repository.existsById(updatedStockItem.id())) {
+        if (stockItemExists) {
             return new ResponseEntity<>(updatedStockItem, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(updatedStockItem, HttpStatus.CREATED);
