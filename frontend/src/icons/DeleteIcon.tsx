@@ -7,7 +7,6 @@ import "./css/DeleteIcon.css"
 type IconProps = {
     onClickAction: (id: string) => any,
     idToDelete: string,
-    // openModal: () => void
 }
 
 function DeleteIcon(props: IconProps) {
