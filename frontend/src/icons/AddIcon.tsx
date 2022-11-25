@@ -1,6 +1,8 @@
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";
+import "./css/IconClickable.css"
+import "./css/AddIcon.css"
 
 type iconProps = {
     openModal: () => void

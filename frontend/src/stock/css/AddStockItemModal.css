@@ -22,21 +22,6 @@
     padding-right: 0.5em;
     padding-top: 0.5em;
 }
-
-.form-3-rows {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 8em;
-    justify-content: space-evenly;
-}
-
-.field-label-group {
-    display: flex;
-    flex-direction: column;
-    margin-top: .5em;
-    margin-bottom: 1em;
-}
-
 .submit-button {
     transition-duration: 0.4s;
     background-color: #408900;
@@ -45,11 +30,19 @@
     max-width: 25%;
     margin-left: auto;
     margin-right: auto;
+    border: none;
+    color: white;
+    border-radius: .2em;
+    font-weight: bold;
+    font-size: 1em;
 }
 
 .submit-button:hover {
-    background-color: #408900c4;
-    color: white;
+    opacity: 0.7;
     cursor: pointer;
+}
 
+.submit-button:active {
+    transition-duration: 0.1s;
+    opacity: 0.9;
 }

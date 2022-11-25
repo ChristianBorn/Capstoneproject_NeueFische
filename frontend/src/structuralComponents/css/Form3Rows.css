@@ -1,0 +1,7 @@
+.form-3-rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 8em;
+    grid-auto-flow: column;
+    justify-content: space-evenly;
+}
