@@ -44,15 +44,13 @@ class StockIntegrationTest {
                               "pricePerKilo": 42.0
                             }
                         """;
-        mockMvc.perform(post("/stock/overview")
+        String postResponse = mockMvc.perform(post("/stock/overview")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonString)
-        );
+        ).andReturn().getResponse().getContentAsString();
 
-        String getResponse = mockMvc.perform(get
-                        ("/stock/overview")).andReturn().getResponse().getContentAsString().replace("[", "")
-                .replace("]", "");
-        String idToDelete = objectMapper.readValue(getResponse, StockItem.class).id();
+
+        String idToDelete = objectMapper.readValue(postResponse, StockItem.class).id();
 
         mockMvc.perform(delete
                         ("/stock/overview/" + idToDelete))
