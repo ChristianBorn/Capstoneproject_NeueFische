@@ -1,0 +1,8 @@
+.edit-record-icon {
+    font-size: 2em;
+    color: forestgreen;
+}
+
+.edit-record-icon :hover {
+    opacity: 0.8;
+}
