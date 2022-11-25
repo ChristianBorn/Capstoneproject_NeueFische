@@ -7,6 +7,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import DeleteIcon from "../icons/DeleteIcon";
 import AddStockItemModal from "./AddStockItemModal";
 import DeleteItemModal from "./DeleteItemModal";
+import EditIcon from "../icons/EditIcon";
 
 function StockOverview() {
 
@@ -89,7 +90,9 @@ function StockOverview() {
                                     <td>{singleItem.pricePerKilo}</td>
                                     <td>Lorem</td>
                                     <td>Lorem</td>
-                                    <td><DeleteIcon onClickAction={openDeleteModal}
+                                    <td className={"action-cell"}><EditIcon onClickAction={openDeleteModal}
+                                                                            idToEdit={singleItem.id}/>
+                                        <DeleteIcon onClickAction={openDeleteModal}
                                                     idToDelete={singleItem.id}/></td>
                                 </tr>
                             })
