@@ -7,8 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -62,12 +61,11 @@ class StockServiceTest {
         String idToDelete = "1";
         when(mockRepository.existsById(idToDelete)).thenReturn(true);
         doNothing().when(mockRepository).deleteById(idToDelete);
-        try {
-            service.deleteStockItem(idToDelete);
-        } catch (Exception e) {
-            fail();
-        }
+
+        assertTrue(service.deleteStockItem(idToDelete));
         verify(mockRepository).existsById(idToDelete);
+
+
     }
 
     @Test
@@ -75,13 +73,14 @@ class StockServiceTest {
         String idToDelete = "1";
         ResponseStatusException expectedException = new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
         when(mockRepository.existsById(idToDelete))
-                .thenThrow(expectedException);
+                .thenReturn(false);
         doNothing().when(mockRepository).deleteById(idToDelete);
         try {
             service.deleteStockItem(idToDelete);
             fail();
         } catch (ResponseStatusException e) {
-            assertEquals(expectedException, e);
+            assertEquals(expectedException.getMessage(), e.getMessage());
+            verify(mockRepository).existsById(idToDelete);
         }
     }
 

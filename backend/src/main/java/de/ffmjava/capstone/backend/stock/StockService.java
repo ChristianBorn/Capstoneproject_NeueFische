@@ -18,13 +18,15 @@ public class StockService {
         return repository.findAll();
     }
 
-    public void deleteStockItem(String id) throws ResponseStatusException{
+    public boolean deleteStockItem(String id) throws ResponseStatusException {
         if (!repository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
         }
         repository.deleteById(id);
+        return true;
 
     }
+
     public StockItem addNewStockItem(StockItem newStockItem) {
         StockItem newStockItemWithId = newStockItem.withId(UUID.randomUUID().toString());
         return repository.save(newStockItemWithId);
