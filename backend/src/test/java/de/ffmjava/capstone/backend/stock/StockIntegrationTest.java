@@ -81,13 +81,10 @@ class StockIntegrationTest {
                         .content(jsonString)
                 )
                 .andExpect(status().is(201))
-                .andExpect(content().string("Neue Position \"Pellets\" erfolgreich gespeichert!"));
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.type").isNotEmpty())
+                .andExpect(jsonPath("$.amountInStock").isNotEmpty());
 
-        mockMvc.perform(get("/stock/overview"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$..id").isNotEmpty())
-                .andExpect(jsonPath("$..type").isNotEmpty())
-                .andExpect(jsonPath("$..amountInStock").isNotEmpty());
 
     }
 
