@@ -24,6 +24,11 @@ class StockController {
         return service.getAllStockItems();
     }
 
+    @GetMapping("/overview/{id}")
+    public StockItem getStockItemById(@PathVariable String id) {
+        return service.getStockItemById(id);
+    }
+
     @DeleteMapping("/overview/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStockItem(@PathVariable String id) throws ResponseStatusException {

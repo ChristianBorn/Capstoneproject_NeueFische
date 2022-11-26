@@ -28,6 +28,18 @@ class StockServiceTest {
     }
 
     @Test
+    void getItemById_AndExpectStockItem() {
+        StockItem returnedItem = new StockItem("1", "name", StockType.FUTTER, new BigDecimal("42.0"), new BigDecimal("42.0"));
+
+        when(mockRepository.getById("1")).thenReturn(returnedItem);
+
+        StockItem expected = returnedItem;
+        StockItem actual = service.getStockItemById("1");
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void getAllStockItems_AndExpectListWithOneElement() {
         StockItem newItem = new StockItem("1", "name", StockType.FUTTER, new BigDecimal("42.0"), new BigDecimal("42.0"));
         StockItem itemToReturn = newItem.withName("new Name")

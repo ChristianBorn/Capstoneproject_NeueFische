@@ -31,6 +31,31 @@ class StockIntegrationTest {
                 .andExpect(content().json("[]"));
     }
 
+    @Test
+    @DirtiesContext
+    void getItemById_AndExpectStockItem_200() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "name": "Test",
+                              "type": "Futter",
+                              "amountInStock": 42.0,
+                              "pricePerKilo": 42.0
+                            }
+                        """;
+        String postResponse = mockMvc.perform(post("/stock/overview")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonString)).andReturn().getResponse().getContentAsString();
+
+        StockItem createdStockItem = objectMapper.readValue(postResponse, StockItem.class);
+
+        mockMvc.perform(get
+                        ("/stock/overview/" + createdStockItem.id()))
+                .andExpect(status().isOk())
+                .andExpect(content().string("{\"id\":\"<ID>\",\"name\":\"Test\",\"type\":\"Futter\",\"amountInStock\":42.0,\"pricePerKilo\":42.0}"
+                        .replace("<ID>", createdStockItem.id())));
+    }
+
 
     @Test
     @DirtiesContext
