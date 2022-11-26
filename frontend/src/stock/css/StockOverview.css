@@ -50,9 +50,10 @@ tbody td:hover:before {
 }
 
 .success-message {
-    margin-bottom: 2em;
+    margin: 1.5em 0;
     color: #408900;
     font-weight: bold;
+    font-size: 1.2em;
 }
 
 .button-group {
