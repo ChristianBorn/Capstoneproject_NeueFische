@@ -42,4 +42,8 @@ public class StockService {
             return new ResponseEntity<>(updatedStockItem, HttpStatus.CREATED);
         }
     }
+
+    public StockItem getStockItemById(String id) {
+        return repository.getById(id);
+    }
 }
