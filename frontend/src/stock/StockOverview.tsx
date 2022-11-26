@@ -5,17 +5,22 @@ import {StockItemModel} from "./StockItemModel";
 import AddIcon from "../icons/AddIcon";
 import ClipLoader from "react-spinners/ClipLoader";
 import DeleteIcon from "../icons/DeleteIcon";
-import AddStockItemModal from "./AddStockItemModal";
+import AddItemModal from "./AddStockItemModal";
 import DeleteItemModal from "./DeleteItemModal";
 import EditIcon from "../icons/EditIcon";
+import EditItemModal from "./EditItemModal";
 
 function StockOverview() {
 
     const [stockItems, setStockItems] = useState<StockItemModel[]>()
     const [addModalIsOpen, setAddModalIsOpen] = useState<boolean>(false)
     const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false)
+    const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false)
     const [successMessage, setSuccessMessage] = useState<string>()
     const [idToDelete, setIdToDelete] = useState<string>("")
+    const [itemToEdit, setItemToEdit] = useState<StockItemModel>({
+        id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""
+    })
 
     const getAllStockItems = () => {
         axios.get("/stock/overview")
@@ -32,10 +37,16 @@ function StockOverview() {
         setIdToDelete(id)
         setSuccessMessage("")
     }
+    const openEditModal = (itemToEdit: StockItemModel) => {
+        setEditModalIsOpen(true)
+        setItemToEdit(itemToEdit)
+        setSuccessMessage("")
+    }
 
     const closeModal = () => {
         setAddModalIsOpen(false)
         setDeleteModalIsOpen(false)
+        setEditModalIsOpen(false)
     }
 
 
@@ -57,14 +68,18 @@ function StockOverview() {
     return (
         <>
 
-            <AddStockItemModal modalIsOpen={addModalIsOpen}
-                               closeModal={closeModal}
-                               reloadStockItems={getAllStockItems}
-                               setSuccessMessage={setSuccessMessage}/>
+            <AddItemModal modalIsOpen={addModalIsOpen}
+                          closeModal={closeModal}
+                          reloadStockItems={getAllStockItems}
+                          setSuccessMessage={setSuccessMessage}/>
             <DeleteItemModal modalIsOpen={deleteModalIsOpen}
                              closeModal={closeModal}
                              reloadStockItems={getAllStockItems}
                              setSuccessMessage={setSuccessMessage} idToDelete={idToDelete}/>
+            <EditItemModal modalIsOpen={editModalIsOpen}
+                           closeModal={closeModal}
+                           reloadStockItems={getAllStockItems}
+                           setSuccessMessage={setSuccessMessage} itemToEdit={itemToEdit}/>
             {stockItems.length > 0 ?
                 <>
                     <div className={"stock-overview-table-wrapper"}>
@@ -90,8 +105,8 @@ function StockOverview() {
                                     <td>{singleItem.pricePerKilo}</td>
                                     <td>Lorem</td>
                                     <td>Lorem</td>
-                                    <td className={"action-cell"}><EditIcon onClickAction={openDeleteModal}
-                                                                            idToEdit={singleItem.id}/>
+                                    <td className={"action-cell"}><EditIcon onClickAction={openEditModal}
+                                                                            itemToEdit={singleItem}/>
                                         <DeleteIcon onClickAction={openDeleteModal}
                                                     idToDelete={singleItem.id}/></td>
                                 </tr>
