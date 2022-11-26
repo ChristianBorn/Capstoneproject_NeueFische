@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import Modal from 'react-modal';
 import {StockItemModel} from "./StockItemModel";
 import "./css/AddStockItemModal.css";
+import "../buttons/css/SubmitButton.css";
 import Form3Rows from "../structuralComponents/Form3Rows";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 import CloseIcon from "../icons/CloseIcon";
@@ -82,8 +83,9 @@ function AddStockItemModal(props: ModalProps) {
                             </select>
                         </FieldLabelGroup>
                     </Form3Rows>
-
-                    <input className={"submit-button"} type={"submit"} value={"Einlagern"}/>
+                    <div className={"button-group"}>
+                        <input className={"submit-button"} type={"submit"} value={"Einlagern"}/>
+                    </div>
                 </form>
             </section>
         </Modal>
