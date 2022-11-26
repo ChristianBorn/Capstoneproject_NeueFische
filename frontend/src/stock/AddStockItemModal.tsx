@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, {useState} from 'react';
 import Modal from 'react-modal';
 import {StockItemModel} from "./StockItemModel";
-import "./css/AddStockItemModal.css";
+import "./css/AddItemModal.css";
 import "../buttons/css/SubmitButton.css";
 import Form3Rows from "../structuralComponents/Form3Rows";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
@@ -15,7 +15,7 @@ type ModalProps = {
     setSuccessMessage: (input: string) => void,
 }
 
-function AddStockItemModal(props: ModalProps) {
+function AddItemModal(props: ModalProps) {
     const [newStockItem, setNewStockItem] = useState<StockItemModel>({
         id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""
     })
@@ -23,12 +23,11 @@ function AddStockItemModal(props: ModalProps) {
 
     const saveNewStockitem = () => {
         axios.post("/stock/overview", newStockItem)
-            .then(response => props.setSuccessMessage(response.data))
             .catch((e) => console.error("POST Error: " + e))
             .then(props.reloadStockItems)
             .then(props.closeModal)
-            .then(() => console.log(newStockItem))
             .then(() => setNewStockItem({id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""}))
+            .then(() => props.setSuccessMessage("Eintrag erfolgreich hinzugefügt"))
 
     }
 
@@ -92,4 +91,4 @@ function AddStockItemModal(props: ModalProps) {
     );
 }
 
-export default AddStockItemModal;
+export default AddItemModal;
