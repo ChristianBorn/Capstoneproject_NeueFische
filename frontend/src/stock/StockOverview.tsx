@@ -21,6 +21,8 @@ function StockOverview() {
     const [itemToEdit, setItemToEdit] = useState<StockItemModel>({
         id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""
     })
+    const [dailyConsumption] = useState<number>(13)
+
 
     const getAllStockItems = () => {
         axios.get("/stock/overview")
@@ -103,8 +105,8 @@ function StockOverview() {
                                     <td>{singleItem.type}</td>
                                     <td>{singleItem.amountInStock}</td>
                                     <td>{singleItem.pricePerKilo}</td>
-                                    <td>Lorem</td>
-                                    <td>Lorem</td>
+                                    <td>{dailyConsumption}</td>
+                                    <td>{Math.round(singleItem.amountInStock / dailyConsumption)} Tagen</td>
                                     <td className={"action-cell"}><EditIcon onClickAction={openEditModal}
                                                                             itemToEdit={singleItem}/>
                                         <DeleteIcon onClickAction={openDeleteModal}
