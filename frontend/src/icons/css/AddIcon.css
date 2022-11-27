@@ -2,6 +2,7 @@
     font-size: 5em;
     color: #408900;
     cursor: pointer;
+    margin-top: .5em;
 }
 
 .add-record-icon :hover {
