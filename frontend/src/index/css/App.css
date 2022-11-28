@@ -25,33 +25,11 @@ main {
     padding-bottom: 10em;
     padding-top: 5em;
 }
-
 nav {
-    display: inline-block;
     margin: 0 auto;
-
-}
-
-nav a {
-    text-decoration: none;
-    font-size: 1.8em;
-    font-weight: bold;
-    color: grey;
-}
-
-nav a:hover {
-    color: black;
-    transition-duration: 0.4s;
-}
-
-nav a.active {
-    border-bottom: rgb(25, 25, 25) 2px solid;
-}
-nav {
     display: flex;
     justify-content: space-evenly;
     flex-flow: row wrap;
-    margin: 0 auto;
     padding: 1em;
     background-color: rgba(201, 237, 246, 0.8);
     border-radius: 5px;
@@ -65,7 +43,7 @@ nav a {
     color: grey;
 }
 
-nav a.active {
+nav .active {
     color: black;
     border-bottom: rgb(25, 25, 25) 4px solid;
 }
