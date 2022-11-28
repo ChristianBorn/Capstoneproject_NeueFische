@@ -26,7 +26,6 @@ function EditItemModal(props: ModalProps) {
             .catch((e) => console.error("PUT Error: " + e))
             .then(props.reloadStockItems)
             .then(props.closeModal)
-            .then(() => console.log(editedStockItem))
             .then(() => setEditedStockItem(props.itemToEdit))
             .then(() => props.setSuccessMessage("Eintrag erfolgreich geändert"))
 
