@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.io.IOException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -99,5 +102,58 @@ class SecurityIntegrationTest {
                 .andExpect(content().json("""
                         {"username": "Test","eMail": ""}
                         """));
+    }
+
+    @Test
+    void register_expect201() throws Exception {
+        String jsonString =
+                """
+                            {
+                                "username": "Chris",
+                                "rawPassword": "Password123!",
+                                "eMail": "Test@Test.de"
+                            }
+                        """;
+        mockMvc.perform(post("/api/app-users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString))
+                .andExpect(status().is(201))
+                .andExpect(content().string("User was registered succesfully!"));
+    }
+
+    @Test
+    @DirtiesContext
+    void register_expect400() throws Exception {
+        String jsonString =
+                """
+                            {
+                                "username": "Chris",
+                                "rawPassword": "Password123!",
+                                "eMail": "Test@Test.de"
+                            }
+                        """;
+        mockMvc.perform(post("/api/app-users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString))
+                .andExpect(status().is(409))
+                .andExpect(content().json("{\"userAlreadyExists\": \"User with that username already exists\"}"));
+    }
+
+    @Test
+    @DirtiesContext
+    void register_expectValidationError() throws Exception {
+        String jsonString =
+                """
+                            {
+                                "username": "",
+                                "rawPassword": "Password123!",
+                                "eMail": "Test@Test.de"
+                            }
+                        """;
+        mockMvc.perform(post("/api/app-users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString))
+                .andExpect(status().is(400))
+                .andExpect(content().string("Username darf nicht leer sein"));
     }
 }
