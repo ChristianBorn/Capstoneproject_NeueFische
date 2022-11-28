@@ -24,3 +24,32 @@ main {
     min-height: auto;
     padding-bottom: 10em;
 }
+
+nav {
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: row wrap;
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 1em 0;
+    background-color: #c9edf6;
+    border-radius: 5px;
+}
+
+nav a {
+    text-decoration: none;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: grey;
+}
+
+nav a.active {
+    color: black;
+    border-bottom: rgb(25, 25, 25) 4px solid;
+}
+
+nav a:hover {
+    color: black;
+    transition-duration: 0.1s;
+    border-bottom: rgb(25, 25, 25) 3px solid;
+}
