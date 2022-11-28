@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,6 +25,7 @@ class StockIntegrationTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser(roles = "Basic")
     void getAllStockItems_AndExpectEmptyList_200() throws Exception {
         mockMvc.perform(get
                         ("/stock/overview"))
@@ -33,6 +35,7 @@ class StockIntegrationTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser(roles = "Basic")
     void getItemById_AndExpectStockItem_200() throws Exception {
         String jsonString =
                 """
@@ -59,6 +62,7 @@ class StockIntegrationTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser(roles = "Basic")
     void deleteStockItem_AndExpect_204() throws Exception {
         String jsonString =
                 """
@@ -83,6 +87,7 @@ class StockIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "Basic")
     void deleteStockItem_AndExpect_404() throws Exception {
         mockMvc.perform(delete
                         ("/stock/overview/1"))
@@ -91,6 +96,7 @@ class StockIntegrationTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser(roles = "Basic")
     void addNewStockItem_AndExpectSuccessMessage_201() throws Exception {
         String jsonString =
                 """
@@ -115,6 +121,7 @@ class StockIntegrationTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser(roles = "Basic")
     void addNewStockItem_AndExpectErrorMessage_400() throws Exception {
         String jsonString =
                 """
@@ -135,6 +142,7 @@ class StockIntegrationTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser(roles = "Basic")
     void addNewStockItem_negativeAmountInStock_AndExpectErrorMessage_400() throws Exception {
         String jsonString =
                 """
@@ -155,6 +163,7 @@ class StockIntegrationTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser(roles = "Basic")
     void putStockItem_AndExpectErrorMessage_400() throws Exception {
         String jsonString =
                 """
@@ -176,6 +185,7 @@ class StockIntegrationTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser(roles = "Basic")
     void putStockItem_AndExpect_201() throws Exception {
         String jsonString =
                 """
@@ -197,6 +207,7 @@ class StockIntegrationTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser(roles = "Basic")
     void putStockItem_AndExpect_200() throws Exception {
         String jsonString =
                 """
