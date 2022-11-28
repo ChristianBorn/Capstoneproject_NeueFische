@@ -116,6 +116,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>SecurityConfig.class</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
