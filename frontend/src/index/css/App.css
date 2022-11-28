@@ -23,6 +23,7 @@ main {
     background-color: #ebf6ff;
     min-height: auto;
     padding-bottom: 10em;
+    padding-top: 5em;
 }
 
 nav {
@@ -46,16 +47,15 @@ nav a:hover {
 nav a.active {
     border-bottom: rgb(25, 25, 25) 2px solid;
 }
-
 nav {
     display: flex;
     justify-content: space-evenly;
     flex-flow: row wrap;
-    max-width: 50%;
     margin: 0 auto;
-    padding: 1em 0;
-    background-color: #c9edf6;
+    padding: 1em;
+    background-color: rgba(201, 237, 246, 0.8);
     border-radius: 5px;
+    gap: 2em;
 }
 
 nav a {
@@ -74,4 +74,12 @@ nav a:hover {
     color: black;
     transition-duration: 0.1s;
     border-bottom: rgb(25, 25, 25) 3px solid;
+}
+
+.floating-navbar {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 14%;
 }
