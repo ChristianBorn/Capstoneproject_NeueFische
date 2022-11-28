@@ -40,6 +40,7 @@ public class UserController {
 
     @PostMapping
     @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> registration(@Valid @RequestBody AppUser newAppUser, Errors errors) {
         if (errors.hasErrors()) {
             FieldError fieldError;
