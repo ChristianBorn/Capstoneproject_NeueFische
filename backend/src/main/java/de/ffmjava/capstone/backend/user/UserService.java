@@ -44,11 +44,12 @@ public class UserService {
 
             return """
                     {"username":"<username>",
-                    "eMail":"<eMail>"}
-                    """.replace("<username>", username).replace("<eMail>", eMail);
+                    "eMail":"<eMail>"}"""
+                    .replace("<username>", username).replace("<eMail>", eMail);
         }
         return """
                 {"username":"<username>"}
-                """.replace("<username>", username);
+                """
+                .replace("<username>", username);
     }
 }
