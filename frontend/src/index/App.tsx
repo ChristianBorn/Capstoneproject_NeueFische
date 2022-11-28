@@ -11,7 +11,10 @@ function App() {
             </header>
             <main>
                 <BrowserRouter>
-                    <nav><NavLink to={"/lager/ueberblick"}>Lager</NavLink></nav>
+                    <nav><NavLink to={"/"}>Pferde</NavLink>
+                        <NavLink to={"/"}>Einstaller</NavLink>
+                        <NavLink to={"/lager/ueberblick"}>Lager</NavLink>
+                        <NavLink to={"/"}>Account</NavLink></nav>
                     <Routes>
                         <Route path={"/lager/ueberblick"} element={<StockOverview/>}></Route>
                     </Routes>
