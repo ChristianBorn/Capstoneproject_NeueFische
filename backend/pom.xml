@@ -118,7 +118,7 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>SecurityConfig.class</exclude>
+                        <exclude>SecurityConfig.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
