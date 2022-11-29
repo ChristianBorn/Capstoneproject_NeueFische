@@ -45,7 +45,7 @@ public class UserController {
         }
         try {
             service.save(newAppUser, SecurityConfig.passwordEncoder);
-            return new ResponseEntity<>("User was registered succesfully!", HttpStatus.CREATED);
+            return new ResponseEntity<>("User erfolgreich registriert!", HttpStatus.CREATED);
         } catch (UserAlreadyExistsException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }

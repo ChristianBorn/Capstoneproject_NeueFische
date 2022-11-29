@@ -21,7 +21,7 @@ public class UserService {
     public String save(AppUser newAppUser, PasswordEncoder passwordEncoder) throws UserAlreadyExistsException {
         if (userRepository.findByUsername(newAppUser.username()) != null) {
             throw new UserAlreadyExistsException("""
-                    {"userAlreadyExists": "User with that username already exists"}
+                    {"userAlreadyExists": "User mit dem angegebenen Username existiert bereits"}
                     """);
         }
         AppUser appUser = newAppUser

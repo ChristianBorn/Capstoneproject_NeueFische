@@ -66,7 +66,6 @@ function App() {
                     </div>
                     <Routes>
                         <Route path={"/lager/ueberblick"} element={<StockOverview/>}></Route>
-
                     </Routes>
                 </BrowserRouter>
             </main>
