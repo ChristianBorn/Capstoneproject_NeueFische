@@ -83,7 +83,7 @@ function AddItemModal(props: ModalProps) {
                         </FieldLabelGroup>
                     </Form3Rows>
                     <div className={"button-group"}>
-                        <input className={"submit-button"} type={"submit"} value={"Einlagern"}/>
+                        <button className={"submit-button"} type={"submit"}>Einlagern</button>
                     </div>
                 </form>
             </section>
