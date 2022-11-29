@@ -6,6 +6,9 @@ import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import LoginPage from '../security/LoginPage';
 import RegisterPage from "../security/RegisterPage";
+import "../buttons/css/LogoutButton.css";
+import "../buttons/css/GeneralButtonStyles.css";
+
 
 function App() {
     const [userDetails, setUserDetails] = useState({
@@ -13,12 +16,19 @@ function App() {
         eMail: ""
     });
 
+
     const fetchUsername = () => {
         axios.get("/api/app-users/me")
             .then(response => response.data)
             .then(setUserDetails);
     }
+
+    const logout = () => {
+        axios.get("/api/app-users/logout").then(fetchUsername)
+    }
+
     useEffect(fetchUsername, [])
+
 
     if (userDetails === undefined) {
         return <ClipLoader
@@ -44,15 +54,18 @@ function App() {
             <header className="App-header">
             </header>
             <main>
+                <button onClick={logout} className={"logout-button"}>Ausloggen</button>
                 <BrowserRouter>
                     <div className={"floating-navbar"}>
-                        <nav><NavLink to={"/"}>Pferde</NavLink>
+                        <nav>
+                        <NavLink to={"/"}>Pferde</NavLink>
                             <NavLink to={"/"}>Einstaller</NavLink>
-                            <NavLink to={"/lager/ueberblick"}>Lager</NavLink>
-                            <NavLink to={"/"}>Account</NavLink>
+                            <NavLinkto={"/lager/ueberblick"}>Lager</NavLink>
+                    <NavLink to={"/"}>Account</NavLink>
                         </nav>
                     </div>
                     <Routes>
+
                         <Route path={"/lager/ueberblick"} element={<StockOverview/>}></Route>
                     </Routes>
                 </BrowserRouter>
