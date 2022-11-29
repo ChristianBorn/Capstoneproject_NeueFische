@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -40,18 +39,9 @@ public class UserController {
 
     @PostMapping
     @ResponseBody
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> registration(@Valid @RequestBody AppUser newAppUser, Errors errors) {
         if (errors.hasErrors()) {
-            FieldError fieldError;
-            String errorMessage = null;
-            if (errors.getFieldError() != null) {
-                fieldError = errors.getFieldError();
-                if (fieldError != null) {
-                    errorMessage = fieldError.getDefaultMessage();
-                }
-            }
-            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new CustomApiErrorHandler(errors).getJsonString(), HttpStatus.BAD_REQUEST);
         }
         try {
             service.save(newAppUser, SecurityConfig.passwordEncoder);
