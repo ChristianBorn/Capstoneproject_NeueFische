@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public String getUserDetails(String username) {
-        if (!username.equals("anonymousUser")) {
+        if (!username.equals("anonymousUser") && userRepository.existsByUsername(username)) {
             String eMail;
             try {
                 eMail = userRepository.findByUsername(username).eMail();
@@ -42,6 +42,7 @@ public class UserService {
                 eMail = "";
             }
 
+            assert eMail != null;
             return """
                     {"username":"<username>",
                     "eMail":"<eMail>"}"""
