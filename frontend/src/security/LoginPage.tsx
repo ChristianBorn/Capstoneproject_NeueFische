@@ -10,6 +10,7 @@ type LoginPageProps = {
 export default function LoginPage(props: LoginPageProps) {
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    const [loginFailed, setLoginFailed] = useState<string>()
 
     const login = () => {
         axios.get("/api/app-users/login", {
@@ -18,7 +19,10 @@ export default function LoginPage(props: LoginPageProps) {
                     password
                 }
             }
-        ).then(props.onLogin)
+        ).catch(() => {
+            setLoginFailed("Login fehlgeschlagen, Username oder Passwort stimmen nicht")
+        })
+            .then(props.onLogin)
     }
 
 
@@ -35,7 +39,8 @@ export default function LoginPage(props: LoginPageProps) {
                     <input required id={"password"} type={"password"}
                            onChange={event => setPassword(event.target.value)}/>
                 </FieldLabelGroup>
-
+                {loginFailed &&
+                    <p className={"error-message"}>{loginFailed}</p>}
                 <button className={"submit-button"} onClick={() => login()}>Login</button>
                 <Link to="/registrieren">Registrieren</Link>
             </div>
