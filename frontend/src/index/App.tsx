@@ -41,8 +41,8 @@ function App() {
         return <>
 
             <BrowserRouter>
-                <LoginPage onLogin={fetchUsername}></LoginPage>
                 <Routes>
+                    <Route path={"/*"} element={<LoginPage onLogin={fetchUsername}/>}></Route>
                     <Route path={"/registrieren"} element={<RegisterPage/>}></Route>
                 </Routes>
             </BrowserRouter>
