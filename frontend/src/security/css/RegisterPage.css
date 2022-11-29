@@ -32,3 +32,12 @@
     margin-top: 0;
     color: red;
 }
+
+.message-container {
+    display: flex;
+    max-width: 100%;
+}
+
+.message-container .success-message {
+    margin: 1em auto;
+}

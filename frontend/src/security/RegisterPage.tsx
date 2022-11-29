@@ -39,7 +39,8 @@ function RegisterPage() {
                 <label htmlFor={"username"}>Username</label>
                 <input required id={"username"} type={"text"} onChange={event => setUsername(event.target.value)}/>
                 {registrationErrorMessage.username &&
-                    <p className={"error-message"}>{registrationErrorMessage.username}</p>}
+                    <div className={"message-container"}><p
+                        className={"error-message"}>{registrationErrorMessage.username}</p></div>}
 
             </FieldLabelGroup>
             <FieldLabelGroup>
@@ -47,13 +48,16 @@ function RegisterPage() {
                 <input required id={"password"} type={"password"}
                        onChange={event => setRawPassword(event.target.value)}/>
                 {registrationErrorMessage.rawPassword &&
-                    <p className={"error-message"}>{registrationErrorMessage.rawPassword}</p>}
+                    <div className={"message-container"}><p
+                        className={"error-message"}>{registrationErrorMessage.rawPassword}</p></div>}
 
             </FieldLabelGroup>
             {registrationErrorMessage.userAlreadyExists &&
-                <p className={"error-message"}>{registrationErrorMessage.userAlreadyExists}</p>}
+                <div className={"message-container"}><p
+                    className={"error-message"}>{registrationErrorMessage.userAlreadyExists}</p></div>}
             <button className={"submit-button"} onClick={() => register()}>Registrieren</button>
-            {successMessage && <p>{successMessage}</p>}
+            {successMessage &&
+                <div className={"message-container"}><p className={"success-message"}>{successMessage}</p></div>}
 
 
             <Link to="/">Zurück zu login</Link>
