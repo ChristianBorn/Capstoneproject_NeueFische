@@ -87,7 +87,7 @@ function EditItemModal(props: ModalProps) {
                         </FieldLabelGroup>
                     </Form3Rows>
                     <div className={"button-group"}>
-                        <input className={"submit-button"} type={"submit"} value={"Änderungen speichern"}/>
+                        <button className={"submit-button"} type={"submit"}>Änderungen speichern</button>
                     </div>
                 </form>
             </section>
