@@ -26,7 +26,7 @@ export default function LoginPage(props: LoginPageProps) {
             <input required id={"username"} type={"text"} onChange={event => setUsername(event.target.value)}/>
             <label htmlFor={"password"}>Password</label>
             <input required id={"password"} type={"password"} onChange={event => setPassword(event.target.value)}/>
-            <button onClick={() => login()}>Login</button>
+            <button className={"submit-button"} onClick={() => login()}>Login</button>
             <Link to="/registrieren">Registrieren</Link>
 
         </>
