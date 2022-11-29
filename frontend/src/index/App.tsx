@@ -11,10 +11,7 @@ import "../buttons/css/GeneralButtonStyles.css";
 
 
 function App() {
-    const [userDetails, setUserDetails] = useState({
-        username: "anonymousUser",
-        eMail: ""
-    });
+    const [userName, setUserDetails] = useState<string>();
 
 
     const fetchUsername = () => {
@@ -30,14 +27,14 @@ function App() {
     useEffect(fetchUsername, [])
 
 
-    if (userDetails === undefined) {
+    if (userName === undefined) {
         return <ClipLoader
             size={150}
             aria-label="Loading Spinner"
             data-testid="loader"
         />
     }
-    if (userDetails.username === "anonymousUser") {
+    if (userName === "anonymousUser") {
         return <>
 
             <BrowserRouter>
