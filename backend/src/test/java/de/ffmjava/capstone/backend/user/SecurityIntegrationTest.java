@@ -89,9 +89,7 @@ class SecurityIntegrationTest {
     void expect200_and_anonymousUser() throws Exception {
         mockMvc.perform(get("/api/app-users/me"))
                 .andExpect(status().is(200))
-                .andExpect(content().json("""
-                        {"username": "anonymousUser"}
-                        """));
+                .andExpect(content().string("anonymousUser"));
     }
 
     @Test
@@ -99,9 +97,7 @@ class SecurityIntegrationTest {
     void expect200_and_UserDetails() throws Exception {
         mockMvc.perform(get("/api/app-users/me"))
                 .andExpect(status().is(200))
-                .andExpect(content().json("""
-                        {"username": "Test"}
-                        """));
+                .andExpect(content().string("Test"));
     }
 
     @Test
@@ -110,8 +106,7 @@ class SecurityIntegrationTest {
                 """
                             {
                                 "username": "Chris",
-                                "rawPassword": "Password123!",
-                                "eMail": "Test@Test.de"
+                                "rawPassword": "Password123!"
                             }
                         """;
         mockMvc.perform(post("/api/app-users")
@@ -128,8 +123,7 @@ class SecurityIntegrationTest {
                 """
                             {
                                 "username": "Chris",
-                                "rawPassword": "Password123!",
-                                "eMail": "Test@Test.de"
+                                "rawPassword": "Password123!"
                             }
                         """;
         mockMvc.perform(post("/api/app-users")
@@ -141,19 +135,54 @@ class SecurityIntegrationTest {
 
     @Test
     @DirtiesContext
-    void register_expectValidationError() throws Exception {
+    void register_expectValidationError_Username() throws Exception {
         String jsonString =
                 """
                             {
                                 "username": "",
-                                "rawPassword": "Password123!",
-                                "eMail": "Test@Test.de"
+                                "rawPassword": "Password123!"
                             }
                         """;
         mockMvc.perform(post("/api/app-users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
                 .andExpect(status().is(400))
-                .andExpect(content().string("{\"username\":[\"Username darf nicht leer sein\"]}"));
+                .andExpect(content().json("{\"username\":[\"Username darf nicht leer sein\"]}"));
     }
+
+    @Test
+    @DirtiesContext
+    void register_expectValidationError_Password() throws Exception {
+        String jsonString =
+                """
+                            {
+                                "username": "name",
+                                "rawPassword": ""
+                            }
+                        """;
+        mockMvc.perform(post("/api/app-users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString))
+                .andExpect(status().is(400))
+                .andExpect(content().json("{\"rawPassword\":[\"Passwort darf nicht leer sein\"]}"));
+    }
+
+    @Test
+    @DirtiesContext
+    void register_expectValidationError_BothFieldsEmpty() throws Exception {
+        String jsonString =
+                """
+                            {
+                                "username": "",
+                                "rawPassword": ""
+                            }
+                        """;
+        mockMvc.perform(post("/api/app-users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString))
+                .andExpect(status().is(400))
+                .andExpect(content().string("{\"rawPassword\":[\"Passwort darf nicht leer sein\"],\"username\":[\"Username darf nicht leer sein\"]}"));
+    }
+
+
 }

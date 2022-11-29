@@ -30,7 +30,7 @@ public class CustomApiErrorHandler {
         try {
             this.jsonString = new ObjectMapper().writeValueAsString(fieldMessageMappings);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            return;
         }
         this.errors = errors;
     }

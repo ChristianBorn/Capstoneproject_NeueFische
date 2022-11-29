@@ -32,25 +32,4 @@ public class UserService {
         userRepository.save(appUser);
         return "Created user: " + newAppUser.username();
     }
-
-    public String getUserDetails(String username) {
-        if (!username.equals("anonymousUser") && userRepository.existsByUsername(username)) {
-            String eMail;
-            try {
-                eMail = userRepository.findByUsername(username).eMail();
-            } catch (NullPointerException e) {
-                eMail = "";
-            }
-
-            assert eMail != null;
-            return """
-                    {"username":"<username>",
-                    "eMail":"<eMail>"}"""
-                    .replace("<username>", username).replace("<eMail>", eMail);
-        }
-        return """
-                {"username":"<username>"}
-                """
-                .replace("<username>", username);
-    }
 }

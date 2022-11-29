@@ -38,27 +38,4 @@ class UserServiceTest {
 
         assertEquals(expected, actual);
     }
-
-    @Test
-    void getUserDetails_AndExpectEmailBlank() {
-        when(mockUserRepository.findByUsername("username")).thenThrow(new NullPointerException("message"));
-
-        String expected = "{\"username\":\"username\"}\n";
-
-        String actual = userService.getUserDetails("username");
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void getUserDetails_AndExpectEmailFilled() {
-        AppUser appUser = new AppUser("", "username", "", "", "", "email");
-        when(mockUserRepository.findByUsername("username")).thenReturn(appUser);
-
-        String expected = "{\"username\":\"username\"}\n";
-
-        String actual = userService.getUserDetails("username");
-
-        assertEquals(expected, actual);
-    }
 }
