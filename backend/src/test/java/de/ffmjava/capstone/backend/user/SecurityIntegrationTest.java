@@ -100,7 +100,7 @@ class SecurityIntegrationTest {
         mockMvc.perform(get("/api/app-users/me"))
                 .andExpect(status().is(200))
                 .andExpect(content().json("""
-                        {"username": "Test","eMail": ""}
+                        {"username": "Test"}
                         """));
     }
 
@@ -118,7 +118,7 @@ class SecurityIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
                 .andExpect(status().is(201))
-                .andExpect(content().string("User was registered succesfully!"));
+                .andExpect(content().string("User erfolgreich registriert!"));
     }
 
     @Test
@@ -136,7 +136,7 @@ class SecurityIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
                 .andExpect(status().is(409))
-                .andExpect(content().json("{\"userAlreadyExists\": \"User with that username already exists\"}"));
+                .andExpect(content().json("{\"userAlreadyExists\": \"User mit dem angegebenen Username existiert bereits\"}"));
     }
 
     @Test
@@ -154,6 +154,6 @@ class SecurityIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
                 .andExpect(status().is(400))
-                .andExpect(content().string("Username darf nicht leer sein"));
+                .andExpect(content().string("{\"username\":[\"Username darf nicht leer sein\"]}"));
     }
 }
