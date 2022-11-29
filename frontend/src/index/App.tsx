@@ -1,13 +1,47 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './css/App.css';
 import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom";
 import StockOverview from "../stock/StockOverview";
+import axios from "axios";
+import ClipLoader from "react-spinners/ClipLoader";
+import LoginPage from '../security/LoginPage';
+import RegisterPage from "../security/RegisterPage";
 
 function App() {
+    const [userDetails, setUserDetails] = useState({
+        username: "anonymousUser",
+        eMail: ""
+    });
+
+    const fetchUsername = () => {
+        axios.get("/api/app-users/me")
+            .then(response => response.data)
+            .then(setUserDetails);
+    }
+    useEffect(fetchUsername, [])
+
+    if (userDetails === undefined) {
+        return <ClipLoader
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+        />
+    }
+    if (userDetails.username === "anonymousUser") {
+        return <>
+
+            <BrowserRouter>
+                <LoginPage onLogin={fetchUsername}></LoginPage>
+                <Routes>
+                    <Route path={"/registrieren"} element={<RegisterPage/>}></Route>
+                </Routes>
+            </BrowserRouter>
+        </>
+    }
+
     return (
         <div className="App">
             <header className="App-header">
-
             </header>
             <main>
                 <BrowserRouter>
