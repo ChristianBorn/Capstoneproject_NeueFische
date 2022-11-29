@@ -30,11 +30,10 @@ public class UserController {
 
     @GetMapping("/me")
     public String me() {
-        String username = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
-        return service.getUserDetails(username);
+       return SecurityContextHolder
+               .getContext()
+               .getAuthentication()
+               .getName();
     }
 
     @PostMapping
