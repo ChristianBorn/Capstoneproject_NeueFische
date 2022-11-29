@@ -3,10 +3,11 @@
     flex-direction: column;
     margin-top: .5em;
     margin-bottom: 1em;
-    font-size: 1.2em;
-    font-weight: bold;
+
 }
 
 label {
+    font-size: 1.2em;
+    font-weight: bold;
     margin-bottom: .5em;
 }
