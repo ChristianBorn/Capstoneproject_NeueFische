@@ -1,0 +1,28 @@
+.login-form-area {
+    display: flex;
+    flex-flow: column wrap;
+    max-width: 25%;
+    margin: 5% auto;
+    padding: 1em;
+    box-shadow: 4px 8px 10px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    border: lightgray 2px solid;
+}
+
+.login-form-area h2 {
+    text-align: center;
+}
+
+.login-form-area a {
+    display: flex;
+    max-width: fit-content;
+    margin: 1em auto;
+    font-weight: bold;
+    color: #379fb9;
+    transition-duration: 0.4s;
+}
+
+.login-form-area a:hover {
+    color: black;
+
+}
