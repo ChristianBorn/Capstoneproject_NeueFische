@@ -62,3 +62,13 @@ nav a:hover {
     right: 0;
     margin: auto
 }
+
+.logout-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+}
+
+.logout-container p {
+    font-weight: bold;
+}
