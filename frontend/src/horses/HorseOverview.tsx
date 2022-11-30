@@ -42,7 +42,7 @@ function HorseOverview() {
                             <tr>
                                 <th>Name</th>
                                 <th>Besitzer</th>
-                                <th>Verbraucht täglich</th>
+                                <th>Täglicher Verbrauch</th>
                                 <th>Aktionen</th>
                             </tr>
                             </thead>
