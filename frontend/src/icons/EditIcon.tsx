@@ -1,9 +1,9 @@
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
+import {StockItemModel} from "../stock/StockItemModel";
 import "./css/IconClickable.css"
 import "./css/EditIcon.css"
-import {StockItemModel} from "../stock/StockItemModel";
 
 type IconProps = {
     onClickAction: (itemToEdit: StockItemModel) => any,

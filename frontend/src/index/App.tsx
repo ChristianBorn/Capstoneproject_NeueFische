@@ -1,16 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import './css/App.css';
 import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom";
-import StockOverview from "../stock/StockOverview";
-import "../index/css/GeneralOverviewPage.css";
-import HorseOverview from "../horses/HorseOverview";
 import axios from "axios";
+import StockOverview from "../stock/StockOverview";
+import HorseOverview from "../horses/HorseOverview";
 import ClipLoader from "react-spinners/ClipLoader";
 import LoginPage from '../security/LoginPage';
 import RegisterPage from "../security/RegisterPage";
 import "../buttons/css/LogoutButton.css";
 import "../buttons/css/GeneralButtonStyles.css";
-
+import "../index/css/GeneralOverviewPage.css";
+import './css/App.css';
 
 function App() {
     const [userName, setUserDetails] = useState<string>();
