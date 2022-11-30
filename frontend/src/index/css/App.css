@@ -23,7 +23,6 @@ main {
     background-color: #ebf6ff;
     min-height: auto;
     padding-bottom: 10em;
-    padding-top: 5em;
 }
 nav {
     margin: 0 auto;
@@ -57,7 +56,9 @@ nav a:hover {
 .floating-navbar {
     display: flex;
     position: absolute;
-    width: 100%;
-    left: 0;
+    width: fit-content;
     top: 14%;
+    left: 0;
+    right: 0;
+    margin: auto
 }
