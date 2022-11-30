@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React from 'react';
 import Modal from 'react-modal';
-import "./css/DeleteStockItemModal.css";
-import "../buttons/css/SubmitButton.css";
-import "../buttons/css/AbortButton.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import CloseIcon from "../icons/CloseIcon";
+import "./css/DeleteStockItemModal.css";
+import "../buttons/css/SubmitButton.css";
+import "../buttons/css/AbortButton.css";
 
 type ModalProps = {
     modalIsOpen: boolean,

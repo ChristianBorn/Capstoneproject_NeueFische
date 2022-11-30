@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import "./css/LoginPage.css"
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
+import "./css/LoginPage.css"
 
 type LoginPageProps = {
     onLogin: () => void,

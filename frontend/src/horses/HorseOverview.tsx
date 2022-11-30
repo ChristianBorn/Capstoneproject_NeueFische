@@ -53,7 +53,8 @@ function HorseOverview() {
                                     <td>{singleItem.owner}</td>
                                     <td>{singleItem.dailyConsumption
                                         .map(singleConsumptionObject => {
-                                            return <div>{singleConsumptionObject.name}: {singleConsumptionObject.amount}
+                                            return <div
+                                                key={singleConsumptionObject.id}>{singleConsumptionObject.name}: {singleConsumptionObject.amount}
                                                 <abbr title={"Kilogramm"}>kg</abbr><br/></div>
                                         })}</td>
                                     <td>

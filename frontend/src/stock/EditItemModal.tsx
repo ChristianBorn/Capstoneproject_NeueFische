@@ -2,11 +2,11 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal';
 import {StockItemModel} from "./StockItemModel";
-import "./css/AddItemModal.css";
-import "../buttons/css/SubmitButton.css";
 import Form3Rows from "../structuralComponents/Form3Rows";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 import CloseIcon from "../icons/CloseIcon";
+import "./css/AddItemModal.css";
+import "../buttons/css/SubmitButton.css";
 
 type ModalProps = {
     modalIsOpen: boolean,

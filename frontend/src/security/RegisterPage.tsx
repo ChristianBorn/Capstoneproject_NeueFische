@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from "axios";
-import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 import {Link} from "react-router-dom";
+import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 import "./css/RegisterPage.css"
 
 
