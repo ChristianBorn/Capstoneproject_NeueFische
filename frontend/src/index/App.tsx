@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import './css/App.css';
 import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom";
 import StockOverview from "../stock/StockOverview";
+import "../index/css/GeneralOverviewPage.css";
+import HorseOverview from "../horses/HorseOverview";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import LoginPage from '../security/LoginPage';
@@ -55,7 +57,7 @@ function App() {
                 <BrowserRouter>
                     <div className={"floating-navbar"}>
                         <nav>
-                        <NavLink to={"/"}>Pferde</NavLink>
+                        <NavLink to={"/pferde/ueberblick"}>Pferde</NavLink>
                             <NavLink to={"/"}>Einstaller</NavLink>
                             <NavLink to={"/lager/ueberblick"}>Lager</NavLink>
                             <NavLink to={"/"}>Account</NavLink>
@@ -63,6 +65,7 @@ function App() {
                     </div>
                     <Routes>
                         <Route path={"/lager/ueberblick"} element={<StockOverview/>}></Route>
+                        <Route path={"/pferde/ueberblick"} element={<HorseOverview/>}></Route>
                     </Routes>
                 </BrowserRouter>
             </main>
