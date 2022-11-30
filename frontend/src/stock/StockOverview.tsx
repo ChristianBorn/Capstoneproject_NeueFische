@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import "./css/StockOverview.css";
 import {StockItemModel} from "./StockItemModel";
 import AddIcon from "../icons/AddIcon";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -82,7 +81,7 @@ function StockOverview() {
                            setSuccessMessage={setSuccessMessage} itemToEdit={itemToEdit}/>
             {stockItems.length > 0 ?
                 <>
-                    <div className={"stock-overview-table-wrapper"}>
+                    <div className={"overview-table-wrapper"}>
                         <table>
 
                             <thead>
@@ -105,10 +104,14 @@ function StockOverview() {
                                     <td>{singleItem.pricePerKilo}</td>
                                     <td>Lorem</td>
                                     <td>Lorem</td>
-                                    <td className={"action-cell"}><EditIcon onClickAction={openEditModal}
-                                                                            itemToEdit={singleItem}/>
-                                        <DeleteIcon onClickAction={openDeleteModal}
-                                                    idToDelete={singleItem.id}/></td>
+                                    <td>
+                                        <div className={"action-cell"}>
+                                            <EditIcon onClickAction={openEditModal}
+                                                      itemToEdit={singleItem}/>
+                                            <DeleteIcon onClickAction={openDeleteModal}
+                                                        idToDelete={singleItem.id}/>
+                                        </div>
+                                    </td>
                                 </tr>
                             })
                             }
