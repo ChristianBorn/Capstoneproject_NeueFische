@@ -52,11 +52,14 @@ function App() {
             <header className="App-header">
             </header>
             <main>
-                <button onClick={logout} className={"logout-button"}>Ausloggen</button>
+                <div className={"logout-container"}>
+                    <p>Eingeloggt als: {userName}</p>
+                    <button onClick={logout} className={"logout-button"}>Ausloggen</button>
+                </div>
                 <BrowserRouter>
                     <div className={"floating-navbar"}>
                         <nav>
-                        <NavLink to={"/pferde/ueberblick"}>Pferde</NavLink>
+                            <NavLink to={"/pferde/ueberblick"}>Pferde</NavLink>
                             <NavLink to={"/"}>Einstaller</NavLink>
                             <NavLink to={"/lager/ueberblick"}>Lager</NavLink>
                             <NavLink to={"/"}>Account</NavLink>
