@@ -14,8 +14,7 @@ public class HorseController {
 
     private final HorseService service;
 
-    @GetMapping
-    @RequestMapping("")
+    @GetMapping("")
     public List<Horse> getAllHorses() {
         return service.getAllHorses();
     }
