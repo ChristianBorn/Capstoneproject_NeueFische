@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -27,8 +26,8 @@ class HorseServiceTest {
 
     @Test
     void testHorseRecord() {
-        Horse newHorse = new Horse("id", "name", "owner", Map.of("key", new BigDecimal("0.0")));
-        Horse changedHorse = newHorse.withId("1").withName("Peter").withOwner("Hansi").withConsumption(Map.of("Hafer", new BigDecimal("4.0")));
+        Horse newHorse = new Horse("id", "name", "owner", List.of(new Consumption("1", "Hafer", new BigDecimal("4.0"))));
+        Horse changedHorse = newHorse.withId("1").withName("Peter").withOwner("Hansi").withDailyConsumption(List.of(new Consumption("1", "Hafer", new BigDecimal("4.0"))));
         Horse expected = changedHorse;
         Horse actual = changedHorse;
 
