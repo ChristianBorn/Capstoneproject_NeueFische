@@ -1,16 +1,13 @@
 package de.ffmjava.capstone.backend.horses;
 
-import lombok.With;
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
+import java.math.BigDecimal;
 
-@With
-public record Horse(
+public record Consumption(
         @Id
         String id,
         String name,
-        String owner,
-        List<Consumption> dailyConsumption
+        BigDecimal amount
 ) {
 }
