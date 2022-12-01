@@ -25,7 +25,7 @@ function StockOverview() {
         axios.get("/stock/")
             .then((response) => response.data)
             .catch((error) => console.error("Error while getting Stockitems:" + error))
-            .then(data => setStockItems(data))
+            .then(setStockItems)
     }
     const openAddModal = () => {
         setAddModalIsOpen(true)

@@ -18,7 +18,7 @@ function RegisterPage() {
     const register = () => {
         axios.post("/api/app-users", {username, rawPassword})
             .then(response => response.data)
-            .then(data => setSuccessMessage(data))
+            .then(setSuccessMessage)
             .then(() => setRegistrationErrorMessage({
                 rawPassword: undefined,
                 username: undefined,

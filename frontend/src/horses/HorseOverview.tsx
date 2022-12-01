@@ -12,7 +12,7 @@ function HorseOverview() {
         axios.get("/horses/")
             .then((response) => response.data)
             .catch((error) => console.error("Error while getting Horses:" + error))
-            .then(data => setHorses(data))
+            .then(setHorses)
     }
 
 
