@@ -7,7 +7,7 @@ import "./css/EditIcon.css"
 
 type IconProps = {
     onClickAction: (itemToEdit: StockItemModel) => any,
-    itemToEdit: StockItemModel,
+    itemToEdit: any,
 }
 
 function EditIcon(props: IconProps) {

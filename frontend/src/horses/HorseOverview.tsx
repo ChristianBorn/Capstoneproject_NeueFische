@@ -6,6 +6,8 @@ import AddIcon from "../icons/AddIcon";
 import AddHorseModal from "./AddHorseModal";
 import DeleteIcon from "../icons/DeleteIcon";
 import DeleteHorseModal from "./DeleteItemModal";
+import EditHorseModal from "./EditItemModal";
+import EditIcon from "../icons/EditIcon";
 
 function HorseOverview() {
 
@@ -13,7 +15,11 @@ function HorseOverview() {
     const [addModalIsOpen, setAddModalIsOpen] = useState<boolean>(false)
     const [successMessage, setSuccessMessage] = useState<string>()
     const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false)
+    const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false)
     const [idToDelete, setIdToDelete] = useState<string>("")
+    const [horseToEdit, setHorseToEdit] = useState<HorseModel>({
+        id: "", name: "", owner: "", consumption: []
+    })
 
     const openAddModal = () => {
         setAddModalIsOpen(true)
@@ -24,13 +30,16 @@ function HorseOverview() {
         setIdToDelete(id)
         setSuccessMessage("")
     }
+    const openEditModal = (horseToEdit: any) => {
+        setEditModalIsOpen(true)
+        setHorseToEdit(horseToEdit)
+        setSuccessMessage("")
+    }
     const closeModal = () => {
         setAddModalIsOpen(false)
         setDeleteModalIsOpen(false)
-
+        setEditModalIsOpen(false)
     }
-
-
     const getAllHorses = () => {
         axios.get("/horses/")
             .then((response) => response.data)
@@ -64,6 +73,11 @@ function HorseOverview() {
                               reloadHorses={getAllHorses}
                               setSuccessMessage={setSuccessMessage}
                               idToDelete={idToDelete}/>
+            <EditHorseModal modalIsOpen={editModalIsOpen}
+                            closeModal={closeModal}
+                            reloadHorses={getAllHorses}
+                            setSuccessMessage={setSuccessMessage}
+                            horseToEdit={horseToEdit}/>
             {horses.length > 0 ?
                 <>
                     <div className={"overview-table-wrapper"}>
@@ -90,6 +104,8 @@ function HorseOverview() {
                                         })}</td>
                                     <td>
                                         <div className={"action-cell"}>
+                                            <EditIcon onClickAction={openEditModal}
+                                                      itemToEdit={horse}/>
                                             <DeleteIcon onClickAction={openDeleteModal}
                                                         idToDelete={horse.id}/>
                                         </div>
