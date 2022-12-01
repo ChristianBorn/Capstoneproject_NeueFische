@@ -77,8 +77,6 @@ class StockServiceTest {
 
         assertTrue(service.deleteStockItem(idToDelete));
         verify(mockRepository).existsById(idToDelete);
-
-
     }
 
     @Test
