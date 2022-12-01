@@ -17,6 +17,7 @@ function StockOverview() {
     const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false)
     const [successMessage, setSuccessMessage] = useState<string>()
     const [idToDelete, setIdToDelete] = useState<string>("")
+    const [dailyConsumption] = useState(13)
     const [itemToEdit, setItemToEdit] = useState<StockItemModel>({
         id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""
     })
@@ -102,8 +103,8 @@ function StockOverview() {
                                     <td>{item.type}</td>
                                     <td>{item.amountInStock}</td>
                                     <td>{item.pricePerKilo}</td>
-                                    <td>Lorem</td>
-                                    <td>Lorem</td>
+                                    <td>{dailyConsumption}</td>
+                                    <td>{Math.round(item.amountInStock / dailyConsumption)} Tagen</td>
                                     <td>
                                         <div className={"action-cell"}>
                                             <EditIcon onClickAction={openEditModal}
