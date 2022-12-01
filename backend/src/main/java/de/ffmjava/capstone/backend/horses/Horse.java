@@ -11,6 +11,6 @@ public record Horse(
         String id,
         String name,
         String owner,
-        List<Consumption> dailyConsumption
+        List<Consumption> consumption
 ) {
 }
