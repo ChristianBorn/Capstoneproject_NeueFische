@@ -46,11 +46,11 @@ function HorseOverview() {
                             </tr>
                             </thead>
                             <tbody>
-                            {horses.map(singleItem => {
-                                return <tr key={singleItem.id}>
-                                    <td>{singleItem.name}</td>
-                                    <td>{singleItem.owner}</td>
-                                    <td>{singleItem.consumption
+                            {horses.map(singleHorse => {
+                                return <tr key={singleHorse.id}>
+                                    <td>{singleHorse.name}</td>
+                                    <td>{singleHorse.owner}</td>
+                                    <td>{singleHorse.consumption
                                         .map(singleConsumptionObject => {
                                             return <div
                                                 key={singleConsumptionObject.id}>{singleConsumptionObject.name}: {singleConsumptionObject.dailyConsumption}
