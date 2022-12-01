@@ -4,19 +4,30 @@ import {HorseModel} from "./HorseModel";
 import ClipLoader from "react-spinners/ClipLoader";
 import AddIcon from "../icons/AddIcon";
 import AddHorseModal from "./AddHorseModal";
+import DeleteIcon from "../icons/DeleteIcon";
+import DeleteHorseModal from "./DeleteItemModal";
 
 function HorseOverview() {
 
     const [horses, setHorses] = useState<HorseModel[]>()
     const [addModalIsOpen, setAddModalIsOpen] = useState<boolean>(false)
     const [successMessage, setSuccessMessage] = useState<string>()
+    const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false)
+    const [idToDelete, setIdToDelete] = useState<string>("")
 
     const openAddModal = () => {
         setAddModalIsOpen(true)
         setSuccessMessage("")
     }
+    const openDeleteModal = (id: string) => {
+        setDeleteModalIsOpen(true)
+        setIdToDelete(id)
+        setSuccessMessage("")
+    }
     const closeModal = () => {
         setAddModalIsOpen(false)
+        setDeleteModalIsOpen(false)
+
     }
 
 
@@ -48,6 +59,11 @@ function HorseOverview() {
                            reloadHorses={getAllHorses}
                            setSuccessMessage={setSuccessMessage}
             />
+            <DeleteHorseModal modalIsOpen={deleteModalIsOpen}
+                              closeModal={closeModal}
+                              reloadHorses={getAllHorses}
+                              setSuccessMessage={setSuccessMessage}
+                              idToDelete={idToDelete}/>
             {horses.length > 0 ?
                 <>
                     <div className={"overview-table-wrapper"}>
@@ -73,7 +89,10 @@ function HorseOverview() {
                                                 <abbr title={"Kilogramm"}>kg</abbr><br/></div>
                                         })}</td>
                                     <td>
-                                        <div className={"action-cell"}></div>
+                                        <div className={"action-cell"}>
+                                            <DeleteIcon onClickAction={openDeleteModal}
+                                                        idToDelete={horse.id}/>
+                                        </div>
                                     </td>
                                 </tr>
                             })
