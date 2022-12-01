@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,5 +30,11 @@ public class HorseController {
         if (errorMessage != null) return errorMessage;
         Horse createdHorse = service.addNewHorse(newHorse);
         return new ResponseEntity<>(createdHorse, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteHorse(@PathVariable String id) throws ResponseStatusException {
+        service.deleteHorse(id);
     }
 }
