@@ -5,7 +5,7 @@ import {StockItemModel} from "./StockItemModel";
 import Form3Rows from "../structuralComponents/Form3Rows";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 import CloseIcon from "../icons/CloseIcon";
-import "./css/AddItemModal.css";
+import "../index/css/AddItemModal.css";
 import "../buttons/css/SubmitButton.css";
 
 type ModalProps = {
@@ -49,6 +49,8 @@ function EditItemModal(props: ModalProps) {
         <Modal
             isOpen={props.modalIsOpen}
             contentLabel="Edit Modal"
+            ariaHideApp={false}
+            onRequestClose={props.closeModal}
         >
             <CloseIcon closeModal={props.closeModal}/>
             <section>

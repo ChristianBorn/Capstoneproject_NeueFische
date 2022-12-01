@@ -5,7 +5,7 @@ import {StockItemModel} from "./StockItemModel";
 import Form3Rows from "../structuralComponents/Form3Rows";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 import CloseIcon from "../icons/CloseIcon";
-import "./css/AddItemModal.css";
+import "../index/css/AddItemModal.css";
 import "../buttons/css/SubmitButton.css";
 
 type ModalProps = {
@@ -49,16 +49,18 @@ function AddItemModal(props: ModalProps) {
         <Modal
             isOpen={props.modalIsOpen}
             contentLabel="Add Modal"
+            ariaHideApp={false}
+            onRequestClose={props.closeModal}
         >
             <CloseIcon closeModal={props.closeModal}/>
             <section>
                 <h2>Neue Position dem Lager hinzufügen</h2>
                 <form onSubmit={handleSubmit}>
 
-                    <div className={"field-label-group"}>
+                    <FieldLabelGroup>
                         <label htmlFor={"name"}>Name/Bezeichnung</label>
                         <input onChange={handleChange} required type={"text"} id={"name"} name={"name"}/>
-                    </div>
+                    </FieldLabelGroup>
 
                     <Form3Rows>
                         <FieldLabelGroup>

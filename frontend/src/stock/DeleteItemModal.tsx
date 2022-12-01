@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import CloseIcon from "../icons/CloseIcon";
-import "./css/DeleteStockItemModal.css";
+import "../index/css/DeleteStockItemModal.css";
 import "../buttons/css/SubmitButton.css";
 import "../buttons/css/AbortButton.css";
 
@@ -30,6 +30,8 @@ function DeleteItemModal(props: ModalProps) {
         <Modal
             isOpen={props.modalIsOpen}
             contentLabel="Delete Modal"
+            ariaHideApp={false}
+            onRequestClose={props.closeModal}
         >
             <CloseIcon closeModal={props.closeModal}/>
             <span><p>Soll der Eintrag wirklich gelöscht werden?</p></span>
