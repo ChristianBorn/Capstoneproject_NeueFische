@@ -1,5 +1,6 @@
-package de.ffmjava.capstone.backend.stock;
+package de.ffmjava.capstone.backend.stock.model;
 
+import de.ffmjava.capstone.backend.stock.StockType;
 import lombok.With;
 
 import javax.validation.constraints.Min;

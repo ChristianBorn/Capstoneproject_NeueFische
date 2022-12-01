@@ -1,4 +1,4 @@
-package de.ffmjava.capstone.backend.user;
+package de.ffmjava.capstone.backend.user.model;
 
 import com.mongodb.lang.Nullable;
 import lombok.With;

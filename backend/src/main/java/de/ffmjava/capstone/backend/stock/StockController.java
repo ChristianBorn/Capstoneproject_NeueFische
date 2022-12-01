@@ -1,5 +1,6 @@
 package de.ffmjava.capstone.backend.stock;
 
+import de.ffmjava.capstone.backend.stock.model.StockItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

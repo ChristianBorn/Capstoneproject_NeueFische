@@ -1,5 +1,6 @@
 package de.ffmjava.capstone.backend.horses;
 
+import de.ffmjava.capstone.backend.horses.model.Horse;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

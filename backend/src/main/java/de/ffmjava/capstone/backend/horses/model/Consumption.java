@@ -1,4 +1,4 @@
-package de.ffmjava.capstone.backend.horses;
+package de.ffmjava.capstone.backend.horses.model;
 
 import org.springframework.data.annotation.Id;
 

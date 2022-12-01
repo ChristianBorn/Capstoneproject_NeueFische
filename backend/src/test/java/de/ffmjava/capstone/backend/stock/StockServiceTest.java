@@ -1,5 +1,6 @@
 package de.ffmjava.capstone.backend.stock;
 
+import de.ffmjava.capstone.backend.stock.model.StockItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
