@@ -9,7 +9,7 @@ function RegisterPage() {
     const [username, setUsername] = useState<string>("")
     const [rawPassword, setRawPassword] = useState<string>("")
     const [registrationErrorMessage, setRegistrationErrorMessage] = useState({
-        rawPassword: undefined,
+        rawPassword: [],
         username: undefined,
         userAlreadyExists: undefined
     })
@@ -20,7 +20,7 @@ function RegisterPage() {
             .then(response => response.data)
             .then(setSuccessMessage)
             .then(() => setRegistrationErrorMessage({
-                rawPassword: undefined,
+                rawPassword: [],
                 username: undefined,
                 userAlreadyExists: undefined,
             }))
@@ -48,8 +48,11 @@ function RegisterPage() {
                 <input required id={"password"} type={"password"}
                        onChange={event => setRawPassword(event.target.value)}/>
                 {registrationErrorMessage.rawPassword &&
-                    <div className={"message-container"}><p
-                        className={"error-message"}>{registrationErrorMessage.rawPassword}</p></div>}
+                    <div className={"message-container"}>
+                        {registrationErrorMessage.rawPassword.map(errorMessage =>
+                            <p className={"error-message"}>{errorMessage}</p>
+                        )}
+                    </div>}
 
             </FieldLabelGroup>
             {registrationErrorMessage.userAlreadyExists &&
