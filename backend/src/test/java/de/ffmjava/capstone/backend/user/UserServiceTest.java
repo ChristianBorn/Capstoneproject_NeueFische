@@ -1,5 +1,6 @@
 package de.ffmjava.capstone.backend.user;
 
+import de.ffmjava.capstone.backend.user.model.AppUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

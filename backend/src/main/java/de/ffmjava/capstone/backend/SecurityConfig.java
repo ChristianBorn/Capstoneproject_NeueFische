@@ -1,7 +1,7 @@
 package de.ffmjava.capstone.backend;
 
-import de.ffmjava.capstone.backend.user.AppUser;
 import de.ffmjava.capstone.backend.user.UserService;
+import de.ffmjava.capstone.backend.user.model.AppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;

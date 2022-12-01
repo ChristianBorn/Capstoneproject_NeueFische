@@ -1,5 +1,6 @@
 package de.ffmjava.capstone.backend.horses;
 
+import de.ffmjava.capstone.backend.horses.model.Horse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

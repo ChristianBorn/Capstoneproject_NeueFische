@@ -1,6 +1,7 @@
 package de.ffmjava.capstone.backend.user;
 
 import de.ffmjava.capstone.backend.SecurityConfig;
+import de.ffmjava.capstone.backend.user.model.AppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
