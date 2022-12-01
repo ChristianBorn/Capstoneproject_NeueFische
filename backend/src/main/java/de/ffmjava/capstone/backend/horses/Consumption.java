@@ -8,6 +8,6 @@ public record Consumption(
         @Id
         String id,
         String name,
-        BigDecimal amount
+        BigDecimal dailyConsumption
 ) {
 }
