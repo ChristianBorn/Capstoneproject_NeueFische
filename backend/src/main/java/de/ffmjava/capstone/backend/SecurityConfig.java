@@ -47,7 +47,7 @@ public class SecurityConfig {
                         PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH)
                 .hasAnyRole(ROLE_BASIC)
                 .antMatchers(HttpMethod.PUT,
-                        PROTECTED_STOCK_PATH)
+                        PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH)
                 .hasAnyRole(ROLE_BASIC)
                 .antMatchers(HttpMethod.DELETE,
                         PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH)

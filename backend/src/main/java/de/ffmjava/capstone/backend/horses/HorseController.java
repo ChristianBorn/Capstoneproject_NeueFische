@@ -37,4 +37,11 @@ public class HorseController {
     public void deleteHorse(@PathVariable String id) throws ResponseStatusException {
         service.deleteHorse(id);
     }
+
+    @PutMapping
+    public ResponseEntity<Object> updateHorse(@Valid @RequestBody Horse updatedHorse, Errors errors) {
+        ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
+        if (errorMessage != null) return errorMessage;
+        return service.updateHorse(updatedHorse);
+    }
 }

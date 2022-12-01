@@ -111,4 +111,73 @@ class HorseIntegrationTest {
                         ("/horses/1"))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
+    void putHorse_AndExpectErrorMessage_400() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "name": "",
+                              "owner": "Peter Pan",
+                              "consumption": []
+                            }
+                        """;
+        mockMvc.perform(put("/horses/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+                )
+                .andExpect(status().is(400))
+                .andExpect(content().string("Feld \"Name\" darf nicht leer sein"));
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
+    void putHorse_AndExpect_201() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "id": "1",
+                              "name": "Hansi",
+                              "owner": "Peter Pan",
+                              "consumption": []
+                            }
+                        """;
+        mockMvc.perform(put("/horses/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+                )
+                .andExpect(status().is(201))
+                .andExpect(jsonPath("$.name").isNotEmpty());
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
+    void putStockItem_AndExpect_200() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "id": "1",
+                              "name": "Hansi",
+                              "owner": "Peter Pan",
+                              "consumption": []
+                            }
+                        """;
+        String postResponse = mockMvc.perform(post("/horses/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonString)).andReturn().getResponse().getContentAsString();
+
+        StockItem createdStockItem = objectMapper.readValue(postResponse, StockItem.class);
+
+        mockMvc.perform(put("/horses/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postResponse.replace("Hansi", "Lord Voldemort"))
+                )
+                .andExpect(status().is(200))
+                .andExpect(content().string("{\"id\":\"<ID>\",\"name\":\"Lord Voldemort\",\"owner\":\"Peter Pan\",\"consumption\":[]}"
+                        .replace("<ID>", createdStockItem.id())));
+    }
 }
