@@ -20,7 +20,7 @@ function DeleteItemModal(props: ModalProps) {
 
 
     const deleteStockItem = (id: string) => {
-        axios.delete("/stock/overview/" + id)
+        axios.delete("/stock/" + id)
             .catch(error => console.error("DELETE Error: " + error))
             .then(props.reloadStockItems)
             .then(props.closeModal)

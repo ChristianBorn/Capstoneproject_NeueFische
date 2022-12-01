@@ -13,29 +13,29 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/stock")
+@RequestMapping("/stock/")
 @RequiredArgsConstructor
 class StockController {
 
     private final StockService service;
 
-    @GetMapping("/overview")
+    @GetMapping
     public List<StockItem> getAllStockitems() {
         return service.getAllStockItems();
     }
 
-    @GetMapping("/overview/{id}")
+    @GetMapping("{id}")
     public StockItem getStockItemById(@PathVariable String id) {
         return service.getStockItemById(id);
     }
 
-    @DeleteMapping("/overview/{id}")
+    @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStockItem(@PathVariable String id) throws ResponseStatusException {
         service.deleteStockItem(id);
     }
 
-    @PostMapping("/overview")
+    @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<Object> addNewStockItem(@Valid @RequestBody StockItem newStockItem, Errors errors) {
         ResponseEntity<Object> errorMessage = handlePossibleErrors(errors);
@@ -44,7 +44,7 @@ class StockController {
         return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
     }
 
-    @PutMapping("/overview")
+    @PutMapping
     public ResponseEntity<Object> updateStockItem(@Valid @RequestBody StockItem updatedStockItem, Errors errors) {
         ResponseEntity<Object> errorMessage = handlePossibleErrors(errors);
         if (errorMessage != null) return errorMessage;
