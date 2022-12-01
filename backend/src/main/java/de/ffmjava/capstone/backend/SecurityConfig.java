@@ -44,7 +44,8 @@ public class SecurityConfig {
                         PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH, "/api/app-users/logout", "/api/app-users/login"
                 ).hasAnyRole(ROLE_BASIC)
                 .antMatchers(HttpMethod.POST,
-                        PROTECTED_STOCK_PATH).hasAnyRole(ROLE_BASIC)
+                        PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH)
+                .hasAnyRole(ROLE_BASIC)
                 .antMatchers(HttpMethod.PUT,
                         PROTECTED_STOCK_PATH).hasAnyRole(ROLE_BASIC)
                 .antMatchers(HttpMethod.DELETE,
