@@ -2,6 +2,8 @@ package de.ffmjava.capstone.backend.user;
 
 
 import lombok.Data;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
@@ -26,6 +28,22 @@ public class CustomApiErrorHandler {
             Collections.sort(fieldMessageMappings.get(singleError.getField()));
         }
         this.errors = errors;
+    }
+
+    @Nullable
+    public static ResponseEntity<Object> handlePossibleErrors(Errors errors) {
+        if (errors.hasErrors()) {
+            FieldError fieldError;
+            String errorMessage = null;
+            if (errors.getFieldError() != null) {
+                fieldError = errors.getFieldError();
+                if (fieldError != null) {
+                    errorMessage = fieldError.getDefaultMessage();
+                }
+            }
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+        return null;
     }
 
 }

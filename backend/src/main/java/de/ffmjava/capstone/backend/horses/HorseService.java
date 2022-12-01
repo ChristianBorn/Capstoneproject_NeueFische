@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -14,5 +15,11 @@ public class HorseService {
 
     public List<Horse> getAllHorses() {
         return repository.findAll();
+    }
+
+    public Horse addNewHorse(Horse newHorse) {
+        newHorse = newHorse.withId(UUID.randomUUID().toString());
+        return repository.save(newHorse);
+
     }
 }
