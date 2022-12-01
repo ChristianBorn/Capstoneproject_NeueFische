@@ -24,7 +24,7 @@ class HorseIntegrationTest {
     @WithMockUser(roles = "Basic")
     void getAllHorses() throws Exception {
         mockMvc.perform(get
-                        ("/horses/overview"))
+                        ("/horses/"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
