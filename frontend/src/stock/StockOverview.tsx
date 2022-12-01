@@ -96,20 +96,20 @@ function StockOverview() {
                             </tr>
                             </thead>
                             <tbody>
-                            {stockItems.map(singleItem => {
-                                return <tr key={singleItem.id}>
-                                    <td>{singleItem.name}</td>
-                                    <td>{singleItem.type}</td>
-                                    <td>{singleItem.amountInStock}</td>
-                                    <td>{singleItem.pricePerKilo}</td>
+                            {stockItems.map(item => {
+                                return <tr key={item.id}>
+                                    <td>{item.name}</td>
+                                    <td>{item.type}</td>
+                                    <td>{item.amountInStock}</td>
+                                    <td>{item.pricePerKilo}</td>
                                     <td>Lorem</td>
                                     <td>Lorem</td>
                                     <td>
                                         <div className={"action-cell"}>
                                             <EditIcon onClickAction={openEditModal}
-                                                      itemToEdit={singleItem}/>
+                                                      itemToEdit={item}/>
                                             <DeleteIcon onClickAction={openDeleteModal}
-                                                        idToDelete={singleItem.id}/>
+                                                        idToDelete={item.id}/>
                                         </div>
                                     </td>
                                 </tr>
