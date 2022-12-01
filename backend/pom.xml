@@ -94,7 +94,6 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
-                        <exclude>**/model/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
