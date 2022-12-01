@@ -28,7 +28,7 @@ class StockIntegrationTest {
     @WithMockUser(roles = "Basic")
     void getAllStockItems_AndExpectEmptyList_200() throws Exception {
         mockMvc.perform(get
-                        ("/stock/overview"))
+                        ("/stock/"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
@@ -46,14 +46,14 @@ class StockIntegrationTest {
                               "pricePerKilo": 42.0
                             }
                         """;
-        String postResponse = mockMvc.perform(post("/stock/overview")
+        String postResponse = mockMvc.perform(post("/stock/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonString)).andReturn().getResponse().getContentAsString();
 
         StockItem createdStockItem = objectMapper.readValue(postResponse, StockItem.class);
 
         mockMvc.perform(get
-                        ("/stock/overview/" + createdStockItem.id()))
+                        ("/stock//" + createdStockItem.id()))
                 .andExpect(status().isOk())
                 .andExpect(content().string("{\"id\":\"<ID>\",\"name\":\"Test\",\"type\":\"Futter\",\"amountInStock\":42.0,\"pricePerKilo\":42.0}"
                         .replace("<ID>", createdStockItem.id())));
@@ -73,7 +73,7 @@ class StockIntegrationTest {
                               "pricePerKilo": 42.0
                             }
                         """;
-        String postResponse = mockMvc.perform(post("/stock/overview")
+        String postResponse = mockMvc.perform(post("/stock/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonString)
         ).andReturn().getResponse().getContentAsString();
@@ -82,7 +82,7 @@ class StockIntegrationTest {
         String idToDelete = objectMapper.readValue(postResponse, StockItem.class).id();
 
         mockMvc.perform(delete
-                        ("/stock/overview/" + idToDelete))
+                        ("/stock//" + idToDelete))
                 .andExpect(status().isNoContent());
     }
 
@@ -90,7 +90,7 @@ class StockIntegrationTest {
     @WithMockUser(roles = "Basic")
     void deleteStockItem_AndExpect_404() throws Exception {
         mockMvc.perform(delete
-                        ("/stock/overview/1"))
+                        ("/stock/1"))
                 .andExpect(status().isNotFound());
     }
 
@@ -107,7 +107,7 @@ class StockIntegrationTest {
                               "pricePerKilo": 42.0
                             }
                         """;
-        mockMvc.perform(post("/stock/overview")
+        mockMvc.perform(post("/stock/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
                 )
@@ -132,7 +132,7 @@ class StockIntegrationTest {
                               "pricePerKilo": 42.0
                             }
                         """;
-        mockMvc.perform(post("/stock/overview")
+        mockMvc.perform(post("/stock/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
                 )
@@ -153,7 +153,7 @@ class StockIntegrationTest {
                               "pricePerKilo": 42.0
                             }
                         """;
-        mockMvc.perform(post("/stock/overview")
+        mockMvc.perform(post("/stock/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
                 )
@@ -175,7 +175,7 @@ class StockIntegrationTest {
                               "pricePerKilo": 42.0
                             }
                         """;
-        mockMvc.perform(put("/stock/overview")
+        mockMvc.perform(put("/stock/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
                 )
@@ -197,7 +197,7 @@ class StockIntegrationTest {
                               "pricePerKilo": 42.0
                             }
                         """;
-        mockMvc.perform(put("/stock/overview")
+        mockMvc.perform(put("/stock/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
                 )
@@ -218,13 +218,13 @@ class StockIntegrationTest {
                               "pricePerKilo": 42.0
                             }
                         """;
-        String postResponse = mockMvc.perform(post("/stock/overview")
+        String postResponse = mockMvc.perform(post("/stock/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonString)).andReturn().getResponse().getContentAsString();
 
         StockItem createdStockItem = objectMapper.readValue(postResponse, StockItem.class);
 
-        mockMvc.perform(put("/stock/overview")
+        mockMvc.perform(put("/stock/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(postResponse.replace("Futter", "Einstreu"))
                 )
