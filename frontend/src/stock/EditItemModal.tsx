@@ -22,7 +22,7 @@ function EditItemModal(props: ModalProps) {
 
 
     const saveNewStockitem = () => {
-        axios.put("/stock/overview", editedStockItem)
+        axios.put("/stock/", editedStockItem)
             .catch((e) => console.error("PUT Error: " + e))
             .then(props.reloadStockItems)
             .then(props.closeModal)

@@ -22,7 +22,7 @@ function AddItemModal(props: ModalProps) {
 
 
     const saveNewStockitem = () => {
-        axios.post("/stock/overview", newStockItem)
+        axios.post("/stock/", newStockItem)
             .catch((e) => console.error("POST Error: " + e))
             .then(props.reloadStockItems)
             .then(props.closeModal)
