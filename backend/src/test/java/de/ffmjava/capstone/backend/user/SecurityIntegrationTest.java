@@ -181,8 +181,6 @@ class SecurityIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString))
                 .andExpect(status().is(400))
-                .andExpect(content().string("{\"rawPassword\":[\"Passwort darf nicht leer sein\"],\"username\":[\"Username darf nicht leer sein\"]}"));
+                .andExpect(content().string("{\"rawPassword\":[\"Passwort muss mindestens acht Zeichen, ein Sonderzeichen und eine Zahl enthalten\"],\"username\":[\"Username darf nicht leer sein\"]}"));
     }
-
-
 }
