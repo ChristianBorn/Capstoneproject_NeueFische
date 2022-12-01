@@ -1,5 +1,7 @@
 package de.ffmjava.capstone.backend.horses;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.ffmjava.capstone.backend.stock.model.StockItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,8 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -21,6 +22,8 @@ class HorseIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @WithMockUser(roles = "Basic")
@@ -74,5 +77,38 @@ class HorseIntegrationTest {
                 )
                 .andExpect(status().is(400))
                 .andExpect(content().string("Feld \"Name\" darf nicht leer sein"));
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
+    void deleteHorse_AndExpect_204() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "name": "Hansi",
+                              "owner": "Peter Pan",
+                              "consumption": []
+                            }
+                        """;
+        String postResponse = mockMvc.perform(post("/horses/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonString)
+        ).andReturn().getResponse().getContentAsString();
+
+
+        String idToDelete = objectMapper.readValue(postResponse, StockItem.class).id();
+
+        mockMvc.perform(delete
+                        ("/horses/" + idToDelete))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @WithMockUser(roles = "Basic")
+    void deleteHorse_AndExpect_404() throws Exception {
+        mockMvc.perform(delete
+                        ("/horses/1"))
+                .andExpect(status().isNotFound());
     }
 }
