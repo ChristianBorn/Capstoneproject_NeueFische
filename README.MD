@@ -5,4 +5,8 @@ MongoDB databasename: stableManagement
 
 Collection for Stockitems: stockItem
 
+Collection for Login:  appUser
+
+Collection for Horses: horse
+
 MongoDB Port: 37017
