@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/horses/overview")
+@RequestMapping("/horses/")
 @RequiredArgsConstructor
 public class HorseController {
 
     private final HorseService service;
 
-    @GetMapping("")
+    @GetMapping
     public List<Horse> getAllHorses() {
         return service.getAllHorses();
     }

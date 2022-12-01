@@ -9,11 +9,10 @@ function HorseOverview() {
 
 
     const getAllHorses = () => {
-        axios.get("/horses/overview")
+        axios.get("/horses/")
             .then((response) => response.data)
             .catch((error) => console.error("Error while getting Horses:" + error))
             .then(data => setHorses(data))
-            .then(data => console.log(data))
     }
 
 
@@ -51,10 +50,10 @@ function HorseOverview() {
                                 return <tr key={singleItem.id}>
                                     <td>{singleItem.name}</td>
                                     <td>{singleItem.owner}</td>
-                                    <td>{singleItem.dailyConsumption
+                                    <td>{singleItem.consumption
                                         .map(singleConsumptionObject => {
                                             return <div
-                                                key={singleConsumptionObject.id}>{singleConsumptionObject.name}: {singleConsumptionObject.amount}
+                                                key={singleConsumptionObject.id}>{singleConsumptionObject.name}: {singleConsumptionObject.dailyConsumption}
                                                 <abbr title={"Kilogramm"}>kg</abbr><br/></div>
                                         })}</td>
                                     <td>
