@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 class HorseServiceTest {
 
@@ -20,6 +20,19 @@ class HorseServiceTest {
 
         List<Horse> expected = List.of();
         List<Horse> actual = service.getAllHorses();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void addNewHorse_AndExpectHorse() {
+        Horse newHorse = new Horse(null, "name", "owner", null);
+
+        doReturn(newHorse.withId("1")).when(mockRepository).save(any());
+
+        Horse actual = service.addNewHorse(newHorse);
+
+        Horse expected = newHorse.withId("1");
 
         assertEquals(expected, actual);
     }
