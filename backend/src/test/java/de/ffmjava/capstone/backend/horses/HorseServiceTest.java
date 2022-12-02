@@ -2,7 +2,6 @@ package de.ffmjava.capstone.backend.horses;
 
 import de.ffmjava.capstone.backend.horses.model.Horse;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -30,7 +29,7 @@ class HorseServiceTest {
     void addNewHorse_AndExpectHorse() {
         Horse newHorse = new Horse(null, "name", "owner", null);
 
-        doReturn(newHorse.withId("1")).when(mockRepository).save(any());
+        when(mockRepository.save(any())).thenReturn(newHorse.withId("1"));
 
         Horse actual = service.addNewHorse(newHorse);
 
@@ -52,7 +51,6 @@ class HorseServiceTest {
     @Test
     void deleteHorse_AndExpectException_404() {
         String idToDelete = "1";
-        ResponseStatusException expectedException = new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
         when(mockRepository.existsById(idToDelete))
                 .thenReturn(false);
         doNothing().when(mockRepository).deleteById(idToDelete);
@@ -60,7 +58,7 @@ class HorseServiceTest {
             service.deleteHorse(idToDelete);
             fail();
         } catch (ResponseStatusException e) {
-            assertEquals(expectedException.getMessage(), e.getMessage());
+            assertEquals("404 NOT_FOUND \"Kein Eintrag für die gegebene ID gefunden\"", e.getMessage());
             verify(mockRepository).existsById(idToDelete);
         }
     }

@@ -1,7 +1,7 @@
 package de.ffmjava.capstone.backend.horses;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.ffmjava.capstone.backend.stock.model.StockItem;
+import de.ffmjava.capstone.backend.horses.model.Horse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -43,7 +43,7 @@ class HorseIntegrationTest {
                             {
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         mockMvc.perform(post("/horses/")
@@ -54,9 +54,7 @@ class HorseIntegrationTest {
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.name").value("Hansi"))
                 .andExpect(jsonPath("$.owner").value("Peter Pan"))
-                .andExpect(jsonPath("$.consumption").isEmpty());
-
-
+                .andExpect(jsonPath("$.consumptionList").isEmpty());
     }
 
     @Test
@@ -68,7 +66,7 @@ class HorseIntegrationTest {
                             {
                               "name": "",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         mockMvc.perform(post("/horses/")
@@ -88,7 +86,7 @@ class HorseIntegrationTest {
                             {
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         String postResponse = mockMvc.perform(post("/horses/")
@@ -97,7 +95,7 @@ class HorseIntegrationTest {
         ).andReturn().getResponse().getContentAsString();
 
 
-        String idToDelete = objectMapper.readValue(postResponse, StockItem.class).id();
+        String idToDelete = objectMapper.readValue(postResponse, Horse.class).id();
 
         mockMvc.perform(delete
                         ("/horses/" + idToDelete))
@@ -109,7 +107,8 @@ class HorseIntegrationTest {
     void deleteHorse_AndExpect_404() throws Exception {
         mockMvc.perform(delete
                         ("/horses/1"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(status().reason("Kein Eintrag für die gegebene ID gefunden"));
     }
 
     @Test
@@ -121,7 +120,7 @@ class HorseIntegrationTest {
                             {
                               "name": "",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         mockMvc.perform(put("/horses/")
@@ -142,7 +141,7 @@ class HorseIntegrationTest {
                               "id": "1",
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         mockMvc.perform(put("/horses/")
@@ -150,34 +149,48 @@ class HorseIntegrationTest {
                         .content(jsonString)
                 )
                 .andExpect(status().is(201))
-                .andExpect(jsonPath("$.name").isNotEmpty());
+                .andExpect(content().json("""
+                            {
+                              "id": "1",
+                              "name": "Hansi",
+                              "owner": "Peter Pan",
+                              "consumptionList": []
+                            }
+                        """));
     }
 
     @Test
     @DirtiesContext
     @WithMockUser(roles = "Basic")
-    void putStockItem_AndExpect_200() throws Exception {
+    void putHorse_AndExpect_200() throws Exception {
         String jsonString =
                 """
                             {
                               "id": "1",
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         String postResponse = mockMvc.perform(post("/horses/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonString)).andReturn().getResponse().getContentAsString();
 
-        StockItem createdStockItem = objectMapper.readValue(postResponse, StockItem.class);
+        Horse createdHorse = objectMapper.readValue(postResponse, Horse.class);
 
         mockMvc.perform(put("/horses/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(postResponse.replace("Hansi", "Lord Voldemort"))
                 )
                 .andExpect(status().is(200))
-                .andExpect(content().string("{\"id\":\"<ID>\",\"name\":\"Lord Voldemort\",\"owner\":\"Peter Pan\",\"consumption\":[]}"
-                        .replace("<ID>", createdStockItem.id())));
+                .andExpect(content().json("""
+                            {
+                              "id": "<ID>",
+                              "name": "Lord Voldemort",
+                              "owner": "Peter Pan",
+                              "consumptionList": []
+                            }
+                        """
+                        .replace("<ID>", createdHorse.id())));
     }
 }

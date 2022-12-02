@@ -3,7 +3,6 @@ package de.ffmjava.capstone.backend.horses;
 import de.ffmjava.capstone.backend.horses.model.Horse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -31,16 +30,11 @@ public class HorseService {
         }
         repository.deleteById(id);
         return true;
-
     }
 
-    public ResponseEntity<Object> updateHorse(Horse updatedHorse) {
+    public boolean updateHorse(Horse updatedHorse) {
         boolean horseExists = repository.existsById(updatedHorse.id());
         repository.save(updatedHorse);
-        if (horseExists) {
-            return new ResponseEntity<>(updatedHorse, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(updatedHorse, HttpStatus.CREATED);
-        }
+        return horseExists;
     }
 }
