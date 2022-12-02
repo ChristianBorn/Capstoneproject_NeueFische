@@ -40,7 +40,7 @@ class HorseIntegrationTest {
                             {
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         mockMvc.perform(post("/horses/")
