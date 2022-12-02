@@ -40,7 +40,7 @@ class HorseIntegrationTest {
                             {
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumptionList": []
+                              "consumption": []
                             }
                         """;
         mockMvc.perform(post("/horses/")
@@ -51,7 +51,7 @@ class HorseIntegrationTest {
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.name").value("Hansi"))
                 .andExpect(jsonPath("$.owner").value("Peter Pan"))
-                .andExpect(jsonPath("$.consumptionList").isEmpty());
+                .andExpect(jsonPath("$.consumption").isEmpty());
 
 
     }
