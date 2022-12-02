@@ -10,8 +10,8 @@ function RegisterPage() {
     const [rawPassword, setRawPassword] = useState<string>("")
     const [registrationErrorMessage, setRegistrationErrorMessage] = useState({
         rawPassword: [],
-        username: undefined,
-        userAlreadyExists: undefined
+        username: "",
+        userAlreadyExists: ""
     })
     const [successMessage, setSuccessMessage] = useState<string>("")
 
@@ -21,8 +21,8 @@ function RegisterPage() {
             .then(setSuccessMessage)
             .then(() => setRegistrationErrorMessage({
                 rawPassword: [],
-                username: undefined,
-                userAlreadyExists: undefined,
+                username: "",
+                userAlreadyExists: "",
             }))
             .catch(response => {
                 setRegistrationErrorMessage(response.response.data)
