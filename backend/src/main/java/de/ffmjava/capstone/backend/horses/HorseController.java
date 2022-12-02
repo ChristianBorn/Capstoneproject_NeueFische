@@ -24,7 +24,6 @@ public class HorseController {
     }
 
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<Object> addNewHorse(@Valid @RequestBody Horse newHorse, Errors errors) {
         ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
         if (errorMessage != null) return errorMessage;
