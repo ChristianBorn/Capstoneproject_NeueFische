@@ -49,9 +49,9 @@ class HorseIntegrationTest {
                 )
                 .andExpect(status().is(201))
                 .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.name").isNotEmpty())
-                .andExpect(jsonPath("$.owner").isNotEmpty())
-                .andExpect(jsonPath("$.consumption").isEmpty());
+                .andExpect(jsonPath("$.name").value("Hansi"))
+                .andExpect(jsonPath("$.owner").value("Peter Pan"))
+                .andExpect(jsonPath("$.consumptionList").isEmpty());
 
 
     }
