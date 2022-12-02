@@ -56,7 +56,4 @@ tbody td:hover:before {
     font-size: 1.2em;
 }
 
-.button-group {
-    display: flex;
-    justify-content: space-evenly;
-}
+
