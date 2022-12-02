@@ -36,7 +36,6 @@ class StockController {
     }
 
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<Object> addNewStockItem(@Valid @RequestBody StockItem newStockItem, Errors errors) {
         ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
         if (errorMessage != null) return errorMessage;
