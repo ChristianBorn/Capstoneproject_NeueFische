@@ -98,7 +98,7 @@ function HorseOverview() {
                             <tbody>
                             {horses.map(horse => {
                                 return <tr key={horse.id}>
-                                    <td>{horse.name}</td>
+                                    <td><strong>{horse.name}</strong></td>
                                     <td>{horse.owner}</td>
                                     <td>{horse.consumptionList ? horse.consumptionList
                                             .map(consumptionObject => {
