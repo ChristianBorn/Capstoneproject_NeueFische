@@ -39,9 +39,9 @@ public class UserController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<String> registration(@Valid @RequestBody AppUser newAppUser, Errors errors) {
+    public ResponseEntity<Object> registration(@Valid @RequestBody AppUser newAppUser, Errors errors) {
         if (errors.hasErrors()) {
-            return new ResponseEntity<>(new CustomApiErrorHandler(errors).getJsonString(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new CustomApiErrorHandler(errors).getFieldMessageMappings(), HttpStatus.BAD_REQUEST);
         }
         try {
             service.save(newAppUser, SecurityConfig.passwordEncoder);
