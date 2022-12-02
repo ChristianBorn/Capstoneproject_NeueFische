@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {StockItemModel} from "./StockItemModel";
 import AddIcon from "../icons/AddIcon";
-import ClipLoader from "react-spinners/ClipLoader";
+import {BounceLoader} from "react-spinners";
 import DeleteIcon from "../icons/DeleteIcon";
 import AddItemModal from "./AddStockItemModal";
 import DeleteItemModal from "./DeleteItemModal";
@@ -56,10 +56,14 @@ function StockOverview() {
 
 
     if (stockItems === undefined) {
-        return <ClipLoader
-            size={150}
+        return <BounceLoader
+            size={100}
             aria-label="Loading Spinner"
             data-testid="loader"
+            color="#36d7b7"
+            cssOverride={{
+                margin: "0 auto"
+            }}
         />
     }
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {HorseModel} from "./HorseModel";
-import ClipLoader from "react-spinners/ClipLoader";
+import {BounceLoader} from "react-spinners";
 import AddIcon from "../icons/AddIcon";
 import AddHorseModal from "./AddHorseModal";
 import DeleteIcon from "../icons/DeleteIcon";
@@ -54,10 +54,14 @@ function HorseOverview() {
 
 
     if (horses === undefined) {
-        return <ClipLoader
-            size={150}
+        return <BounceLoader
+            size={100}
             aria-label="Loading Spinner"
             data-testid="loader"
+            color="#36d7b7"
+            cssOverride={{
+                margin: "0 auto"
+            }}
         />
     }
 

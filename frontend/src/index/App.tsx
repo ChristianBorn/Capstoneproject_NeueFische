@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom";
 import axios from "axios";
+import {BounceLoader} from "react-spinners";
 import StockOverview from "../stock/StockOverview";
 import HorseOverview from "../horses/HorseOverview";
-import ClipLoader from "react-spinners/ClipLoader";
 import LoginPage from '../security/LoginPage';
 import RegisterPage from "../security/RegisterPage";
 import "../buttons/css/LogoutButton.css";
 import "../buttons/css/GeneralButtonStyles.css";
 import "../index/css/GeneralOverviewPage.css";
 import './css/App.css';
+
 
 function App() {
     const [userName, setUserDetails] = useState<string>();
@@ -29,10 +30,14 @@ function App() {
 
 
     if (userName === undefined) {
-        return <ClipLoader
+        return <BounceLoader
             size={150}
             aria-label="Loading Spinner"
             data-testid="loader"
+            color="#36d7b7"
+            cssOverride={{
+                margin: "0 auto"
+            }}
         />
     }
     if (userName === "anonymousUser") {
