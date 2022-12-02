@@ -30,7 +30,7 @@ public class CustomApiErrorHandler {
         this.errors = errors;
     }
 
-    @Nullable
+
     public static ResponseEntity<Object> handlePossibleErrors(Errors errors) {
         if (errors.hasErrors()) {
             FieldError fieldError;
