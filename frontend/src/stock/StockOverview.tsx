@@ -103,7 +103,7 @@ function StockOverview() {
                             <tbody>
                             {stockItems.map(item => {
                                 return <tr key={item.id}>
-                                    <td>{item.name}</td>
+                                    <td><strong>{item.name}</strong></td>
                                     <td>{item.type}</td>
                                     <td>{item.amountInStock}</td>
                                     <td>{item.pricePerKilo}</td>
