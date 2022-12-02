@@ -35,8 +35,7 @@ function AddItemModal(props: ModalProps) {
         saveNewHorse()
     }
     const handleChange = (event: any) => {
-        const name = event.target.name;
-        const value = event.target.value;
+        const {name, value} = event.target
         setNewHorse({
             ...newHorse,
             [name]: value
