@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import Modal from 'react-modal';
 import {HorseModel} from "./HorseModel";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
@@ -16,25 +16,19 @@ type ModalProps = {
 
 function AddItemModal(props: ModalProps) {
     const [newHorse, setNewHorse] = useState<HorseModel>({
-        id: "", name: "", owner: "", consumption: []
+        id: "", name: "", owner: "", consumptionList: []
     })
 
-
-    const saveNewHorse = () => {
+    const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+        event.preventDefault()
         axios.post("/horses/", newHorse)
             .catch((e) => console.error("POST Error: " + e))
             .then(props.reloadHorses)
             .then(props.closeModal)
-            .then(() => setNewHorse({id: "", name: "", owner: "", consumption: []}))
+            .then(() => setNewHorse({id: "", name: "", owner: "", consumptionList: []}))
             .then(() => props.setSuccessMessage("Eintrag erfolgreich hinzugefügt"))
-
     }
-
-    const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        saveNewHorse()
-    }
-    const handleChange = (event: any) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target
         setNewHorse({
             ...newHorse,
@@ -69,6 +63,7 @@ function AddItemModal(props: ModalProps) {
 
                     <div className={"button-group"}>
                         <button className={"submit-button"} type={"submit"}>Speichern</button>
+                        <button className={"abort-button"} onClick={props.closeModal}>Abbrechen</button>
                     </div>
                 </form>
             </section>

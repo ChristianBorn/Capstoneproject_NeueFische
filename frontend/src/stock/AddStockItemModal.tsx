@@ -20,21 +20,16 @@ function AddItemModal(props: ModalProps) {
         id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""
     })
 
-
-    const saveNewStockitem = () => {
+    const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+        event.preventDefault()
         axios.post("/stock/", newStockItem)
             .catch((e) => console.error("POST Error: " + e))
             .then(props.reloadStockItems)
             .then(props.closeModal)
             .then(() => setNewStockItem({id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""}))
             .then(() => props.setSuccessMessage("Eintrag erfolgreich hinzugefügt"))
-
     }
 
-    const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        saveNewStockitem()
-    }
     const handleChange = (event: any) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -43,7 +38,6 @@ function AddItemModal(props: ModalProps) {
             [name]: value
         })
     }
-
 
     return (
         <Modal
@@ -86,6 +80,7 @@ function AddItemModal(props: ModalProps) {
                     </Form3Rows>
                     <div className={"button-group"}>
                         <button className={"submit-button"} type={"submit"}>Einlagern</button>
+                        <button className={"abort-button"} onClick={props.closeModal}>Abbrechen</button>
                     </div>
                 </form>
             </section>

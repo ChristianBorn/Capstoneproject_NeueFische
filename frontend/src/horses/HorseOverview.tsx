@@ -18,7 +18,7 @@ function HorseOverview() {
     const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false)
     const [idToDelete, setIdToDelete] = useState<string>("")
     const [horseToEdit, setHorseToEdit] = useState<HorseModel>({
-        id: "", name: "", owner: "", consumption: []
+        id: "", name: "", owner: "", consumptionList: []
     })
 
     const openAddModal = () => {
@@ -96,12 +96,13 @@ function HorseOverview() {
                                 return <tr key={horse.id}>
                                     <td>{horse.name}</td>
                                     <td>{horse.owner}</td>
-                                    <td>{horse.consumption
-                                        .map(consumptionObject => {
-                                            return <div
-                                                key={consumptionObject.id}>{consumptionObject.name}: {consumptionObject.dailyConsumption}
-                                                <abbr title={"Kilogramm"}>kg</abbr><br/></div>
-                                        })}</td>
+                                    <td>{horse.consumptionList ? horse.consumptionList
+                                            .map(consumptionObject => {
+                                                return <div
+                                                    key={consumptionObject.id}>{consumptionObject.name}: {consumptionObject.dailyConsumption}
+                                                    <abbr title={"Kilogramm"}>kg</abbr><br/></div>
+                                            })
+                                        : <p>Keine Verbräuche angelegt</p>}</td>
                                     <td>
                                         <div className={"action-cell"}>
                                             <EditIcon onClickAction={openEditModal}
