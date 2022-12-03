@@ -14,7 +14,7 @@ type ModalProps = {
     setSuccessMessage: (input: string) => void,
 }
 
-function AddItemModal(props: ModalProps) {
+function AddHorseModal(props: ModalProps) {
     const [newHorse, setNewHorse] = useState<HorseModel>({
         id: "", name: "", owner: "", consumptionList: []
     })
@@ -71,4 +71,4 @@ function AddItemModal(props: ModalProps) {
     );
 }
 
-export default AddItemModal;
+export default AddHorseModal;
