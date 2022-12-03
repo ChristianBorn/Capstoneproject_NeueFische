@@ -16,6 +16,9 @@ type ModalProps = {
 }
 
 function AddItemModal(props: ModalProps) {
+    const [errorMessages, setErrorMessages] = useState({
+        name: "",
+    })
     const [newStockItem, setNewStockItem] = useState<StockItemModel>({
         id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""
     })
@@ -23,7 +26,14 @@ function AddItemModal(props: ModalProps) {
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
         axios.post("/stock/", newStockItem)
-            .catch((e) => console.error("POST Error: " + e))
+            .then(response => response.data)
+            .catch((e) => {
+                if (e.response.status === 409) {
+                    setErrorMessages({name: "Name bereits vergeben"})
+                }
+                console.error("POST Error: " + e)
+                throw e
+            })
             .then(props.reloadStockItems)
             .then(props.closeModal)
             .then(() => setNewStockItem({id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""}))
@@ -54,6 +64,9 @@ function AddItemModal(props: ModalProps) {
                     <FieldLabelGroup>
                         <label htmlFor={"name"}>Name/Bezeichnung</label>
                         <input onChange={handleChange} required type={"text"} id={"name"} name={"name"}/>
+                        {errorMessages.name &&
+                            <div className={"message-container"}><p
+                                className={"error-message"}>{errorMessages.name}</p></div>}
                     </FieldLabelGroup>
 
                     <Form3Rows>
