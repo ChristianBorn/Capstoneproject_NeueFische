@@ -3,6 +3,7 @@ package de.ffmjava.capstone.backend.stock;
 import de.ffmjava.capstone.backend.stock.model.StockItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -62,9 +63,9 @@ class StockServiceTest {
 
         doReturn(newStockItem.withId("1")).when(mockRepository).save(any());
 
-        StockItem actual = service.addNewStockItem(newStockItem);
+        ResponseEntity<Object> actual = service.addNewStockItem(newStockItem);
 
-        StockItem expected = newStockItem.withId("1");
+        ResponseEntity<Object> expected = new ResponseEntity<>(newStockItem.withId("1"), HttpStatus.CREATED);
 
         assertEquals(expected, actual);
     }

@@ -29,9 +29,12 @@ public class StockService {
 
     }
 
-    public StockItem addNewStockItem(StockItem newStockItem) {
+    public ResponseEntity<Object> addNewStockItem(StockItem newStockItem) {
+        if (repository.existsByName(newStockItem.name())) {
+            return new ResponseEntity<>("Der angegebene Name ist bereits vergeben", HttpStatus.CONFLICT);
+        }
         StockItem newStockItemWithId = newStockItem.withId(UUID.randomUUID().toString());
-        return repository.save(newStockItemWithId);
+        return new ResponseEntity<>(repository.save(newStockItemWithId), HttpStatus.CREATED);
     }
 
     public ResponseEntity<Object> updateStockItem(StockItem updatedStockItem) {
