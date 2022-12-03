@@ -38,8 +38,7 @@ class StockController {
     public ResponseEntity<Object> addNewStockItem(@Valid @RequestBody StockItem newStockItem, Errors errors) {
         ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
         if (errorMessage != null) return errorMessage;
-        StockItem createdItem = service.addNewStockItem(newStockItem);
-        return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
+        return service.addNewStockItem(newStockItem);
     }
 
     @PutMapping
