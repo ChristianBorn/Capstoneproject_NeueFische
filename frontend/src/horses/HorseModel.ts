@@ -4,5 +4,5 @@ export type HorseModel = {
     id: string,
     name: string,
     owner: string,
-    consumptionList: ConsumptionModel[],
+    consumption: ConsumptionModel[]
 }

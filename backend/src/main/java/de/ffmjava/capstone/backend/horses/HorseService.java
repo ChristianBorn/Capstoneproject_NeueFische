@@ -19,6 +19,12 @@ public class HorseService {
         return repository.findAll();
     }
 
+    public boolean updateHorse(Horse updatedHorse) {
+        boolean horseExists = repository.existsById(updatedHorse.id());
+        repository.save(updatedHorse);
+        return horseExists;
+    }
+
     public Horse addNewHorse(Horse newHorse) {
         newHorse = newHorse.withId(UUID.randomUUID().toString());
         return repository.save(newHorse);
