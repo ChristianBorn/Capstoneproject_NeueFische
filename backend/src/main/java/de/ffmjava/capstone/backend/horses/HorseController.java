@@ -48,14 +48,4 @@ public class HorseController {
         service.deleteHorse(id);
     }
 
-    @PutMapping
-    public ResponseEntity<Object> updateHorse(@Valid @RequestBody Horse updatedHorse, Errors errors) {
-        ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
-        if (errorMessage != null) return errorMessage;
-        if (service.updateHorse(updatedHorse)) {
-            return new ResponseEntity<>(updatedHorse, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(updatedHorse, HttpStatus.CREATED);
-        }
-    }
 }

@@ -37,10 +37,4 @@ public class HorseService {
         repository.deleteById(id);
         return true;
     }
-
-    public boolean updateHorse(Horse updatedHorse) {
-        boolean horseExists = repository.existsById(updatedHorse.id());
-        repository.save(updatedHorse);
-        return horseExists;
-    }
 }
