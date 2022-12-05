@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import Modal from 'react-modal';
 import Select from 'react-select';
 import {HorseModel} from "./HorseModel";
@@ -35,7 +35,8 @@ function AddConsumptionModal(props: ModalProps) {
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
-        axios.put("/horses/", selectedHorse.consumption.push(consumptionToAdd))
+        selectedHorse.consumption.push(consumptionToAdd)
+        axios.put("/horses/", selectedHorse)
             .catch((e) => console.error("PUT Error: " + e))
             .then(props.reloadHorses)
             .then(props.closeModal)
@@ -43,16 +44,19 @@ function AddConsumptionModal(props: ModalProps) {
             .then(() => props.setSuccessMessage("Eintrag erfolgreich geändert"))
     }
 
-    const handleChange = (event: any) => {
-        console.log(event.id)
-        setConsumptionToAdd({id: event.id, name: event.name, dailyConsumption: 0})
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setConsumptionToAdd({
+            ...consumptionToAdd,
+            dailyConsumption: parseFloat(event.target.value)
+        })
         console.log(consumptionToAdd)
-        // const name = event.name
-        // const value = event.value
-        // setConsumptionToAdd({
-        //     ...consumptionToAdd,
-        //     [name]: value
-        // })
+    }
+    const handleSelectChange = (event: any) => {
+        setConsumptionToAdd({
+            ...consumptionToAdd,
+            id: event.value,
+            name: event.label
+        })
     }
 
     return (
@@ -68,16 +72,8 @@ function AddConsumptionModal(props: ModalProps) {
 
                     <FieldLabelGroup>
                         <label htmlFor={"stockitems"}>Typ</label>
-                        <Select options={consumptionSelectList} onChange={handleChange} required id={"stockitems"}
+                        <Select options={consumptionSelectList} onChange={handleSelectChange} required id={"stockitems"}
                                 name={"stockitems"}/>
-                        <option/>
-                        {/*<option value="" selected disabled hidden>Bitte auswählen</option>*/}
-                        {/*{props.stockItemList.map(stockItem => {*/}
-                        {/*    return <option value={stockItem}>{stockItem.name}</option>*/}
-                        {/*})}*/}
-                        {/*<option value={"Futter"}>Futter</option>*/}
-                        {/*<option value={"Einstreu"}>Einstreu</option>*/}
-
                     </FieldLabelGroup>
 
                     <FieldLabelGroup>
