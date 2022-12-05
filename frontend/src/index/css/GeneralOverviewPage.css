@@ -56,4 +56,8 @@ tbody td:hover:before {
     font-size: 1.2em;
 }
 
+td .add-record-icon {
+    font-size: 2em;
+}
+
 

@@ -125,15 +125,14 @@ function StockOverview() {
 
                     </div>
                     {successMessage && <div className={"success-message"}>{successMessage}</div>}
-                    <AddIcon openModal={openAddModal}/></>
+                </>
                 :
                 <div>
                     {successMessage && <div className={"success-message"}>{successMessage}</div>}
                     <p>Keine Items im Lager</p>
-                    <AddIcon openModal={openAddModal}/>
                 </div>
-
             }
+            <AddIcon openModal={openAddModal} title={"Neuen Eintrag hinzufügen"}/>
         </>
     );
 }

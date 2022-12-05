@@ -23,19 +23,21 @@ function AddConsumptionModal(props: ModalProps) {
     const [consumptionToAdd, setConsumptionToAdd] = useState<ConsumptionModel>(
         {id: "", name: "", dailyConsumption: 0.0}
     )
-
     useEffect(() => {
-            const newConsumptionSelectList: {}[] = []
-            props.stockItemList.map(stockItem => newConsumptionSelectList.push(
-                {"label": stockItem.name, "value": stockItem.id}
-            ))
-            setConsumptionSelectList(newConsumptionSelectList)
-        }
-        , [props.stockItemList])
+        const newConsumptionSelectList: {}[] = []
+        setSelectedHorse(props.selectedHorse)
+
+        props.stockItemList.map(stockItem => newConsumptionSelectList.push(
+            {"label": stockItem.name, "value": stockItem.id}
+        ))
+        setConsumptionSelectList(newConsumptionSelectList)
+
+    }, [props.selectedHorse, props.stockItemList])
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
         selectedHorse.consumption.push(consumptionToAdd)
+        console.log(selectedHorse)
         axios.put("/horses/", selectedHorse)
             .catch((e) => console.error("PUT Error: " + e))
             .then(props.reloadHorses)
@@ -49,7 +51,6 @@ function AddConsumptionModal(props: ModalProps) {
             ...consumptionToAdd,
             dailyConsumption: parseFloat(event.target.value)
         })
-        console.log(consumptionToAdd)
     }
     const handleSelectChange = (event: any) => {
         setConsumptionToAdd({

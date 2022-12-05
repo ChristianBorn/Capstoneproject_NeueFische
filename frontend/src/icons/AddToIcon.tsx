@@ -3,19 +3,22 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";
 import "./css/IconClickable.css"
 import "./css/AddIcon.css"
+import {HorseModel} from "../horses/HorseModel";
 
 type iconProps = {
-    openModal: () => void
+    onClickAction: (addTo: HorseModel) => any
     title: string
+    addTo: any
 }
 
-function AddIcon(props: iconProps) {
+function AddToIcon(props: iconProps) {
     return (
-        <span title={props.title} onClick={() => props.openModal()} className={"add-record-icon"}>
+        <span title={props.title} onClick={() => props.onClickAction(props.addTo)}
+              className={"clickable-icon add-record-icon"}>
                     <FontAwesomeIcon icon={faCirclePlus}/>
                             </span>
 
     );
 }
 
-export default AddIcon;
+export default AddToIcon;

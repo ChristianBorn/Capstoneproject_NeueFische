@@ -10,6 +10,7 @@ import EditHorseModal from "./EditItemModal";
 import EditIcon from "../icons/EditIcon";
 import {StockItemModel} from "../stock/StockItemModel";
 import AddConsumptionModal from "./AddConsumptionModal";
+import AddToIcon from "../icons/AddToIcon";
 
 function HorseOverview() {
 
@@ -21,9 +22,9 @@ function HorseOverview() {
     const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false)
     const [addConsumptionModalIsOpen, setAddConsumptionModalIsOpen] = useState<boolean>(false)
     const [idToDelete, setIdToDelete] = useState<string>("")
-    const [horseToEdit, setHorseToEdit] = useState<HorseModel>({
-        id: "", name: "", owner: "", consumption: []
-    })
+    const [horseToEdit, setHorseToEdit] = useState<HorseModel>(
+        {id: "", name: "", owner: "", consumption: []})
+
 
     const openAddModal = () => {
         setAddModalIsOpen(true)
@@ -39,7 +40,7 @@ function HorseOverview() {
         setHorseToEdit(horseToEdit)
         setSuccessMessage("")
     }
-    const openAddConsumptionModal = (horseToEdit: any) => {
+    const openAddConsumptionModal = (horseToEdit: HorseModel) => {
         setAddConsumptionModalIsOpen(true)
         setHorseToEdit(horseToEdit)
         setSuccessMessage("")
@@ -72,6 +73,7 @@ function HorseOverview() {
     }, [])
 
 
+
     if (horses === undefined) {
         return <BounceLoader
             size={100}
@@ -101,13 +103,12 @@ function HorseOverview() {
                             reloadHorses={getAllHorses}
                             setSuccessMessage={setSuccessMessage}
                             horseToEdit={horseToEdit}/>
-            <AddConsumptionModal
-                stockItemList={stockItems}
-                selectedHorse={horseToEdit}
-                modalIsOpen={addConsumptionModalIsOpen}
-                closeModal={closeModal}
-                reloadHorses={getAllHorses}
-                setSuccessMessage={setSuccessMessage}/>
+            <AddConsumptionModal modalIsOpen={addConsumptionModalIsOpen}
+                                 closeModal={closeModal}
+                                 reloadHorses={getAllHorses}
+                                 stockItemList={stockItems}
+                                 setSuccessMessage={setSuccessMessage}
+                                 selectedHorse={horseToEdit}/>
             {horses.length > 0 ?
                 <>
                     <div className={"overview-table-wrapper"}>
@@ -127,7 +128,6 @@ function HorseOverview() {
                                     <td><strong>{horse.name}</strong></td>
                                     <td>{horse.owner}</td>
                                     <td>
-                                        <button onClick={() => openAddConsumptionModal(horse)}></button>
                                         {horse.consumption.length > 0 ? horse.consumption
                                                 .map(consumptionObject => {
                                                     return <div
@@ -135,13 +135,10 @@ function HorseOverview() {
                                                         <abbr title={"Kilogramm"}>kg</abbr><br/></div>
                                                 })
                                             : <p>Keine Verbräuche angelegt</p>}
+                                        <AddToIcon onClickAction={openAddConsumptionModal}
+                                                   title={"Neuen Eintrag hinzufügen"}
+                                                   addTo={horse}/>
                                     </td>
-                                    {/*<td>{Array.from(horse.consumption.values())
-                                        .map(consumptionObject => {
-                                            return <div
-                                                key={consumptionObject.id}>{consumptionObject.name}: {consumptionObject.dailyConsumption}
-                                                <abbr title={"Kilogramm"}>kg</abbr><br/></div>
-                                        })}</td>*/}
                                     <td>
                                         <div className={"action-cell"}>
                                             <EditIcon onClickAction={openEditModal}
@@ -158,16 +155,15 @@ function HorseOverview() {
 
                     </div>
                     {successMessage && <div className={"success-message"}>{successMessage}</div>}
-                    <AddIcon openModal={openAddModal}/></>
-
+                </>
                 :
                 <div>
                     {successMessage && <div className={"success-message"}>{successMessage}</div>}
                     <p>Keine Pferde im Stall</p>
-                    <AddIcon openModal={openAddModal}/>
                 </div>
 
             }
+            <AddIcon openModal={openAddModal} title={"Neuen Verbrauch hinzufügen"}/>
         </>
     );
 }
