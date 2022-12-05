@@ -19,7 +19,7 @@ function HorseOverview() {
     const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false)
     const [idToDelete, setIdToDelete] = useState<string>("")
     const [horseToEdit, setHorseToEdit] = useState<HorseModel>({
-        id: "", name: "", owner: "", consumptionList: []
+        id: "", name: "", owner: "", consumption: []
     })
 
     const openAddModal = () => {
@@ -111,7 +111,7 @@ function HorseOverview() {
                                 return <tr key={horse.id}>
                                     <td><strong>{horse.name}</strong></td>
                                     <td>{horse.owner}</td>
-                                    <td>{horse.consumptionList ? horse.consumptionList
+                                    <td>{horse.consumption ? horse.consumption
                                             .map(consumptionObject => {
                                                 return <div
                                                     key={consumptionObject.id}>{consumptionObject.name}: {consumptionObject.dailyConsumption}
@@ -120,7 +120,7 @@ function HorseOverview() {
                                         : <p>Keine Verbräuche angelegt</p>}</td>
                                     <td>
                                         <button onClick={() => addConsumption(horse)}></button>
-                                        {horse.consumptionList.length > 0 ? horse.consumptionList
+                                        {horse.consumption.length > 0 ? horse.consumption
                                                 .map(consumptionObject => {
                                                     return <div
                                                         key={consumptionObject.id}>{consumptionObject.name}: {consumptionObject.dailyConsumption}
