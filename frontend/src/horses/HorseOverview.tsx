@@ -8,15 +8,18 @@ import DeleteIcon from "../icons/DeleteIcon";
 import DeleteHorseModal from "./DeleteItemModal";
 import EditHorseModal from "./EditItemModal";
 import EditIcon from "../icons/EditIcon";
-import {ConsumptionModel} from "./ConsumptionModel";
+import {StockItemModel} from "../stock/StockItemModel";
+import AddConsumptionModal from "./AddConsumptionModal";
 
 function HorseOverview() {
 
     const [horses, setHorses] = useState<HorseModel[]>([])
+    const [stockItems, setStockItems] = useState<StockItemModel[]>([])
     const [addModalIsOpen, setAddModalIsOpen] = useState<boolean>(false)
     const [successMessage, setSuccessMessage] = useState<string>()
     const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false)
     const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false)
+    const [addConsumptionModalIsOpen, setAddConsumptionModalIsOpen] = useState<boolean>(false)
     const [idToDelete, setIdToDelete] = useState<string>("")
     const [horseToEdit, setHorseToEdit] = useState<HorseModel>({
         id: "", name: "", owner: "", consumption: []
@@ -36,31 +39,35 @@ function HorseOverview() {
         setHorseToEdit(horseToEdit)
         setSuccessMessage("")
     }
+    const openAddConsumptionModal = (horseToEdit: any) => {
+        setAddConsumptionModalIsOpen(true)
+        setHorseToEdit(horseToEdit)
+        setSuccessMessage("")
+    }
     const closeModal = () => {
         setAddModalIsOpen(false)
         setDeleteModalIsOpen(false)
         setEditModalIsOpen(false)
+        setAddConsumptionModalIsOpen(false)
     }
+    const getAllStockItems = () => {
+        axios.get("/stock/")
+            .then((response) => response.data)
+            .catch((error) => console.error("Error while getting Stockitems:" + error))
+            .then(setStockItems)
+    }
+
     const getAllHorses = () => {
         axios.get("/horses/")
             .then((response) => response.data)
             .catch((error) => console.error("Error while getting Horses:" + error))
             .then(setHorses)
-            .then(() => console.log(typeof (horses[0]).consumption))
 
     }
-    const addConsumption = (editedHorse: HorseModel) => {
-        const consumptionToAdd: ConsumptionModel = {id: "123", name: "Hafer", dailyConsumption: 4.5}
-        editedHorse.consumption.push(consumptionToAdd)
-        axios.put("/horses/", editedHorse)
-            .catch((e) => console.error("PUT Error: " + e))
-            .then(getAllHorses)
-            .then(closeModal)
-    }
-
 
     useEffect(() => {
         getAllHorses()
+        getAllStockItems()
     }, [])
 
 
@@ -93,6 +100,13 @@ function HorseOverview() {
                             reloadHorses={getAllHorses}
                             setSuccessMessage={setSuccessMessage}
                             horseToEdit={horseToEdit}/>
+            <AddConsumptionModal
+                stockItemList={stockItems}
+                selectedHorse={horseToEdit}
+                modalIsOpen={addConsumptionModalIsOpen}
+                closeModal={closeModal}
+                reloadHorses={getAllHorses}
+                setSuccessMessage={setSuccessMessage}/>
             {horses.length > 0 ?
                 <>
                     <div className={"overview-table-wrapper"}>
@@ -112,7 +126,7 @@ function HorseOverview() {
                                     <td><strong>{horse.name}</strong></td>
                                     <td>{horse.owner}</td>
                                     <td>
-                                        <button onClick={() => addConsumption(horse)}></button>
+                                        <button onClick={() => openAddConsumptionModal(horse)}></button>
                                         {horse.consumption.length > 0 ? horse.consumption
                                                 .map(consumptionObject => {
                                                     return <div
