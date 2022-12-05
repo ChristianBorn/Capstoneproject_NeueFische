@@ -120,6 +120,13 @@ function HorseOverview() {
                                         : <p>Keine Verbräuche angelegt</p>}</td>
                                     <td>
                                         <button onClick={() => addConsumption(horse)}></button>
+                                        {horse.consumptionList.length > 0 ? horse.consumptionList
+                                                .map(consumptionObject => {
+                                                    return <div
+                                                        key={consumptionObject.id}>{consumptionObject.name}: {consumptionObject.dailyConsumption}
+                                                        <abbr title={"Kilogramm"}>kg</abbr><br/></div>
+                                                })
+                                            : <p>Keine Verbräuche angelegt</p>}
                                     </td>
                                     {/*<td>{Array.from(horse.consumption.values())
                                         .map(consumptionObject => {
