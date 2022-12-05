@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal';
+import Select from 'react-select';
 import {HorseModel} from "./HorseModel";
 import {StockItemModel} from "../stock/StockItemModel";
 import CloseIcon from "../icons/CloseIcon";
@@ -18,9 +19,19 @@ type ModalProps = {
 
 function AddConsumptionModal(props: ModalProps) {
     const [selectedHorse, setSelectedHorse] = useState<HorseModel>(props.selectedHorse)
+    const [consumptionSelectList, setConsumptionSelectList] = useState<{}[]>([])
     const [consumptionToAdd, setConsumptionToAdd] = useState<ConsumptionModel>(
-        {id: "", name: "", dailyConsumption: 0}
+        {id: "", name: "", dailyConsumption: 0.0}
     )
+
+    useEffect(() => {
+            const newConsumptionSelectList: {}[] = []
+            props.stockItemList.map(stockItem => newConsumptionSelectList.push(
+                {"label": stockItem.name, "value": stockItem.id}
+            ))
+            setConsumptionSelectList(newConsumptionSelectList)
+        }
+        , [props.stockItemList])
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -33,13 +44,15 @@ function AddConsumptionModal(props: ModalProps) {
     }
 
     const handleChange = (event: any) => {
-        setConsumptionToAdd(event.target)
-        const name = event.target.name;
-        const value = event.target.value;
-        setConsumptionToAdd({
-            ...consumptionToAdd,
-            [name]: value
-        })
+        console.log(event.id)
+        setConsumptionToAdd({id: event.id, name: event.name, dailyConsumption: 0})
+        console.log(consumptionToAdd)
+        // const name = event.name
+        // const value = event.value
+        // setConsumptionToAdd({
+        //     ...consumptionToAdd,
+        //     [name]: value
+        // })
     }
 
     return (
@@ -54,11 +67,25 @@ function AddConsumptionModal(props: ModalProps) {
                 <form onSubmit={handleSubmit}>
 
                     <FieldLabelGroup>
-                        <label htmlFor={"dailyConsumptipn"}>Täglicher Verbrauch in <abbr
+                        <label htmlFor={"stockitems"}>Typ</label>
+                        <Select options={consumptionSelectList} onChange={handleChange} required id={"stockitems"}
+                                name={"stockitems"}/>
+                        <option/>
+                        {/*<option value="" selected disabled hidden>Bitte auswählen</option>*/}
+                        {/*{props.stockItemList.map(stockItem => {*/}
+                        {/*    return <option value={stockItem}>{stockItem.name}</option>*/}
+                        {/*})}*/}
+                        {/*<option value={"Futter"}>Futter</option>*/}
+                        {/*<option value={"Einstreu"}>Einstreu</option>*/}
+
+                    </FieldLabelGroup>
+
+                    <FieldLabelGroup>
+                        <label htmlFor={"dailyConsumption"}>Täglicher Verbrauch in <abbr
                             title={"Kilogramm"}>kg</abbr></label>
                         <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required
                                type={"number"}
-                               id={"dailyConsumptipn"} name={"dailyConsumptipn"}/>
+                               id={"dailyConsumption"} name={"dailyConsumption"}/>
                     </FieldLabelGroup>
 
                     <div className={"button-group"}>
