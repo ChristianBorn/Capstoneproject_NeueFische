@@ -16,7 +16,7 @@ type ModalProps = {
 
 function AddHorseModal(props: ModalProps) {
     const [newHorse, setNewHorse] = useState<HorseModel>({
-        id: "", name: "", owner: "", consumptionList: []
+        id: "", name: "", owner: "", consumption: []
     })
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -25,7 +25,7 @@ function AddHorseModal(props: ModalProps) {
             .catch((e) => console.error("POST Error: " + e))
             .then(props.reloadHorses)
             .then(props.closeModal)
-            .then(() => setNewHorse({id: "", name: "", owner: "", consumptionList: []}))
+            .then(() => setNewHorse({id: "", name: "", owner: "", consumption: []}))
             .then(() => props.setSuccessMessage("Eintrag erfolgreich hinzugefügt"))
     }
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
