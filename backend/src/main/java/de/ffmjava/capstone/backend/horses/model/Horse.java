@@ -14,6 +14,6 @@ public record Horse(
         String name,
         @NotBlank(message = "Feld \"Besitzer\" darf nicht leer sein")
         String owner,
-        List<Consumption> consumptionList
+        List<Consumption> consumption
 ) {
 }
