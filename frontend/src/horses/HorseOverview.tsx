@@ -91,8 +91,7 @@ function HorseOverview() {
             <AddHorseModal modalIsOpen={addModalIsOpen}
                            closeModal={closeModal}
                            reloadHorses={getAllHorses}
-                           setSuccessMessage={setSuccessMessage}
-            />
+                           setSuccessMessage={setSuccessMessage}/>
             <DeleteHorseModal modalIsOpen={deleteModalIsOpen}
                               closeModal={closeModal}
                               reloadHorses={getAllHorses}
@@ -130,9 +129,9 @@ function HorseOverview() {
                                     <td>
                                         {horse.consumption.length > 0 ? horse.consumption
                                                 .map(consumptionObject => {
-                                                    return <div
+                                                    return <p
                                                         key={consumptionObject.id}>{consumptionObject.name}: {consumptionObject.dailyConsumption}
-                                                        <abbr title={"Kilogramm"}>kg</abbr><br/></div>
+                                                        <abbr title={"Kilogramm"}>kg</abbr><br/></p>
                                                 })
                                             : <p>Keine Verbräuche angelegt</p>}
                                         <AddToIcon onClickAction={openAddConsumptionModal}

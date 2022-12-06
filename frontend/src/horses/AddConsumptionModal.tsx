@@ -27,7 +27,7 @@ function AddConsumptionModal(props: ModalProps) {
         const newConsumptionSelectList: {}[] = []
         setSelectedHorse(props.selectedHorse)
 
-        props.stockItemList.map(stockItem => newConsumptionSelectList.push(
+        props.stockItemList.forEach(stockItem => newConsumptionSelectList.push(
             {"label": stockItem.name, "value": stockItem.id}
         ))
         setConsumptionSelectList(newConsumptionSelectList)
