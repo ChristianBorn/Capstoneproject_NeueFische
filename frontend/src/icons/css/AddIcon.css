@@ -2,8 +2,14 @@
     font-size: 5em;
     color: #408900;
     cursor: pointer;
+    max-width: fit-content;
+    margin: 0.3em auto 0;
 }
 
 .add-record-icon :hover {
     color: #408900c4;
+}
+
+.consumption-cell .add-record-icon {
+    margin: 0.3em auto 0.3em;
 }

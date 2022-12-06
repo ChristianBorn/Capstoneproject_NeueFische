@@ -1,6 +1,14 @@
 .delete-record-icon {
-    font-size: 2em;
     color: orangered;
+}
+
+.action-cell .delete-record-icon {
+    font-size: 2em;
+}
+
+.consumption-cell .delete-record-icon {
+    max-width: fit-content;
+    margin: 0.3em auto 0;
 }
 
 .delete-record-icon :hover {

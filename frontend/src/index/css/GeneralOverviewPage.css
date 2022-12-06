@@ -11,6 +11,21 @@
     border-left: none;
 }
 
+.consumption-cell {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    font-weight: bold;
+}
+
+.consumption-cell p {
+    display: inline;
+    padding: 0.5em;
+    border: 1px solid grey;
+    border-radius: 4px;
+    width: 75%;
+}
+
 table {
     border-collapse: collapse;
     overflow: hidden;
@@ -28,6 +43,10 @@ td {
 thead th {
     background-color: rgba(211, 211, 211, 0.6);
     border-bottom: solid black 2px;
+}
+
+tr {
+    border-top: solid black 1px;
 }
 
 tbody tr:hover {
@@ -56,7 +75,7 @@ tbody td:hover:before {
     font-size: 1.2em;
 }
 
-td .add-record-icon {
+.consumption-cell .add-record-icon {
     font-size: 2em;
 }
 

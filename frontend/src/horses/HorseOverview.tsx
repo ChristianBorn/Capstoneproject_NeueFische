@@ -135,20 +135,23 @@ function HorseOverview() {
                                     <td><strong>{horse.name}</strong></td>
                                     <td>{horse.owner}</td>
                                     <td>
-                                        {horse.consumptionList.length > 0 ? horse.consumptionList
-                                                .map(consumptionObject => {
-                                                    return <p
-                                                        key={consumptionObject.id}>{consumptionObject.name}: {consumptionObject.dailyConsumption}
-                                                        <abbr title={"Kilogramm"}>kg</abbr>
-                                                        <DeleteIcon idToDelete={""}
-                                                                    onClickAction={() => removeConsumption(consumptionObject, horse)}></DeleteIcon>
-                                                        <br/>
-                                                    </p>
-                                                })
-                                            : <p>Keine Verbräuche angelegt</p>}
-                                        <AddToIcon onClickAction={openAddConsumptionModal}
-                                                   title={"Neuen Eintrag hinzufügen"}
-                                                   addTo={horse}/>
+                                        <div className={"consumption-cell"}>
+                                            {horse.consumptionList.length > 0 ? horse.consumptionList
+                                                    .map(consumptionObject => {
+                                                        return <p
+                                                            key={consumptionObject.id}>{consumptionObject.name}: {consumptionObject.dailyConsumption}
+                                                            <abbr title={"Kilogramm"}>kg</abbr>
+                                                            <DeleteIcon idToDelete={""}
+                                                                        onClickAction={() => removeConsumption(consumptionObject, horse)}></DeleteIcon>
+                                                            <br/>
+                                                        </p>
+                                                    })
+                                                : <p>Keine Verbräuche angelegt</p>}
+
+                                            <AddToIcon onClickAction={openAddConsumptionModal}
+                                                       title={"Neuen Eintrag hinzufügen"}
+                                                       addTo={horse}/>
+                                        </div>
                                     </td>
                                     <td>
                                         <div className={"action-cell"}>
