@@ -1,6 +1,8 @@
 package de.ffmjava.capstone.backend.horses;
 
+import de.ffmjava.capstone.backend.horses.model.Consumption;
 import de.ffmjava.capstone.backend.horses.model.Horse;
+import de.ffmjava.capstone.backend.stock.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,28 +15,36 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class HorseService {
 
-    private final HorseRepository repository;
+    private final HorseRepository horseRepository;
+    private final StockRepository stockRepository;
 
     public List<Horse> getAllHorses() {
-        return repository.findAll();
+        return horseRepository.findAll();
     }
 
-    public boolean updateHorse(Horse updatedHorse) {
-        boolean horseExists = repository.existsById(updatedHorse.id());
-        repository.save(updatedHorse);
+    public boolean updateHorse(Horse updatedHorse) throws ResponseStatusException {
+        boolean horseExists = horseRepository.existsById(updatedHorse.id());
+
+
+        for (Consumption consumption : updatedHorse.consumption()) {
+            if (!stockRepository.existsById(consumption.id())) {
+                throw new IllegalArgumentException("Consumption item not in stock");
+            }
+        }
+        horseRepository.save(updatedHorse);
         return horseExists;
     }
 
     public Horse addNewHorse(Horse newHorse) {
         newHorse = newHorse.withId(UUID.randomUUID().toString());
-        return repository.save(newHorse);
+        return horseRepository.save(newHorse);
     }
 
     public boolean deleteHorse(String id) throws ResponseStatusException {
-        if (!repository.existsById(id)) {
+        if (!horseRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
         }
-        repository.deleteById(id);
+        horseRepository.deleteById(id);
         return true;
     }
 }
