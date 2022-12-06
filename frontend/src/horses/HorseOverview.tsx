@@ -11,6 +11,7 @@ import EditIcon from "../icons/EditIcon";
 import {StockItemModel} from "../stock/StockItemModel";
 import AddConsumptionModal from "./AddConsumptionModal";
 import AddToIcon from "../icons/AddToIcon";
+import {ConsumptionModel} from "./ConsumptionModel";
 
 function HorseOverview() {
 
@@ -63,14 +64,22 @@ function HorseOverview() {
             .then((response) => response.data)
             .catch((error) => console.error("Error while getting Horses:" + error))
             .then(setHorses)
+    }
 
+    const removeConsumption = (consumptionItemToDelete: ConsumptionModel, editedHorse: HorseModel) => {
+        console.log(editedHorse.consumption)
+        editedHorse.consumption = editedHorse.consumption.filter(consumptionItem => consumptionItem !== consumptionItemToDelete)
+        console.log(editedHorse.consumption)
+        axios.put("/horses/", editedHorse)
+            .catch((e) => console.error("PUT Error: " + e))
+            .then(getAllHorses)
+            .then(() => setSuccessMessage("Eintrag erfolgreich gelöscht"))
     }
 
     useEffect(() => {
         getAllHorses()
         getAllStockItems()
     }, [])
-
 
 
     if (horses === undefined) {
@@ -130,7 +139,11 @@ function HorseOverview() {
                                                 .map(consumptionObject => {
                                                     return <p
                                                         key={consumptionObject.id}>{consumptionObject.name}: {consumptionObject.dailyConsumption}
-                                                        <abbr title={"Kilogramm"}>kg</abbr><br/></p>
+                                                        <abbr title={"Kilogramm"}>kg</abbr>
+                                                        <DeleteIcon idToDelete={""}
+                                                                    onClickAction={() => removeConsumption(consumptionObject, horse)}></DeleteIcon>
+                                                        <br/>
+                                                    </p>
                                                 })
                                             : <p>Keine Verbräuche angelegt</p>}
                                         <AddToIcon onClickAction={openAddConsumptionModal}
