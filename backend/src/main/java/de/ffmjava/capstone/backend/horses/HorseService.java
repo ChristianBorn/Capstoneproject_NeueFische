@@ -25,7 +25,12 @@ public class HorseService {
     public boolean updateHorse(Horse updatedHorse) throws ResponseStatusException {
         boolean horseExists = horseRepository.existsById(updatedHorse.id());
 
-
+        List<String> assignedStockItemIds = updatedHorse.consumption().stream()
+                .map(Consumption::id)
+                .distinct().toList();
+        if (updatedHorse.consumption().size() != assignedStockItemIds.size()) {
+            throw new IllegalArgumentException("IDs of consumptionItems must be unique for every horse");
+        }
         for (Consumption consumption : updatedHorse.consumption()) {
             if (!stockRepository.existsById(consumption.id())) {
                 throw new IllegalArgumentException("Consumption item not in stock");
