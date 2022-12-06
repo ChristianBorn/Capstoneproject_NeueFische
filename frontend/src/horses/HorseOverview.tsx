@@ -56,7 +56,6 @@ function HorseOverview() {
             .then((response) => response.data)
             .catch((error) => console.error("Error while getting Stockitems:" + error))
             .then(setStockItems)
-            .then(() => console.log(stockItems))
     }
 
     const getAllHorses = () => {

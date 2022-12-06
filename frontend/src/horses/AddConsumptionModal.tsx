@@ -25,11 +25,16 @@ function AddConsumptionModal(props: ModalProps) {
     )
     useEffect(() => {
         const newConsumptionSelectList: {}[] = []
+        const existingConsumptionItemIds = props.selectedHorse.consumption.map(item => item.id)
         setSelectedHorse(props.selectedHorse)
 
-        props.stockItemList.forEach(stockItem => newConsumptionSelectList.push(
-            {"label": stockItem.name, "value": stockItem.id}
-        ))
+        props.stockItemList.forEach(stockItem => {
+            if (!existingConsumptionItemIds.includes(stockItem.id)) {
+                newConsumptionSelectList.push(
+                    {"label": stockItem.name, "value": stockItem.id}
+                )
+            }
+        })
         setConsumptionSelectList(newConsumptionSelectList)
 
     }, [props.selectedHorse, props.stockItemList])
