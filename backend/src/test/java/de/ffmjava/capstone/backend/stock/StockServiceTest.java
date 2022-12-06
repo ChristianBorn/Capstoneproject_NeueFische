@@ -58,7 +58,7 @@ class StockServiceTest {
     }
 
     @Test
-    void addNewStockItem_AndExpectStockItem() {
+    void addNewStockItem_AndExpectStockItem_200() {
         StockItem newStockItem = new StockItem(null, "name", StockType.FUTTER, BigDecimal.ONE, BigDecimal.ONE);
 
         doReturn(newStockItem.withId("1")).when(mockRepository).save(any());
@@ -66,6 +66,19 @@ class StockServiceTest {
         ResponseEntity<Object> actual = service.addNewStockItem(newStockItem);
 
         ResponseEntity<Object> expected = new ResponseEntity<>(newStockItem.withId("1"), HttpStatus.CREATED);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void addNewStockItem_AndExpect_419() {
+        StockItem newStockItem = new StockItem(null, "name", StockType.FUTTER, BigDecimal.ONE, BigDecimal.ONE);
+
+        when(mockRepository.existsByName("name")).thenReturn(true);
+
+        ResponseEntity<Object> actual = service.addNewStockItem(newStockItem);
+
+        ResponseEntity<Object> expected = new ResponseEntity<>("Der angegebene Name ist bereits vergeben", HttpStatus.CONFLICT);
 
         assertEquals(expected, actual);
     }

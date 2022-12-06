@@ -1,10 +1,12 @@
 package de.ffmjava.capstone.backend.horses;
 
+import de.ffmjava.capstone.backend.horses.model.Consumption;
 import de.ffmjava.capstone.backend.horses.model.Horse;
 import de.ffmjava.capstone.backend.stock.StockRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,10 +30,11 @@ class HorseServiceTest {
     }
 
     @Test
-    void addNewHorse_AndExpectHorse() {
+    void addNewHorse_AndExpectHorse_200() {
         Horse newHorse = new Horse(null, "name", "owner", null);
 
         when(mockHorseRepository.save(any())).thenReturn(newHorse.withId("1"));
+
 
         Horse actual = service.addNewHorse(newHorse);
 
@@ -62,6 +65,55 @@ class HorseServiceTest {
         } catch (ResponseStatusException e) {
             assertEquals("404 NOT_FOUND \"Kein Eintrag für die gegebene ID gefunden\"", e.getMessage());
             verify(mockHorseRepository).existsById(idToDelete);
+        }
+    }
+
+    @Test
+    void UpdateHorse_AndExpectSuccess_201() {
+        Horse newHorse = new Horse("id", "name", "owner",
+                List.of(new Consumption("1", "name", new BigDecimal("0"))));
+        when(mockStockRepository.existsById("1")).thenReturn(true);
+        when(mockHorseRepository.existsById("id")).thenReturn(false);
+        assertFalse(service.updateHorse(newHorse));
+        verify(mockHorseRepository).save(newHorse);
+
+    }
+
+    @Test
+    void UpdateHorse_AndExpectSuccess_200() {
+        Horse newHorse = new Horse("id", "name", "owner",
+                List.of(new Consumption("1", "name", new BigDecimal("0"))));
+        when(mockStockRepository.existsById("1")).thenReturn(true);
+        when(mockHorseRepository.existsById("id")).thenReturn(true);
+        assertTrue(service.updateHorse(newHorse));
+        verify(mockHorseRepository).save(newHorse);
+
+    }
+
+    @Test
+    void UpdateHorse_AndExpectException_400() {
+        Horse newHorse = new Horse("id", "name", "owner",
+                List.of(new Consumption("1", "name", new BigDecimal("0")),
+                        new Consumption("1", "name", new BigDecimal("0"))));
+        try {
+            service.updateHorse(newHorse);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("IDs of consumptionItems must be unique for every horse", e.getMessage());
+        }
+    }
+
+    @Test
+    void UpdateHorse_NoMatchingStockItem_AndExpectException_400() {
+        Horse newHorse = new Horse("id", "name", "owner",
+                List.of(new Consumption("1", "name", new BigDecimal("0"))));
+        when(mockStockRepository.existsById("1")).thenReturn(false);
+
+        try {
+            service.updateHorse(newHorse);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("Consumption item not in stock", e.getMessage());
         }
     }
 }
