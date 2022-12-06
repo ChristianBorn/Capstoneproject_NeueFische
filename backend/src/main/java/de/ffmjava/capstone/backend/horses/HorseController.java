@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,10 +28,14 @@ public class HorseController {
     public ResponseEntity<Object> updateHorse(@Valid @RequestBody Horse updatedHorse, Errors errors) {
         ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
         if (errorMessage != null) return errorMessage;
-        if (service.updateHorse(updatedHorse)) {
-            return new ResponseEntity<>(updatedHorse, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(updatedHorse, HttpStatus.CREATED);
+        try {
+            if (service.updateHorse(updatedHorse)) {
+                return new ResponseEntity<>(updatedHorse, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(updatedHorse, HttpStatus.CREATED);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
