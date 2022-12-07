@@ -43,7 +43,7 @@ class HorseIntegrationTest {
                             {
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         mockMvc.perform(post("/horses/")
@@ -54,7 +54,7 @@ class HorseIntegrationTest {
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.name").value("Hansi"))
                 .andExpect(jsonPath("$.owner").value("Peter Pan"))
-                .andExpect(jsonPath("$.consumption").isEmpty());
+                .andExpect(jsonPath("$.consumptionList").isEmpty());
     }
 
     @Test
@@ -66,7 +66,7 @@ class HorseIntegrationTest {
                             {
                               "name": "",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         mockMvc.perform(post("/horses/")
@@ -86,7 +86,7 @@ class HorseIntegrationTest {
                             {
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         String postResponse = mockMvc.perform(post("/horses/")
@@ -120,7 +120,7 @@ class HorseIntegrationTest {
                             {
                               "name": "",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         mockMvc.perform(put("/horses/")
@@ -141,7 +141,7 @@ class HorseIntegrationTest {
                               "id": "1",
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         mockMvc.perform(put("/horses/")
@@ -154,7 +154,7 @@ class HorseIntegrationTest {
                               "id": "1",
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """));
     }
@@ -168,7 +168,7 @@ class HorseIntegrationTest {
                             {
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """;
         String postResponse = mockMvc.perform(post("/horses/")
@@ -187,7 +187,7 @@ class HorseIntegrationTest {
                               "id": "<ID>",
                               "name": "Lord Voldemort",
                               "owner": "Peter Pan",
-                              "consumption": []
+                              "consumptionList": []
                             }
                         """
                         .replace("<ID>", createdHorse.id())));
@@ -202,7 +202,7 @@ class HorseIntegrationTest {
                             {
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": [
+                              "consumptionList": [
                               {
                                 "id": "43279367-20b8-4b7e-891f-0c8d2a2428d2",
                                 "name": "Hafer",
@@ -223,7 +223,7 @@ class HorseIntegrationTest {
                                       "id": "<ID>",
                                       "name": "Lord Voldemort",
                                       "owner": "Peter Pan",
-                                      "consumption": [
+                                      "consumptionList": [
                                       {
                                         "id": "43279367-20b8-4b7e-891f-0c8d2a2428d2",
                                         "name": "Hafer",
@@ -251,7 +251,7 @@ class HorseIntegrationTest {
                             {
                               "name": "Hansi",
                               "owner": "Peter Pan",
-                              "consumption": [
+                              "consumptionList": [
                               {
                                 "id": "43279367-20b8-4b7e-891f-0c8d2a2428d2",
                                 "name": "Hafer",
@@ -272,7 +272,7 @@ class HorseIntegrationTest {
                                       "id": "<ID>",
                                       "name": "Lord Voldemort",
                                       "owner": "Peter Pan",
-                                      "consumption": [
+                                      "consumptionList": [
                                       {
                                         "id": "43279367-20b8-4b7e-891f-0c8d2a2428d2",
                                         "name": "Hafer",

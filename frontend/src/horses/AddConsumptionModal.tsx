@@ -25,7 +25,7 @@ function AddConsumptionModal(props: ModalProps) {
     )
     useEffect(() => {
         const newConsumptionSelectList: {}[] = []
-        const existingConsumptionItemIds = props.selectedHorse.consumption.map(item => item.id)
+        const existingConsumptionItemIds = props.selectedHorse.consumptionList.map(item => item.id)
         setSelectedHorse(props.selectedHorse)
 
         props.stockItemList.forEach(stockItem => {
@@ -41,7 +41,7 @@ function AddConsumptionModal(props: ModalProps) {
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
-        selectedHorse.consumption.push(consumptionToAdd)
+        selectedHorse.consumptionList.push(consumptionToAdd)
         console.log(selectedHorse)
         axios.put("/horses/", selectedHorse)
             .catch((e) => console.error("PUT Error: " + e))
