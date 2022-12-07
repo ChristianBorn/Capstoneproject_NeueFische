@@ -3,7 +3,6 @@ package de.ffmjava.capstone.backend.stock;
 import de.ffmjava.capstone.backend.stock.model.StockItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -63,24 +62,20 @@ class StockServiceTest {
 
         doReturn(newStockItem.withId("1")).when(mockRepository).save(any());
 
-        ResponseEntity<Object> actual = service.addNewStockItem(newStockItem);
+        StockItem actual = service.addNewStockItem(newStockItem);
 
-        ResponseEntity<Object> expected = new ResponseEntity<>(newStockItem.withId("1"), HttpStatus.CREATED);
+        StockItem expected = newStockItem.withId("1");
 
         assertEquals(expected, actual);
     }
 
     @Test
-    void addNewStockItem_AndExpect_419() {
+    void addNewStockItem_AndExpect_409() {
         StockItem newStockItem = new StockItem(null, "name", StockType.FUTTER, BigDecimal.ONE, BigDecimal.ONE);
 
         when(mockRepository.existsByName("name")).thenReturn(true);
 
-        ResponseEntity<Object> actual = service.addNewStockItem(newStockItem);
-
-        ResponseEntity<Object> expected = new ResponseEntity<>("Der angegebene Name ist bereits vergeben", HttpStatus.CONFLICT);
-
-        assertEquals(expected, actual);
+        assertThrows(StockItemAlreadyExistsException.class, () -> service.addNewStockItem(newStockItem));
     }
 
     @Test
