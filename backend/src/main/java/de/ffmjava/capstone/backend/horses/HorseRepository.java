@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface HorseRepository extends MongoRepository<Horse, String> {
-    @Query("{ 'consumption.id':  ?0}")
+    @Query("{ 'consumption.id':  ?0 }")
     List<Horse> findHorsesByConsumptionId(String id);
 }
