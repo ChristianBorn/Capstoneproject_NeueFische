@@ -1,5 +1,6 @@
 package de.ffmjava.capstone.backend.stock;
 
+import de.ffmjava.capstone.backend.horses.HorseRepository;
 import de.ffmjava.capstone.backend.stock.model.StockItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -14,13 +15,15 @@ import static org.mockito.Mockito.*;
 
 class StockServiceTest {
 
-    private final StockRepository mockRepository = mock(StockRepository.class);
-    private final StockService service = new StockService(mockRepository);
+    private final StockRepository mockStockRepository = mock(StockRepository.class);
+    private final HorseRepository mockHorseRepository = mock(HorseRepository.class);
+
+    private final StockService service = new StockService(mockStockRepository, mockHorseRepository);
 
     @Test
     void getAllStockItems_AndExpectEmptyList() {
 
-        when(mockRepository.findAll()).thenReturn(List.of());
+        when(mockStockRepository.findAll()).thenReturn(List.of());
 
         List<StockItem> expected = List.of();
         List<StockItem> actual = service.getAllStockItems();
@@ -32,7 +35,7 @@ class StockServiceTest {
     void getItemById_AndExpectStockItem() {
         StockItem returnedItem = new StockItem("1", "name", StockType.FUTTER, new BigDecimal("42.0"), new BigDecimal("42.0"));
 
-        when(mockRepository.getById("1")).thenReturn(returnedItem);
+        when(mockStockRepository.getById("1")).thenReturn(returnedItem);
 
         StockItem expected = returnedItem;
         StockItem actual = service.getStockItemById("1");
@@ -47,7 +50,7 @@ class StockServiceTest {
                 .withType(StockType.EINSTREU)
                 .withAmountInStock(new BigDecimal("3.4"))
                 .withPricePerKilo(new BigDecimal("3.76"));
-        when(mockRepository.findAll()).thenReturn(List.of(itemToReturn));
+        when(mockStockRepository.findAll()).thenReturn(List.of(itemToReturn));
 
         List<StockItem> expected = List.of(itemToReturn);
         List<StockItem> actual = service.getAllStockItems();
@@ -60,7 +63,7 @@ class StockServiceTest {
     void addNewStockItem_AndExpectStockItem_200() {
         StockItem newStockItem = new StockItem(null, "name", StockType.FUTTER, BigDecimal.ONE, BigDecimal.ONE);
 
-        doReturn(newStockItem.withId("1")).when(mockRepository).save(any());
+        doReturn(newStockItem.withId("1")).when(mockStockRepository).save(any());
 
         StockItem actual = service.addNewStockItem(newStockItem);
 
@@ -73,7 +76,7 @@ class StockServiceTest {
     void addNewStockItem_AndExpect_409() {
         StockItem newStockItem = new StockItem(null, "name", StockType.FUTTER, BigDecimal.ONE, BigDecimal.ONE);
 
-        when(mockRepository.existsByName("name")).thenReturn(true);
+        when(mockStockRepository.existsByName("name")).thenReturn(true);
 
         assertThrows(StockItemAlreadyExistsException.class, () -> service.addNewStockItem(newStockItem));
     }
@@ -81,26 +84,26 @@ class StockServiceTest {
     @Test
     void deleteStockItem_AndExpectSuccess() {
         String idToDelete = "1";
-        when(mockRepository.existsById(idToDelete)).thenReturn(true);
-        doNothing().when(mockRepository).deleteById(idToDelete);
+        when(mockStockRepository.existsById(idToDelete)).thenReturn(true);
+        doNothing().when(mockStockRepository).deleteById(idToDelete);
 
         assertTrue(service.deleteStockItem(idToDelete));
-        verify(mockRepository).existsById(idToDelete);
+        verify(mockStockRepository).existsById(idToDelete);
     }
 
     @Test
     void deleteStockItem_AndExpectException_404() {
         String idToDelete = "1";
         ResponseStatusException expectedException = new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
-        when(mockRepository.existsById(idToDelete))
+        when(mockStockRepository.existsById(idToDelete))
                 .thenReturn(false);
-        doNothing().when(mockRepository).deleteById(idToDelete);
+        doNothing().when(mockStockRepository).deleteById(idToDelete);
         try {
             service.deleteStockItem(idToDelete);
             fail();
         } catch (ResponseStatusException e) {
             assertEquals(expectedException.getMessage(), e.getMessage());
-            verify(mockRepository).existsById(idToDelete);
+            verify(mockStockRepository).existsById(idToDelete);
         }
     }
 

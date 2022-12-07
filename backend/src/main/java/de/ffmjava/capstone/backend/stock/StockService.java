@@ -1,5 +1,8 @@
 package de.ffmjava.capstone.backend.stock;
 
+import de.ffmjava.capstone.backend.horses.HorseRepository;
+import de.ffmjava.capstone.backend.horses.model.Consumption;
+import de.ffmjava.capstone.backend.horses.model.Horse;
 import de.ffmjava.capstone.backend.stock.model.StockItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -7,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,32 +18,42 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StockService {
 
-    private final StockRepository repository;
+    private final StockRepository stockRepository;
+    private final HorseRepository horseRepository;
 
     public List<StockItem> getAllStockItems() {
-        return repository.findAll();
+        return stockRepository.findAll();
     }
 
     public boolean deleteStockItem(String id) throws ResponseStatusException {
-        if (!repository.existsById(id)) {
+        if (!stockRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
         }
-        repository.deleteById(id);
+        List<Horse> horsesToUpdate = new ArrayList<>();
+        List<Horse> horsesWithStockItemId = horseRepository.findHorsesByConsumptionId(id);
+
+        for (Horse horse : horsesWithStockItemId) {
+            List<Consumption> consumptionWithoutStockItem = horse.consumption()
+                    .stream().filter(consumptionItem -> !consumptionItem.id().equals(id)).toList();
+            horsesToUpdate.add(horse.withConsumption(consumptionWithoutStockItem));
+        }
+        horseRepository.saveAll(horsesToUpdate);
+        stockRepository.deleteById(id);
         return true;
 
     }
 
     public StockItem addNewStockItem(StockItem newStockItem) {
-        if (repository.existsByName(newStockItem.name())) {
+        if (stockRepository.existsByName(newStockItem.name())) {
             throw new StockItemAlreadyExistsException("Der angegebene Name ist bereits vergeben");
         }
         StockItem newStockItemWithId = newStockItem.withId(UUID.randomUUID().toString());
-        return repository.save(newStockItemWithId);
+        return stockRepository.save(newStockItemWithId);
     }
 
     public ResponseEntity<Object> updateStockItem(StockItem updatedStockItem) {
-        boolean stockItemExists = repository.existsById(updatedStockItem.id());
-        repository.save(updatedStockItem);
+        boolean stockItemExists = stockRepository.existsById(updatedStockItem.id());
+        stockRepository.save(updatedStockItem);
         if (stockItemExists) {
             return new ResponseEntity<>(updatedStockItem, HttpStatus.OK);
         } else {
@@ -48,6 +62,6 @@ public class StockService {
     }
 
     public StockItem getStockItemById(String id) {
-        return repository.getById(id);
+        return stockRepository.getById(id);
     }
 }
