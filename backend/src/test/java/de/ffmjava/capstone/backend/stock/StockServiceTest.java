@@ -1,12 +1,15 @@
 package de.ffmjava.capstone.backend.stock;
 
 import de.ffmjava.capstone.backend.horses.HorseRepository;
+import de.ffmjava.capstone.backend.horses.model.Consumption;
+import de.ffmjava.capstone.backend.horses.model.Horse;
 import de.ffmjava.capstone.backend.stock.model.StockItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -105,6 +108,34 @@ class StockServiceTest {
             assertEquals(expectedException.getMessage(), e.getMessage());
             verify(mockStockRepository).existsById(idToDelete);
         }
+    }
+
+    @Test
+    void deleteStockItem_noConsumptionToDelete_200() {
+        String idToDelete = "1";
+        when(mockStockRepository.existsById(idToDelete))
+                .thenReturn(true);
+        when(mockHorseRepository.findHorsesByConsumptionId("1")).thenReturn(new ArrayList<>());
+        assertTrue(service.deleteStockItem("1"));
+    }
+
+    @Test
+    void deleteStockItem_cascadingDeleteConsumption_200() {
+        String idToDelete = "1";
+        Horse horseWithoutConsumption = new Horse("id", "name", "owner", new ArrayList<>());
+        Horse horseWithConsumption = horseWithoutConsumption
+                .withConsumption(new ArrayList<>(List.of(new Consumption("1", "name", new BigDecimal("0")))));
+        List<Horse> retrievedHorses = new ArrayList<>(List.of(horseWithConsumption));
+
+        when(mockStockRepository.existsById(idToDelete))
+                .thenReturn(true);
+        when(mockHorseRepository.findHorsesByConsumptionId(idToDelete))
+                .thenReturn(retrievedHorses);
+        when(mockHorseRepository.saveAll(List.of(horseWithoutConsumption)))
+                .thenReturn(List.of(horseWithoutConsumption));
+
+        assertTrue(service.deleteStockItem("1"));
+        verify(mockHorseRepository).findHorsesByConsumptionId(any());
     }
 
 }

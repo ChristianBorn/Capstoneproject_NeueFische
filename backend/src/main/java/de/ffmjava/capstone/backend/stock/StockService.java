@@ -29,15 +29,18 @@ public class StockService {
         if (!stockRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
         }
-        List<Horse> horsesToUpdate = new ArrayList<>();
         List<Horse> horsesWithStockItemId = horseRepository.findHorsesByConsumptionId(id);
 
-        for (Horse horse : horsesWithStockItemId) {
-            List<Consumption> consumptionWithoutStockItem = horse.consumption()
-                    .stream().filter(consumptionItem -> !consumptionItem.id().equals(id)).toList();
-            horsesToUpdate.add(horse.withConsumption(consumptionWithoutStockItem));
+        if (!horsesWithStockItemId.isEmpty()) {
+            List<Horse> horsesToUpdate = new ArrayList<>();
+
+            for (Horse horse : horsesWithStockItemId) {
+                List<Consumption> consumptionWithoutStockItem = horse.consumption()
+                        .stream().filter(consumptionItem -> !consumptionItem.id().equals(id)).toList();
+                horsesToUpdate.add(horse.withConsumption(consumptionWithoutStockItem));
+            }
+            horseRepository.saveAll(horsesToUpdate);
         }
-        horseRepository.saveAll(horsesToUpdate);
         stockRepository.deleteById(id);
         return true;
 
