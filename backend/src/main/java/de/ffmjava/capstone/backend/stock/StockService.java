@@ -35,9 +35,9 @@ public class StockService {
             List<Horse> horsesToUpdate = new ArrayList<>();
 
             for (Horse horse : horsesWithStockItemId) {
-                List<Consumption> consumptionWithoutStockItem = horse.consumption()
+                List<Consumption> consumptionWithoutStockItem = horse.consumptionList()
                         .stream().filter(consumptionItem -> !consumptionItem.id().equals(id)).toList();
-                horsesToUpdate.add(horse.withConsumption(consumptionWithoutStockItem));
+                horsesToUpdate.add(horse.withConsumptionList(consumptionWithoutStockItem));
             }
             horseRepository.saveAll(horsesToUpdate);
         }
