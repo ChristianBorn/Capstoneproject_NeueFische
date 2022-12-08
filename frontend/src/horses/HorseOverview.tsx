@@ -11,7 +11,6 @@ import EditIcon from "../icons/EditIcon";
 import {StockItemModel} from "../stock/StockItemModel";
 import AddConsumptionModal from "./AddConsumptionModal";
 import AddToIcon from "../icons/AddToIcon";
-import {ConsumptionModel} from "./ConsumptionModel";
 
 function HorseOverview() {
 
@@ -62,8 +61,9 @@ function HorseOverview() {
             .then(setHorses)
     }
 
-    const removeConsumption = (consumptionItemToDelete: ConsumptionModel, editedHorse: HorseModel) => {
-        editedHorse.consumptionList = editedHorse.consumptionList.filter(consumptionItem => consumptionItem !== consumptionItemToDelete)
+    const removeConsumption = (consumptionItemToDeleteId: string, editedHorse: HorseModel) => {
+        editedHorse.consumptionList = editedHorse.consumptionList
+            .filter(consumptionItem => consumptionItem.id !== consumptionItemToDeleteId)
         axios.put("/horses/", editedHorse)
             .catch((e) => console.error("PUT Error: " + e))
             .then(getAllHorses)
@@ -136,7 +136,7 @@ function HorseOverview() {
                                                             key={consumptionObject.id}>{consumptionObject.name}: {consumptionObject.dailyConsumption}
                                                             <abbr title={"Kilogramm"}>kg</abbr>
                                                             <DeleteIcon idToDelete={""}
-                                                                        onClickAction={() => removeConsumption(consumptionObject, horse)}></DeleteIcon>
+                                                                        onClickAction={() => removeConsumption(consumptionObject.id, horse)}></DeleteIcon>
                                                             <br/>
                                                         </p>
                                                     })
