@@ -67,9 +67,7 @@ function HorseOverview() {
     }
 
     const removeConsumption = (consumptionItemToDelete: ConsumptionModel, editedHorse: HorseModel) => {
-        console.log(editedHorse.consumption)
-        editedHorse.consumption = editedHorse.consumption.filter(consumptionItem => consumptionItem !== consumptionItemToDelete)
-        console.log(editedHorse.consumption)
+        editedHorse.consumptionList = editedHorse.consumptionList.filter(consumptionItem => consumptionItem !== consumptionItemToDelete)
         axios.put("/horses/", editedHorse)
             .catch((e) => console.error("PUT Error: " + e))
             .then(getAllHorses)
