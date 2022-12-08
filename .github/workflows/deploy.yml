@@ -42,8 +42,8 @@ jobs:
         run: mvn -B package
       - uses: actions/upload-artifact@v2
         with:
-          name: stable-buddy.jar
-          path: backend/target/stable-buddy.jar
+          name: Stable-Buddy.jar
+          path: backend/target/Stable-Buddy.jar
 
   deploy-fly:
     runs-on: ubuntu-latest
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
-          name: stable-buddy.jar
+          name: Stable-Buddy.jar
           path: backend/target
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy
