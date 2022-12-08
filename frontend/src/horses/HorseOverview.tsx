@@ -17,40 +17,36 @@ function HorseOverview() {
 
     const [horses, setHorses] = useState<HorseModel[]>([])
     const [stockItems, setStockItems] = useState<StockItemModel[]>([])
-    const [addModalIsOpen, setAddModalIsOpen] = useState<boolean>(false)
     const [successMessage, setSuccessMessage] = useState<string>()
-    const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false)
-    const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false)
-    const [addConsumptionModalIsOpen, setAddConsumptionModalIsOpen] = useState<boolean>(false)
     const [idToDelete, setIdToDelete] = useState<string>("")
     const [horseToEdit, setHorseToEdit] = useState<HorseModel>(
         {id: "", name: "", owner: "", consumptionList: []})
 
+    const [openModal, setOpenModal] = useState<"add" | "edit" | "delete" | "addConsumption">()
+
 
     const openAddModal = () => {
-        setAddModalIsOpen(true)
+        setOpenModal("add")
         setSuccessMessage("")
     }
     const openDeleteModal = (id: string) => {
-        setDeleteModalIsOpen(true)
+        setOpenModal("delete")
         setIdToDelete(id)
         setSuccessMessage("")
     }
     const openEditModal = (horseToEdit: any) => {
-        setEditModalIsOpen(true)
+        setOpenModal("edit")
         setHorseToEdit(horseToEdit)
         setSuccessMessage("")
     }
     const openAddConsumptionModal = (horseToEdit: HorseModel) => {
-        setAddConsumptionModalIsOpen(true)
+        setOpenModal("addConsumption")
         setHorseToEdit(horseToEdit)
         setSuccessMessage("")
     }
     const closeModal = () => {
-        setAddModalIsOpen(false)
-        setDeleteModalIsOpen(false)
-        setEditModalIsOpen(false)
-        setAddConsumptionModalIsOpen(false)
+        setOpenModal(undefined)
+
     }
     const getAllStockItems = () => {
         axios.get("/stock/")
@@ -94,21 +90,21 @@ function HorseOverview() {
 
     return (
         <>
-            <AddHorseModal modalIsOpen={addModalIsOpen}
+            <AddHorseModal modalIsOpen={openModal === "add"}
                            closeModal={closeModal}
                            reloadHorses={getAllHorses}
                            setSuccessMessage={setSuccessMessage}/>
-            <DeleteHorseModal modalIsOpen={deleteModalIsOpen}
+            <DeleteHorseModal modalIsOpen={openModal === "delete"}
                               closeModal={closeModal}
                               reloadHorses={getAllHorses}
                               setSuccessMessage={setSuccessMessage}
                               idToDelete={idToDelete}/>
-            <EditHorseModal modalIsOpen={editModalIsOpen}
+            <EditHorseModal modalIsOpen={openModal === "edit"}
                             closeModal={closeModal}
                             reloadHorses={getAllHorses}
                             setSuccessMessage={setSuccessMessage}
                             horseToEdit={horseToEdit}/>
-            <AddConsumptionModal modalIsOpen={addConsumptionModalIsOpen}
+            <AddConsumptionModal modalIsOpen={openModal === "addConsumption"}
                                  closeModal={closeModal}
                                  reloadHorses={getAllHorses}
                                  stockItemList={stockItems}
