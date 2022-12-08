@@ -12,15 +12,14 @@ import EditItemModal from "./EditItemModal";
 function StockOverview() {
 
     const [stockItems, setStockItems] = useState<StockItemModel[]>()
-    const [addModalIsOpen, setAddModalIsOpen] = useState<boolean>(false)
-    const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false)
-    const [editModalIsOpen, setEditModalIsOpen] = useState<boolean>(false)
     const [successMessage, setSuccessMessage] = useState<string>()
     const [idToDelete, setIdToDelete] = useState<string>("")
     const [dailyConsumption] = useState(13)
     const [itemToEdit, setItemToEdit] = useState<StockItemModel>({
         id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""
     })
+    const [openModal, setOpenModal] = useState<"add" | "edit" | "delete" | "addConsumption">()
+
 
     const getAllStockItems = () => {
         axios.get("/stock/")
@@ -29,24 +28,22 @@ function StockOverview() {
             .then(setStockItems)
     }
     const openAddModal = () => {
-        setAddModalIsOpen(true)
+        setOpenModal("add")
         setSuccessMessage("")
     }
     const openDeleteModal = (id: string) => {
-        setDeleteModalIsOpen(true)
+        setOpenModal("delete")
         setIdToDelete(id)
         setSuccessMessage("")
     }
     const openEditModal = (itemToEdit: StockItemModel) => {
-        setEditModalIsOpen(true)
+        setOpenModal("edit")
         setItemToEdit(itemToEdit)
         setSuccessMessage("")
     }
 
     const closeModal = () => {
-        setAddModalIsOpen(false)
-        setDeleteModalIsOpen(false)
-        setEditModalIsOpen(false)
+        setOpenModal(undefined)
     }
 
 
@@ -72,15 +69,15 @@ function StockOverview() {
     return (
         <>
 
-            <AddItemModal modalIsOpen={addModalIsOpen}
+            <AddItemModal modalIsOpen={openModal === "add"}
                           closeModal={closeModal}
                           reloadStockItems={getAllStockItems}
                           setSuccessMessage={setSuccessMessage}/>
-            <DeleteItemModal modalIsOpen={deleteModalIsOpen}
+            <DeleteItemModal modalIsOpen={openModal === "delete"}
                              closeModal={closeModal}
                              reloadStockItems={getAllStockItems}
                              setSuccessMessage={setSuccessMessage} idToDelete={idToDelete}/>
-            <EditItemModal modalIsOpen={editModalIsOpen}
+            <EditItemModal modalIsOpen={openModal === "edit"}
                            closeModal={closeModal}
                            reloadStockItems={getAllStockItems}
                            setSuccessMessage={setSuccessMessage} itemToEdit={itemToEdit}/>
