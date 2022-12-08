@@ -124,7 +124,7 @@ class StockServiceTest {
         String idToDelete = "1";
         Horse horseWithoutConsumption = new Horse("id", "name", "owner", new ArrayList<>());
         Horse horseWithConsumption = horseWithoutConsumption
-                .withConsumption(new ArrayList<>(List.of(new Consumption("1", "name", new BigDecimal("0")))));
+                .withConsumptionList(new ArrayList<>(List.of(new Consumption("1", "name", new BigDecimal("0")))));
         List<Horse> retrievedHorses = new ArrayList<>(List.of(horseWithConsumption));
 
         when(mockStockRepository.existsById(idToDelete))
