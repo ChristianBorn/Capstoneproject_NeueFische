@@ -52,8 +52,6 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.DELETE,
                         PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH)
                 .hasAnyRole(ROLE_BASIC)
-                .anyRequest().denyAll()
-                .and().formLogin()
                 .and().build();
     }
 
