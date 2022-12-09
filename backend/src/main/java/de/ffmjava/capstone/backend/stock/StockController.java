@@ -1,5 +1,6 @@
 package de.ffmjava.capstone.backend.stock;
 
+import de.ffmjava.capstone.backend.horses.model.AggregatedConsumption;
 import de.ffmjava.capstone.backend.stock.model.StockItem;
 import de.ffmjava.capstone.backend.user.CustomApiErrorHandler;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,11 @@ class StockController {
     @GetMapping
     public List<StockItem> getAllStockitems() {
         return service.getAllStockItems();
+    }
+
+    @GetMapping("/consumption/")
+    public List<AggregatedConsumption> getAggregatedConsumptions() {
+        return service.getAggregatedConsumptions();
     }
 
     @GetMapping("{id}")
