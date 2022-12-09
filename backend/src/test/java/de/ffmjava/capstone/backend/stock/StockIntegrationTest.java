@@ -60,6 +60,14 @@ class StockIntegrationTest {
                         .replace("<ID>", createdStockItem.id())));
     }
 
+    @Test
+    @WithMockUser(roles = "Basic")
+    void getAggregatedConsumption_AndExpectEmptyMap_200() throws Exception {
+        mockMvc.perform(get
+                        ("/stock/consumption/"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{}"));
+    }
 
     @Test
     @DirtiesContext
@@ -116,8 +124,30 @@ class StockIntegrationTest {
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.type").isNotEmpty())
                 .andExpect(jsonPath("$.amountInStock").isNotEmpty());
+    }
 
-
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
+    void addNewStockItem_AndExpectError_409() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "name": "Pellets",
+                              "type": "Futter",
+                              "amountInStock": 42.0,
+                              "pricePerKilo": 42.0
+                            }
+                        """;
+        mockMvc.perform(post("/stock/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonString)
+        );
+        mockMvc.perform(post("/stock/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+                )
+                .andExpect(status().is(409));
     }
 
     @Test
@@ -233,4 +263,5 @@ class StockIntegrationTest {
                 .andExpect(content().string("{\"id\":\"<ID>\",\"name\":\"Test\",\"type\":\"Einstreu\",\"amountInStock\":42.0,\"pricePerKilo\":42.0}"
                         .replace("<ID>", createdStockItem.id())));
     }
+
 }
