@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -26,7 +27,7 @@ class StockController {
     }
 
     @GetMapping("/consumption/")
-    public List<AggregatedConsumption> getAggregatedConsumptions() {
+    public Map<String, AggregatedConsumption> getAggregatedConsumptions() {
         return service.getAggregatedConsumptions();
     }
 

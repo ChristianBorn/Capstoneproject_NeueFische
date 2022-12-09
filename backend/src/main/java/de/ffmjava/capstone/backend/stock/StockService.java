@@ -13,8 +13,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -70,7 +73,8 @@ public class StockService {
         return stockRepository.findById(id);
     }
 
-    public List<AggregatedConsumption> getAggregatedConsumptions() {
-        return horseRepository.aggregateConsumptions();
+    public Map<String, AggregatedConsumption> getAggregatedConsumptions() {
+        return horseRepository.aggregateConsumptions().stream()
+                .collect(Collectors.toMap(AggregatedConsumption::id, Function.identity()));
     }
 }
