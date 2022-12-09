@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import axios from "axios";
 import {StockItemModel} from "./StockItemModel";
 import AddIcon from "../icons/AddIcon";
@@ -8,13 +8,19 @@ import AddItemModal from "./AddStockItemModal";
 import DeleteItemModal from "./DeleteItemModal";
 import EditIcon from "../icons/EditIcon";
 import EditItemModal from "./EditItemModal";
+import {MappedConsumptionModel} from "./MappedConsumptionModel";
 
 function StockOverview() {
 
     const [stockItems, setStockItems] = useState<StockItemModel[]>()
     const [successMessage, setSuccessMessage] = useState<string>()
     const [idToDelete, setIdToDelete] = useState<string>("")
-    const [dailyConsumption] = useState(13)
+    const [dailyConsumption, setDailyConsumption] = useState<MappedConsumptionModel>({
+        "": {
+            id: "",
+            dailyAggregatedConsumption: 0
+        }
+    })
     const [itemToEdit, setItemToEdit] = useState<StockItemModel>({
         id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""
     })
@@ -27,6 +33,14 @@ function StockOverview() {
             .catch((error) => console.error("Error while getting Stockitems:" + error))
             .then(setStockItems)
     }
+    const getAggregatedConsumption = useCallback(() => {
+        axios.get("/stock/consumption/")
+            .then((response) => response.data)
+            // .then(data => console.log(data))
+            .catch((error) => console.error("Error while getting Stockitems:" + error))
+            .then(setDailyConsumption)
+        // .then(() => console.log(dailyConsumption))
+    }, [])
     const openAddModal = () => {
         setOpenModal("add")
         setSuccessMessage("")
@@ -49,7 +63,8 @@ function StockOverview() {
 
     useEffect(() => {
         getAllStockItems()
-    }, [])
+        getAggregatedConsumption()
+    }, [getAggregatedConsumption])
 
 
     if (stockItems === undefined) {
@@ -104,8 +119,11 @@ function StockOverview() {
                                     <td>{item.type}</td>
                                     <td>{item.amountInStock}</td>
                                     <td>{item.pricePerKilo}</td>
-                                    <td>{dailyConsumption}</td>
-                                    <td>{Math.round(item.amountInStock / dailyConsumption)} Tagen</td>
+                                    <td>{dailyConsumption[item.name] ? dailyConsumption[item.name].dailyAggregatedConsumption
+                                        : <>0</>}</td>
+                                    <td>{dailyConsumption[item.name] ? Math.round(item.amountInStock / dailyConsumption[item.name].dailyAggregatedConsumption) + " Tagen"
+                                        : <>-</>}</td>
+
                                     <td>
                                         <div className={"action-cell"}>
                                             <EditIcon onClickAction={openEditModal}
