@@ -79,4 +79,8 @@ tbody td:hover:before {
     font-size: 2em;
 }
 
+td.cell-alert {
+    background-color: lightcoral;
+}
+
 
