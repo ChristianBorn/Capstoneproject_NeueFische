@@ -1,6 +1,7 @@
 package de.ffmjava.capstone.backend.stock;
 
 import de.ffmjava.capstone.backend.horses.HorseRepository;
+import de.ffmjava.capstone.backend.horses.model.AggregatedConsumption;
 import de.ffmjava.capstone.backend.horses.model.Consumption;
 import de.ffmjava.capstone.backend.horses.model.Horse;
 import de.ffmjava.capstone.backend.stock.model.StockItem;
@@ -67,5 +68,9 @@ public class StockService {
 
     public Optional<StockItem> getStockItemById(String id) {
         return stockRepository.findById(id);
+    }
+
+    public List<AggregatedConsumption> getAggregatedConsumptions() {
+        return horseRepository.aggregateConsumptions();
     }
 }
