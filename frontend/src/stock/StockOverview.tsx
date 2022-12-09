@@ -36,10 +36,8 @@ function StockOverview() {
     const getAggregatedConsumption = useCallback(() => {
         axios.get("/stock/consumption/")
             .then((response) => response.data)
-            // .then(data => console.log(data))
             .catch((error) => console.error("Error while getting Stockitems:" + error))
             .then(setDailyConsumption)
-        // .then(() => console.log(dailyConsumption))
     }, [])
     const openAddModal = () => {
         setOpenModal("add")
@@ -119,10 +117,13 @@ function StockOverview() {
                                     <td>{item.type}</td>
                                     <td>{item.amountInStock}</td>
                                     <td>{item.pricePerKilo}</td>
-                                    <td>{dailyConsumption[item.name] ? dailyConsumption[item.name].dailyAggregatedConsumption
+                                    <td>{dailyConsumption[item.name] ?
+                                        dailyConsumption[item.name].dailyAggregatedConsumption
                                         : <>0</>}</td>
-                                    <td>{dailyConsumption[item.name] ? Math.round(item.amountInStock / dailyConsumption[item.name].dailyAggregatedConsumption) + " Tagen"
-                                        : <>-</>}</td>
+                                    <td className={dailyConsumption[item.name] && Math.round(item.amountInStock / dailyConsumption[item.name].dailyAggregatedConsumption) < 14 ? "alert-cell" : ""}>
+                                        {dailyConsumption[item.name] ?
+                                            Math.round(item.amountInStock / dailyConsumption[item.name].dailyAggregatedConsumption) + " Tagen"
+                                            : <>-</>}</td>
 
                                     <td>
                                         <div className={"action-cell"}>
