@@ -1,6 +1,7 @@
 package de.ffmjava.capstone.backend.stock;
 
 import de.ffmjava.capstone.backend.horses.HorseRepository;
+import de.ffmjava.capstone.backend.horses.model.AggregatedConsumption;
 import de.ffmjava.capstone.backend.horses.model.Consumption;
 import de.ffmjava.capstone.backend.horses.model.Horse;
 import de.ffmjava.capstone.backend.stock.model.StockItem;
@@ -10,7 +11,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -147,6 +150,19 @@ class StockServiceTest {
         //Then
         assertTrue(service.deleteStockItem("1"));
         verify(mockHorseRepository).findHorsesByConsumptionId(any());
+    }
+
+    @Test
+    void getAggregatedConsumptions() {
+        AggregatedConsumption consumption = new AggregatedConsumption("Hafer", new BigDecimal("1.0"));
+
+        when(mockHorseRepository.aggregateConsumptions()).thenReturn(List.of(
+                consumption));
+        Map<String, AggregatedConsumption> expected = new HashMap<>(
+                Map.of("Hafer", consumption));
+        Map<String, AggregatedConsumption> actual = service.getAggregatedConsumptions();
+
+        assertEquals(expected, actual);
     }
 
 }
