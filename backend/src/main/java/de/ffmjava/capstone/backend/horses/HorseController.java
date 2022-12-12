@@ -50,7 +50,11 @@ public class HorseController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteHorse(@PathVariable String id) {
-        service.deleteHorse(id);
+        try {
+            service.deleteHorse(id);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
 }
