@@ -14,6 +14,7 @@ function StockOverview() {
 
     const [stockItems, setStockItems] = useState<StockItemModel[]>()
     const [successMessage, setSuccessMessage] = useState<string>()
+    const [errorMessage, setErrorMessage] = useState<string>()
     const [idToDelete, setIdToDelete] = useState<string>("")
     const [dailyConsumption, setDailyConsumption] = useState<MappedConsumptionModel>({
         "": {
@@ -89,7 +90,8 @@ function StockOverview() {
             <DeleteItemModal modalIsOpen={openModal === "delete"}
                              closeModal={closeModal}
                              reloadStockItems={getAllStockItems}
-                             setSuccessMessage={setSuccessMessage} idToDelete={idToDelete}/>
+                             setSuccessMessage={setSuccessMessage} idToDelete={idToDelete}
+                             setErrorMessage={setErrorMessage}/>
             <EditItemModal modalIsOpen={openModal === "edit"}
                            closeModal={closeModal}
                            reloadStockItems={getAllStockItems}
@@ -141,10 +143,12 @@ function StockOverview() {
 
                     </div>
                     {successMessage && <div className={"success-message"}>{successMessage}</div>}
+                    {errorMessage && <div className={"error-message"}>{errorMessage}</div>}
                 </>
                 :
                 <div>
                     {successMessage && <div className={"success-message"}>{successMessage}</div>}
+                    {errorMessage && <div className={"error-message"}>{errorMessage}</div>}
                     <p>Keine Items im Lager</p>
                 </div>
             }

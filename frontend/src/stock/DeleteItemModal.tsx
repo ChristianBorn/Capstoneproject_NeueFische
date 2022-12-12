@@ -13,7 +13,8 @@ type ModalProps = {
     closeModal: () => void,
     reloadStockItems: () => void,
     setSuccessMessage: (input: string) => void,
-    idToDelete: string
+    setErrorMessage: (input: string) => void,
+    idToDelete: string,
 }
 
 function DeleteItemModal(props: ModalProps) {
@@ -21,7 +22,10 @@ function DeleteItemModal(props: ModalProps) {
 
     const deleteStockItem = (id: string) => {
         axios.delete("/stock/" + id)
-            .catch(error => console.error("DELETE Error: " + error))
+            .catch(error => {
+                props.setErrorMessage(error)
+                console.error("DELETE Error: " + error)
+            })
             .then(props.reloadStockItems)
             .then(props.closeModal)
             .then(() => props.setSuccessMessage("Eintrag erfolgreich gelöscht"))
