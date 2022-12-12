@@ -8,11 +8,8 @@ import de.ffmjava.capstone.backend.stock.model.StockItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -36,9 +33,9 @@ public class StockService {
     }
 
     @CacheEvict(value = AGGREGATED_CONSUMPTION_CACHE, allEntries = true)
-    public boolean deleteStockItem(String id) throws ResponseStatusException {
+    public boolean deleteStockItem(String id) throws IllegalArgumentException {
         if (!stockRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
+            throw new IllegalArgumentException("Kein Eintrag für die gegebene ID gefunden");
         }
         List<Horse> horsesWithStockItemId = horseRepository.findHorsesByConsumptionId(id);
 
@@ -66,14 +63,10 @@ public class StockService {
     }
 
     @CacheEvict(value = AGGREGATED_CONSUMPTION_CACHE, allEntries = true)
-    public ResponseEntity<Object> updateStockItem(StockItem updatedStockItem) {
+    public boolean updateStockItem(StockItem updatedStockItem) {
         boolean stockItemExists = stockRepository.existsById(updatedStockItem.id());
         stockRepository.save(updatedStockItem);
-        if (stockItemExists) {
-            return new ResponseEntity<>(updatedStockItem, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(updatedStockItem, HttpStatus.CREATED);
-        }
+        return stockItemExists;
     }
 
     public Optional<StockItem> getStockItemById(String id) {
