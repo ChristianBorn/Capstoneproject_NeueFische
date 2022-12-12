@@ -6,8 +6,6 @@ import de.ffmjava.capstone.backend.horses.model.Consumption;
 import de.ffmjava.capstone.backend.horses.model.Horse;
 import de.ffmjava.capstone.backend.stock.model.StockItem;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -114,8 +112,8 @@ class StockServiceTest {
         try {
             service.deleteStockItem(idToDelete);
             fail();
-        } catch (ResponseStatusException e) {
-            assertEquals(expectedException.getMessage(), e.getMessage());
+        } catch (IllegalArgumentException e) {
+            assertEquals("Kein Eintrag für die gegebene ID gefunden", e.getMessage());
             verify(mockStockRepository).existsById(idToDelete);
         }
     }
