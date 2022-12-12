@@ -48,13 +48,13 @@ class StockController {
     }
 
     @PostMapping
-    public Object addNewStockItem(@Valid @RequestBody StockItem newStockItem, Errors errors) {
+    public ResponseEntity<Object> addNewStockItem(@Valid @RequestBody StockItem newStockItem, Errors errors) {
         ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
         if (errorMessage != null) return errorMessage;
         try {
             return new ResponseEntity<>(service.addNewStockItem(newStockItem), HttpStatus.CREATED);
         } catch (StockItemAlreadyExistsException e) {
-            return new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
