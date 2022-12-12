@@ -8,9 +8,11 @@ import de.ffmjava.capstone.backend.stock.model.StockItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -76,5 +78,19 @@ public class StockService {
     public Map<String, AggregatedConsumption> getAggregatedConsumptions() {
         return horseRepository.aggregateConsumptions().stream()
                 .collect(Collectors.toMap(AggregatedConsumption::id, Function.identity()));
+    }
+
+    @Scheduled(cron = "0 0 * * *")
+    public void subtractConsumption() {
+        Map<String, AggregatedConsumption> consumptions = getAggregatedConsumptions();
+        List<StockItem> stockItemsToUpdate = stockRepository.findByNameIn(consumptions.keySet().stream().toList());
+        List<StockItem> updatedStockItems = stockItemsToUpdate.stream().map(singleItem -> {
+            if (singleItem.amountInStock().compareTo(BigDecimal.ZERO) <= 0) {
+                return singleItem;
+            }
+            return singleItem.withAmountInStock(singleItem.amountInStock()
+                    .subtract(consumptions.get(singleItem.name()).dailyAggregatedConsumption()));
+        }).toList();
+        stockRepository.saveAll(updatedStockItems);
     }
 }
