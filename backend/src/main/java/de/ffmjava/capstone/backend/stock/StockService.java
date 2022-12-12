@@ -6,6 +6,8 @@ import de.ffmjava.capstone.backend.horses.model.Consumption;
 import de.ffmjava.capstone.backend.horses.model.Horse;
 import de.ffmjava.capstone.backend.stock.model.StockItem;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StockService {
 
+    public static final String AGGREGATED_CONSUMPTION_CACHE = "AGGREGATED_CONSUMPTION_CACHE";
     private final StockRepository stockRepository;
     private final HorseRepository horseRepository;
 
@@ -32,6 +35,7 @@ public class StockService {
         return stockRepository.findAll();
     }
 
+    @CacheEvict(value = AGGREGATED_CONSUMPTION_CACHE, allEntries = true)
     public boolean deleteStockItem(String id) throws ResponseStatusException {
         if (!stockRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
@@ -61,6 +65,7 @@ public class StockService {
         return stockRepository.save(newStockItemWithId);
     }
 
+    @CacheEvict(value = AGGREGATED_CONSUMPTION_CACHE, allEntries = true)
     public ResponseEntity<Object> updateStockItem(StockItem updatedStockItem) {
         boolean stockItemExists = stockRepository.existsById(updatedStockItem.id());
         stockRepository.save(updatedStockItem);
@@ -75,12 +80,13 @@ public class StockService {
         return stockRepository.findById(id);
     }
 
+    @Cacheable(value = AGGREGATED_CONSUMPTION_CACHE)
     public Map<String, AggregatedConsumption> getAggregatedConsumptions() {
         return horseRepository.aggregateConsumptions().stream()
                 .collect(Collectors.toMap(AggregatedConsumption::id, Function.identity()));
     }
 
-    @Scheduled(cron = "0 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void subtractConsumption() {
         Map<String, AggregatedConsumption> consumptions = getAggregatedConsumptions();
         List<StockItem> stockItemsToUpdate = stockRepository.findByNameIn(consumptions.keySet().stream().toList());

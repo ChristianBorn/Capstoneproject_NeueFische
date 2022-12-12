@@ -4,12 +4,15 @@ import de.ffmjava.capstone.backend.horses.model.Consumption;
 import de.ffmjava.capstone.backend.horses.model.Horse;
 import de.ffmjava.capstone.backend.stock.StockRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
+
+import static de.ffmjava.capstone.backend.stock.StockService.AGGREGATED_CONSUMPTION_CACHE;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ public class HorseService {
         return horseRepository.findAll();
     }
 
+    @CacheEvict(value = AGGREGATED_CONSUMPTION_CACHE, allEntries = true)
     public boolean updateHorse(Horse updatedHorse) throws ResponseStatusException {
         boolean horseExists = horseRepository.existsById(updatedHorse.id());
 
@@ -45,6 +49,7 @@ public class HorseService {
         return horseRepository.save(newHorse);
     }
 
+    @CacheEvict(value = AGGREGATED_CONSUMPTION_CACHE, allEntries = true)
     public boolean deleteHorse(String id) throws ResponseStatusException {
         if (!horseRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
