@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -39,17 +40,21 @@ class StockController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStockItem(@PathVariable String id) {
-        service.deleteStockItem(id);
+        try {
+            service.deleteStockItem(id);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping
-    public ResponseEntity<Object> addNewStockItem(@Valid @RequestBody StockItem newStockItem, Errors errors) {
+    public Object addNewStockItem(@Valid @RequestBody StockItem newStockItem, Errors errors) {
         ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
         if (errorMessage != null) return errorMessage;
         try {
             return new ResponseEntity<>(service.addNewStockItem(newStockItem), HttpStatus.CREATED);
         } catch (StockItemAlreadyExistsException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+            return new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
@@ -57,8 +62,10 @@ class StockController {
     public ResponseEntity<Object> updateStockItem(@Valid @RequestBody StockItem updatedStockItem, Errors errors) {
         ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
         if (errorMessage != null) return errorMessage;
-        return service.updateStockItem(updatedStockItem);
+        if (service.updateStockItem(updatedStockItem)) {
+            return new ResponseEntity<>(updatedStockItem, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(updatedStockItem, HttpStatus.CREATED);
+        }
     }
-
-
 }
