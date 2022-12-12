@@ -117,7 +117,7 @@ function StockOverview() {
                                 return <tr key={item.id}>
                                     <td><strong>{item.name}</strong></td>
                                     <td>{item.type}</td>
-                                    <td>{item.amountInStock}</td>
+                                    <td className={item.amountInStock === 0 ? "alert-cell" : ""}>{item.amountInStock}</td>
                                     <td>{item.pricePerKilo}</td>
                                     <td>{dailyConsumption[item.name] ?
                                         dailyConsumption[item.name].dailyAggregatedConsumption
