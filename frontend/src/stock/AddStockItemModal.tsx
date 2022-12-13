@@ -86,7 +86,8 @@ function AddItemModal(props: ModalProps) {
                     <Form3Rows>
                         <FieldLabelGroup>
                             <label htmlFor={"price"}>Preis pro <abbr title={"Kilogramm"}>kg</abbr></label>
-                            <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required
+                            <input onChange={handleChange} placeholder={"0"}
+                                   step={"0.1"} min={"0"} required
                                    type={"number"}
                                    id={"price"} name={"pricePerKilo"}/>
                             {errorMessages.pricePerKilo &&
@@ -95,7 +96,8 @@ function AddItemModal(props: ModalProps) {
                         </FieldLabelGroup>
                         <FieldLabelGroup>
                             <label htmlFor={"amount"}>Menge in <abbr title={"Kilogramm"}>kg</abbr></label>
-                            <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required
+                            <input onChange={handleChange} placeholder={"0"}
+                                   step={"0.1"} min={"0"} required
                                    type={"number"}
                                    id={"amount"} name={"amountInStock"}/>
                             {errorMessages.amountInStock &&
