@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import Modal from 'react-modal';
 import {HorseModel} from "./HorseModel";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
@@ -15,14 +15,29 @@ type ModalProps = {
 }
 
 function AddHorseModal(props: ModalProps) {
+    const [errorMessages, setErrorMessages] = useState({
+        name: "", owner: ""
+    })
     const [newHorse, setNewHorse] = useState<HorseModel>({
         id: "", name: "", owner: "", consumptionList: []
     })
+    useEffect(() => {
+        setErrorMessages({name: "", owner: ""})
+    }, [props.closeModal])
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
         axios.post("/horses/", newHorse)
-            .catch((e) => console.error("POST Error: " + e))
+            .catch((e) => {
+                if (e.response.status === 400) {
+                    setErrorMessages({
+                        ...errorMessages,
+                        [e.response.data.fieldName]: e.response.data.errorMessage
+                    })
+                }
+                console.error("POST Error: " + e)
+                throw e
+            })
             .then(props.reloadHorses)
             .then(props.closeModal)
             .then(() => setNewHorse({id: "", name: "", owner: "", consumptionList: []}))
@@ -52,6 +67,9 @@ function AddHorseModal(props: ModalProps) {
                     <FieldLabelGroup>
                         <label htmlFor={"name"}>Name</label>
                         <input onChange={handleChange} required type={"text"} id={"name"} name={"name"}/>
+                        {errorMessages.name &&
+                            <div className={"message-container"}><p
+                                className={"error-message"}>{errorMessages.name}</p></div>}
                     </FieldLabelGroup>
 
                     <FieldLabelGroup>
@@ -59,6 +77,9 @@ function AddHorseModal(props: ModalProps) {
                         <input onChange={handleChange} required
                                type={"text"}
                                id={"owner"} name={"owner"}/>
+                        {errorMessages.owner &&
+                            <div className={"message-container"}><p
+                                className={"error-message"}>{errorMessages.owner}</p></div>}
                     </FieldLabelGroup>
 
                     <div className={"button-group"}>

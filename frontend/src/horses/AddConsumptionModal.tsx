@@ -18,11 +18,18 @@ type ModalProps = {
 }
 
 function AddConsumptionModal(props: ModalProps) {
+    const [errorMessages, setErrorMessages] = useState({
+        dailyConsumption: ""
+    })
     const [selectedHorse, setSelectedHorse] = useState<HorseModel>(props.selectedHorse)
     const [consumptionSelectList, setConsumptionSelectList] = useState<{}[]>([])
     const [consumptionToAdd, setConsumptionToAdd] = useState<ConsumptionModel>(
         {id: "", name: "", dailyConsumption: 0.0}
     )
+    useEffect(() => {
+        setErrorMessages({dailyConsumption: ""})
+    }, [props.closeModal])
+
     useEffect(() => {
         const newConsumptionSelectList: {}[] = []
         const existingConsumptionItemIds = props.selectedHorse.consumptionList.map(item => item.id)
@@ -42,9 +49,18 @@ function AddConsumptionModal(props: ModalProps) {
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
         selectedHorse.consumptionList.push(consumptionToAdd)
-        console.log(selectedHorse)
         axios.put("/horses/", selectedHorse)
-            .catch((e) => console.error("PUT Error: " + e))
+            .catch((e) => {
+                if (e.response.status === 400) {
+                    setErrorMessages({
+                        ...errorMessages,
+                        [e.response.data.fieldName]: e.response.data.errorMessage
+                    })
+                }
+                console.error("POST Error: " + e)
+                selectedHorse.consumptionList.splice(selectedHorse.consumptionList.indexOf(consumptionToAdd), 1)
+                throw e
+            })
             .then(props.reloadHorses)
             .then(props.closeModal)
             .then(() => setSelectedHorse(props.selectedHorse))
@@ -85,9 +101,13 @@ function AddConsumptionModal(props: ModalProps) {
                     <FieldLabelGroup>
                         <label htmlFor={"dailyConsumption"}>Täglicher Verbrauch in <abbr
                             title={"Kilogramm"}>kg</abbr></label>
-                        <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required
+                        <input onChange={handleChange} placeholder={"0"}
+                               step={"0.1"} min={"0"} required
                                type={"number"}
                                id={"dailyConsumption"} name={"dailyConsumption"}/>
+                        {errorMessages.dailyConsumption &&
+                            <div className={"message-container"}><p
+                                className={"error-message"}>{errorMessages.dailyConsumption}</p></div>}
                     </FieldLabelGroup>
 
                     <div className={"button-group"}>
