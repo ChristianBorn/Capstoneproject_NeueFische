@@ -83,15 +83,18 @@ function StockOverview() {
     return (
         <>
 
+            {/*Errormessage einfügen*/}
             <AddItemModal modalIsOpen={openModal === "add"}
                           closeModal={closeModal}
                           reloadStockItems={getAllStockItems}
-                          setSuccessMessage={setSuccessMessage}/>
+                          setSuccessMessage={setSuccessMessage}
+            />
             <DeleteItemModal modalIsOpen={openModal === "delete"}
                              closeModal={closeModal}
                              reloadStockItems={getAllStockItems}
                              setSuccessMessage={setSuccessMessage} idToDelete={idToDelete}
                              setErrorMessage={setErrorMessage}/>
+            {/*Errormessage einfügen*/}
             <EditItemModal modalIsOpen={openModal === "edit"}
                            closeModal={closeModal}
                            reloadStockItems={getAllStockItems}
