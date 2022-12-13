@@ -17,13 +17,28 @@ type ModalProps = {
 }
 
 function EditItemModal(props: ModalProps) {
+    const [errorMessages, setErrorMessages] = useState({
+        name: "", pricePerKilo: "", amountInStock: ""
+    })
     const [editedStockItem, setEditedStockItem] = useState<StockItemModel>(props.itemToEdit)
     useEffect(() => setEditedStockItem(props.itemToEdit), [props.itemToEdit])
+    useEffect(() => {
+        setErrorMessages({name: "", pricePerKilo: "", amountInStock: ""})
+    }, [props.closeModal])
 
 
     const saveNewStockitem = () => {
         axios.put("/stock/", editedStockItem)
-            .catch((e) => console.error("PUT Error: " + e))
+            .catch((e) => {
+                if (e.response.status === 400) {
+                    setErrorMessages({
+                        ...errorMessages,
+                        [e.response.data.fieldName]: e.response.data.errorMessage
+                    })
+                }
+                console.error("POST Error: " + e)
+                throw e
+            })
             .then(props.reloadStockItems)
             .then(props.closeModal)
             .then(() => setEditedStockItem(props.itemToEdit))
@@ -70,6 +85,9 @@ function EditItemModal(props: ModalProps) {
                                    step={"0.1"} min={"0"} required
                                    type={"number"}
                                    id={"price"} name={"pricePerKilo"}/>
+                            {errorMessages.pricePerKilo &&
+                                <div className={"message-container"}><p
+                                    className={"error-message"}>{errorMessages.pricePerKilo}</p></div>}
                         </FieldLabelGroup>
                         <FieldLabelGroup>
                             <label htmlFor={"amount"}>Menge in <abbr title={"Kilogramm"}>kg</abbr></label>
@@ -77,6 +95,9 @@ function EditItemModal(props: ModalProps) {
                                    step={"0.1"} min={"0"} required
                                    type={"number"}
                                    id={"amount"} name={"amountInStock"}/>
+                            {errorMessages.amountInStock &&
+                                <div className={"message-container"}><p
+                                    className={"error-message"}>{errorMessages.amountInStock}</p></div>}
                         </FieldLabelGroup>
                         <FieldLabelGroup>
                             <label htmlFor={"type"}>Typ</label>

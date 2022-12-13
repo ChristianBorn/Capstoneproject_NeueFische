@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal';
 import {StockItemModel} from "./StockItemModel";
 import Form3Rows from "../structuralComponents/Form3Rows";
@@ -17,11 +17,14 @@ type ModalProps = {
 
 function AddItemModal(props: ModalProps) {
     const [errorMessages, setErrorMessages] = useState({
-        name: "",
+        name: "", pricePerKilo: "", amountInStock: ""
     })
     const [newStockItem, setNewStockItem] = useState<StockItemModel>({
         id: "", name: "", amountInStock: 0, pricePerKilo: 0, type: ""
     })
+    useEffect(() => {
+        setErrorMessages({name: "", pricePerKilo: "", amountInStock: ""})
+    }, [props.closeModal])
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -29,7 +32,16 @@ function AddItemModal(props: ModalProps) {
             .then(response => response.data)
             .catch((e) => {
                 if (e.response.status === 409) {
-                    setErrorMessages({name: "Name bereits vergeben"})
+                    setErrorMessages({
+                        ...errorMessages,
+                        name: e.response.data.message
+                    })
+                }
+                if (e.response.status === 400) {
+                    setErrorMessages({
+                        ...errorMessages,
+                        [e.response.data.fieldName]: e.response.data.errorMessage
+                    })
                 }
                 console.error("POST Error: " + e)
                 throw e
@@ -40,9 +52,11 @@ function AddItemModal(props: ModalProps) {
             .then(() => props.setSuccessMessage("Eintrag erfolgreich hinzugefügt"))
     }
 
+
     const handleChange = (event: any) => {
         const name = event.target.name;
         const value = event.target.value;
+
         setNewStockItem({
             ...newStockItem,
             [name]: value
@@ -75,12 +89,18 @@ function AddItemModal(props: ModalProps) {
                             <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required
                                    type={"number"}
                                    id={"price"} name={"pricePerKilo"}/>
+                            {errorMessages.pricePerKilo &&
+                                <div className={"message-container"}><p
+                                    className={"error-message"}>{errorMessages.pricePerKilo}</p></div>}
                         </FieldLabelGroup>
                         <FieldLabelGroup>
                             <label htmlFor={"amount"}>Menge in <abbr title={"Kilogramm"}>kg</abbr></label>
                             <input onChange={handleChange} placeholder={"0"} step={"0.1"} min={"0"} required
                                    type={"number"}
                                    id={"amount"} name={"amountInStock"}/>
+                            {errorMessages.amountInStock &&
+                                <div className={"message-container"}><p
+                                    className={"error-message"}>{errorMessages.amountInStock}</p></div>}
                         </FieldLabelGroup>
                         <FieldLabelGroup>
                             <label htmlFor={"type"}>Typ</label>
