@@ -168,7 +168,7 @@ class StockIntegrationTest {
                         .content(jsonString)
                 )
                 .andExpect(status().is(400))
-                .andExpect(content().string("Feld \"Name/Bezeichnung\" darf nicht leer sein"));
+                .andExpect(content().string("{\"errorMessage\":\"Feld \\\"Name/Bezeichnung\\\" darf nicht leer sein\",\"fieldName\":\"name\"}"));
     }
 
     @Test
@@ -189,7 +189,7 @@ class StockIntegrationTest {
                         .content(jsonString)
                 )
                 .andExpect(status().is(400))
-                .andExpect(content().string("Der Wert muss größer als 0 sein"));
+                .andExpect(content().string("{\"errorMessage\":\"Der Wert muss grÃ¶Ã\u009Fer als 0 sein\",\"fieldName\":\"amountInStock\"}"));
     }
 
     @Test
@@ -211,7 +211,7 @@ class StockIntegrationTest {
                         .content(jsonString)
                 )
                 .andExpect(status().is(400))
-                .andExpect(content().string("Feld \"Name/Bezeichnung\" darf nicht leer sein"));
+                .andExpect(content().string("{\"errorMessage\":\"Feld \\\"Name/Bezeichnung\\\" darf nicht leer sein\",\"fieldName\":\"name\"}"));
     }
 
     @Test
