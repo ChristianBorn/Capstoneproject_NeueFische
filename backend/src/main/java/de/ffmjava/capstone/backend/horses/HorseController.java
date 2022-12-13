@@ -34,7 +34,8 @@ public class HorseController {
                 .stream()
                 .filter(consumption -> consumption.dailyConsumption().compareTo(BigDecimal.ZERO) < 1).toList()
                 .isEmpty()) {
-            return new ResponseEntity<>(new FormError("Der Wert muss größer als 0 sein", "dailyConsumption"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new FormError("Der Wert muss größer als 0 sein", "dailyConsumption"),
+                    HttpStatus.BAD_REQUEST);
         }
         try {
             if (service.updateHorse(updatedHorse)) {
