@@ -7,7 +7,6 @@ import CloseIcon from "../icons/CloseIcon";
 import "../index/css/AddItemModal.css";
 import "../buttons/css/SubmitButton.css";
 
-
 type ModalProps = {
     modalIsOpen: boolean,
     closeModal: () => void,
@@ -17,13 +16,27 @@ type ModalProps = {
 }
 
 function EditHorseModal(props: ModalProps) {
+    const [errorMessages, setErrorMessages] = useState({
+        name: "", owner: ""
+    })
     const [editedHorse, setEditedHorse] = useState<HorseModel>(props.horseToEdit)
     useEffect(() => setEditedHorse(props.horseToEdit), [props.horseToEdit])
-
+    useEffect(() => {
+        setErrorMessages({name: "", owner: ""})
+    }, [props.closeModal])
 
     const saveNewHorse = () => {
         axios.put("/horses/", editedHorse)
-            .catch((e) => console.error("PUT Error: " + e))
+            .catch((e) => {
+                if (e.response.status === 400) {
+                    setErrorMessages({
+                        ...errorMessages,
+                        [e.response.data.fieldName]: e.response.data.errorMessage
+                    })
+                }
+                console.error("POST Error: " + e)
+                throw e
+            })
             .then(props.reloadHorses)
             .then(props.closeModal)
             .then(() => setEditedHorse(props.horseToEdit))
@@ -61,6 +74,9 @@ function EditHorseModal(props: ModalProps) {
                         <label htmlFor={"name"}>Name</label>
                         <input value={editedHorse.name} onChange={handleChange} required type={"text"} id={"name"}
                                name={"name"}/>
+                        {errorMessages.name &&
+                            <div className={"message-container"}><p
+                                className={"error-message"}>{errorMessages.name}</p></div>}
                     </FieldLabelGroup>
 
                     <FieldLabelGroup>
@@ -68,6 +84,9 @@ function EditHorseModal(props: ModalProps) {
                         <input value={editedHorse.owner} onChange={handleChange} required
                                type={"text"}
                                id={"owner"} name={"owner"}/>
+                        {errorMessages.owner &&
+                            <div className={"message-container"}><p
+                                className={"error-message"}>{errorMessages.owner}</p></div>}
                     </FieldLabelGroup>
 
                     <div className={"button-group"}>
