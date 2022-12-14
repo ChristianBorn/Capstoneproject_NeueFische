@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,6 @@ public class ClientService {
     }
 
     public Client addNewClient(Client newClient) {
-        return repository.save(newClient);
+        return repository.save(newClient.withId(UUID.randomUUID().toString()));
     }
 }

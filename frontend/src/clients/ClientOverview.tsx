@@ -5,14 +5,17 @@ import {BounceLoader} from "react-spinners";
 import AddIcon from "../icons/AddIcon";
 import DeleteIcon from "../icons/DeleteIcon";
 import EditIcon from "../icons/EditIcon";
+import AddClientModal from "./AddClientModal";
+import {HorseModel} from "../horses/HorseModel";
 
 function HorseOverview() {
 
-    const [clients, setClients] = useState<ClientModel[]>([])
+    const [clients, setClients] = useState<ClientModel[]>()
+    const [horses, setHorses] = useState<HorseModel[]>([])
     const [successMessage, setSuccessMessage] = useState<string>()
     const [idToDelete, setIdToDelete] = useState<string>("")
     const [clientToEdit, setClientToEdit] = useState<ClientModel>(
-        {id: "", name: "", owns: [], clientSince: ""})
+        {id: "", name: "", ownsHorse: []})
 
     const [openModal, setOpenModal] = useState<"add" | "edit" | "delete">()
 
@@ -41,9 +44,16 @@ function HorseOverview() {
             .catch((error) => console.error("Error while getting clients:" + error))
             .then(setClients)
     }
+    const getAllHorses = () => {
+        axios.get("/horses/")
+            .then((response) => response.data)
+            .catch((error) => console.error("Error while getting horses:" + error))
+            .then(setHorses)
+    }
 
     useEffect(() => {
         getAllClients()
+        getAllHorses()
     }, [])
 
 
@@ -61,10 +71,12 @@ function HorseOverview() {
 
     return (
         <>
-            {/*<AddHorseModal modalIsOpen={openModal === "add"}*/}
-            {/*               closeModal={closeModal}*/}
-            {/*               reloadHorses={getAllclients}*/}
-            {/*               setSuccessMessage={setSuccessMessage}/>*/}
+            <AddClientModal modalIsOpen={openModal === "add"}
+                            closeModal={closeModal}
+                            reloadClients={getAllClients}
+                            setSuccessMessage={setSuccessMessage}
+                            horseList={horses}
+                            registeredClients={clients}/>
             {/*<DeleteHorseModal modalIsOpen={openModal === "delete"}*/}
             {/*                  closeModal={closeModal}*/}
             {/*                  reloadHorses={getAllclients}*/}
@@ -75,12 +87,6 @@ function HorseOverview() {
             {/*                reloadHorses={getAllclients}*/}
             {/*                setSuccessMessage={setSuccessMessage}*/}
             {/*                horseToEdit={clientToEdit}/>*/}
-            {/*<AddConsumptionModal modalIsOpen={openModal === "addConsumption"}*/}
-            {/*                     closeModal={closeModal}*/}
-            {/*                     reloadHorses={getAllclients}*/}
-            {/*                     stockItemList={stockItems}*/}
-            {/*                     setSuccessMessage={setSuccessMessage}*/}
-            {/*                     selectedHorse={clientToEdit}/>*/}
             {clients.length > 0 ?
                 <>
                     <div className={"overview-table-wrapper"}>
@@ -90,7 +96,6 @@ function HorseOverview() {
                             <tr>
                                 <th>Name</th>
                                 <th>Eingestallte/s Pferd/e</th>
-                                <th>Einstaller seit</th>
                                 <th>Aktionen</th>
                             </tr>
                             </thead>
@@ -98,10 +103,9 @@ function HorseOverview() {
                             {clients.map(client => {
                                 return <tr key={client.id}>
                                     <td><strong>{client.name}</strong></td>
-                                    <td>{client.owns && client.owns.map(horse => {
-                                        return <p>horse</p>
+                                    <td>{client.ownsHorse && client.ownsHorse.map(horse => {
+                                        return <p>{horse.name}</p>
                                     })}</td>
-                                    <td>{client.clientSince}</td>
                                     <td>
                                         <div className={"action-cell"}>
                                             <EditIcon onClickAction={openEditModal}
