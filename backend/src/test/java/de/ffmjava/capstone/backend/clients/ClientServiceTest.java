@@ -1,6 +1,7 @@
 package de.ffmjava.capstone.backend.clients;
 
 import de.ffmjava.capstone.backend.clients.model.Client;
+import de.ffmjava.capstone.backend.horses.model.Horse;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -59,6 +60,52 @@ class ClientServiceTest {
         } catch (IllegalArgumentException e) {
             assertEquals("Kein Eintrag für die gegebene ID gefunden", e.getMessage());
             verify(mockRepository).existsById(idToDelete);
+        }
+    }
+
+    @Test
+    void updateClient_AndExpectSuccess_200() {
+        Client newClient = new Client("id", "name", List.of());
+        when(mockRepository.existsById("id")).thenReturn(true);
+        when(mockRepository.existsByOwnsHorseContains(any())).thenReturn(false);
+        assertTrue(service.updateClient(newClient));
+    }
+
+    @Test
+    void updateClient_AndExpectSuccess_201() {
+        Client newClient = new Client("id", "name", List.of());
+        when(mockRepository.existsById("id")).thenReturn(false);
+        when(mockRepository.existsByOwnsHorseContains(any())).thenReturn(false);
+        assertFalse(service.updateClient(newClient));
+    }
+
+    @Test
+    void updateClient_AndExpectException_alreadyOwned() {
+        Horse horseToAdd = new Horse("id", "name", "owner", List.of());
+        Client newClient = new Client("id", "name", List.of(horseToAdd));
+        when(mockRepository.existsById("id")).thenReturn(false);
+        when(mockRepository.existsByOwnsHorseContains(horseToAdd)).thenReturn(true);
+
+        try {
+            service.updateClient(newClient);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("One or more horses are already owned", e.getMessage());
+        }
+    }
+
+    @Test
+    void updateClient_AndExpectException_duplicate() {
+        Horse horseToAdd = new Horse("id", "name", "owner", List.of());
+        Client newClient = new Client("id", "name", List.of(horseToAdd, horseToAdd));
+        when(mockRepository.existsById("id")).thenReturn(false);
+        when(mockRepository.existsByOwnsHorseContains(horseToAdd)).thenReturn(false);
+
+        try {
+            service.updateClient(newClient);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("A horse can only be owned by one person", e.getMessage());
         }
     }
 }

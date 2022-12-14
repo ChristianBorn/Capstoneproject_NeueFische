@@ -42,5 +42,19 @@ public class ClientController {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<Object> updateClient(@Valid @RequestBody Client updatedClient, Errors errors) {
+        ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
+        if (errorMessage != null) return errorMessage;
+        try {
+            if (service.updateClient(updatedClient)) {
+                return new ResponseEntity<>(updatedClient, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(updatedClient, HttpStatus.CREATED);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
 }
 

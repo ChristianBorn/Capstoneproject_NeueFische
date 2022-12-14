@@ -1,6 +1,7 @@
 package de.ffmjava.capstone.backend.clients;
 
 import de.ffmjava.capstone.backend.clients.model.Client;
+import de.ffmjava.capstone.backend.horses.model.Horse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,24 @@ public class ClientService {
         }
         repository.deleteById(id);
         return true;
+    }
+
+    public boolean updateClient(Client updatedClient) {
+        boolean clientExists = repository.existsById(updatedClient.id());
+        if (updatedClient.ownsHorse() != null) {
+            List<String> assignedHorses = updatedClient.ownsHorse().stream()
+                    .map(Horse::id)
+                    .distinct().toList();
+            if (updatedClient.ownsHorse().size() != assignedHorses.size()) {
+                throw new IllegalArgumentException("A horse can only be owned by one person");
+            }
+            for (Horse horseOfUpdatedClient : updatedClient.ownsHorse()) {
+                if (repository.existsByOwnsHorseContains(horseOfUpdatedClient)) {
+                    throw new IllegalArgumentException("One or more horses are already owned");
+                }
+            }
+        }
+        repository.save(updatedClient);
+        return clientExists;
     }
 }
