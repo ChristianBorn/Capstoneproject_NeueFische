@@ -12,7 +12,7 @@ function HorseOverview() {
     const [successMessage, setSuccessMessage] = useState<string>()
     const [idToDelete, setIdToDelete] = useState<string>("")
     const [clientToEdit, setClientToEdit] = useState<ClientModel>(
-        {id: "", name: "", owns: [], clientSince: new Date()})
+        {id: "", name: "", owns: [], clientSince: ""})
 
     const [openModal, setOpenModal] = useState<"add" | "edit" | "delete">()
 
@@ -35,7 +35,7 @@ function HorseOverview() {
         setOpenModal(undefined)
     }
 
-    const getAllclients = () => {
+    const getAllClients = () => {
         axios.get("/clients/")
             .then((response) => response.data)
             .catch((error) => console.error("Error while getting clients:" + error))
@@ -43,7 +43,7 @@ function HorseOverview() {
     }
 
     useEffect(() => {
-        getAllclients()
+        getAllClients()
     }, [])
 
 
@@ -98,10 +98,10 @@ function HorseOverview() {
                             {clients.map(client => {
                                 return <tr key={client.id}>
                                     <td><strong>{client.name}</strong></td>
-                                    <td>{client.owns.map(horse => {
+                                    <td>{client.owns && client.owns.map(horse => {
                                         return <p>horse</p>
                                     })}</td>
-                                    <td>{client.clientSince.toISOString()}</td>
+                                    <td>{client.clientSince}</td>
                                     <td>
                                         <div className={"action-cell"}>
                                             <EditIcon onClickAction={openEditModal}

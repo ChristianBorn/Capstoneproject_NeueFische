@@ -4,5 +4,5 @@ export type ClientModel = {
     id: string,
     name: string,
     owns: HorseModel[],
-    clientSince: Date
+    clientSince: string
 }
