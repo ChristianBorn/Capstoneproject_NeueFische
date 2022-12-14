@@ -5,7 +5,7 @@ import {BounceLoader} from "react-spinners";
 import AddIcon from "../icons/AddIcon";
 import AddHorseModal from "./AddHorseModal";
 import DeleteIcon from "../icons/DeleteIcon";
-import DeleteHorseModal from "./DeleteItemModal";
+import DeleteHorseModal from "./DeleteHorseModal";
 import EditHorseModal from "./EditHorseModal";
 import EditIcon from "../icons/EditIcon";
 import {StockItemModel} from "../stock/StockItemModel";

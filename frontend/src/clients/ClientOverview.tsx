@@ -7,6 +7,7 @@ import DeleteIcon from "../icons/DeleteIcon";
 import EditIcon from "../icons/EditIcon";
 import AddClientModal from "./AddClientModal";
 import {HorseModel} from "../horses/HorseModel";
+import DeleteClientModal from "./DeleteClientModal";
 
 function HorseOverview() {
 
@@ -36,6 +37,8 @@ function HorseOverview() {
     }
     const closeModal = () => {
         setOpenModal(undefined)
+        getAllClients()
+        getAllHorses()
     }
 
     const getAllClients = () => {
@@ -77,11 +80,11 @@ function HorseOverview() {
                             setSuccessMessage={setSuccessMessage}
                             horseList={horses}
                             registeredClients={clients}/>
-            {/*<DeleteHorseModal modalIsOpen={openModal === "delete"}*/}
-            {/*                  closeModal={closeModal}*/}
-            {/*                  reloadHorses={getAllclients}*/}
-            {/*                  setSuccessMessage={setSuccessMessage}*/}
-            {/*                  idToDelete={idToDelete}/>*/}
+            <DeleteClientModal modalIsOpen={openModal === "delete"}
+                               closeModal={closeModal}
+                               reloadClients={getAllClients}
+                               setSuccessMessage={setSuccessMessage}
+                               idToDelete={idToDelete} reloadHorses={getAllHorses}/>
             {/*<EditHorseModal modalIsOpen={openModal === "edit"}*/}
             {/*                closeModal={closeModal}*/}
             {/*                reloadHorses={getAllclients}*/}
