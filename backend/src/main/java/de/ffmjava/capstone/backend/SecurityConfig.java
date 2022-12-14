@@ -20,6 +20,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private static final String PROTECTED_STOCK_PATH = "/stock/**";
     private static final String PROTECTED_HORSE_PATH = "/horses/**";
+    private static final String PROTECTED_CLIENT_PATH = "/clients/**";
+
     private static final String ROLE_BASIC = "Basic";
 
     private final UserService userService;
@@ -41,16 +43,17 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/app-users").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/app-users/me").permitAll()
                 .antMatchers(HttpMethod.GET,
-                        PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH, "/api/app-users/logout", "/api/app-users/login"
+                        PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH, PROTECTED_CLIENT_PATH,
+                        "/api/app-users/logout", "/api/app-users/login"
                 ).hasAnyRole(ROLE_BASIC)
                 .antMatchers(HttpMethod.POST,
-                        PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH)
+                        PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH, PROTECTED_CLIENT_PATH)
                 .hasAnyRole(ROLE_BASIC)
                 .antMatchers(HttpMethod.PUT,
-                        PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH)
+                        PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH, PROTECTED_CLIENT_PATH)
                 .hasAnyRole(ROLE_BASIC)
                 .antMatchers(HttpMethod.DELETE,
-                        PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH)
+                        PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH, PROTECTED_CLIENT_PATH)
                 .hasAnyRole(ROLE_BASIC)
                 .and().build();
     }
