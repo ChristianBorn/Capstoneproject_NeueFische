@@ -62,7 +62,7 @@ class StockServiceTest {
     }
 
     @Test
-    void addNewStockItem_AndExpectStockItem_200() {
+    void addNewStockItem_AndExpectStockItem() {
         //Given
         StockItem newStockItem = new StockItem(null, "name", StockType.FUTTER, BigDecimal.ONE, BigDecimal.ONE);
         //When
