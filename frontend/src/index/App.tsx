@@ -10,6 +10,7 @@ import "../buttons/css/LogoutButton.css";
 import "../buttons/css/GeneralButtonStyles.css";
 import "../index/css/GeneralOverviewPage.css";
 import './css/App.css';
+import ClientOverview from "../clients/ClientOverview";
 
 
 function App() {
@@ -65,7 +66,7 @@ function App() {
                     <div className={"floating-navbar"}>
                         <nav>
                             <NavLink to={"/pferde/ueberblick"}>Pferde</NavLink>
-                            <NavLink to={"/"}>Einstaller</NavLink>
+                            <NavLink to={"/einstaller/ueberblick"}>Einstaller</NavLink>
                             <NavLink to={"/lager/ueberblick"}>Lager</NavLink>
                             <NavLink to={"/"}>Account</NavLink>
                         </nav>
@@ -73,6 +74,7 @@ function App() {
                     <Routes>
                         <Route path={"/lager/ueberblick"} element={<StockOverview/>}></Route>
                         <Route path={"/pferde/ueberblick"} element={<HorseOverview/>}></Route>
+                        <Route path={"/einstaller/ueberblick"} element={<ClientOverview/>}></Route>
                     </Routes>
                 </BrowserRouter>
             </main>
