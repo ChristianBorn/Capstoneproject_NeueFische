@@ -21,44 +21,48 @@ class HorseServiceTest {
 
     @Test
     void getAllHorses() {
+        //Given
+        //When
         when(mockHorseRepository.findAll()).thenReturn(List.of());
-
         List<Horse> expected = List.of();
         List<Horse> actual = service.getAllHorses();
-
+        //Then
         assertEquals(expected, actual);
     }
 
     @Test
     void addNewHorse_AndExpectHorse_200() {
+        //Given
         Horse newHorse = new Horse(null, "name", "owner", null);
-
+        //When
         when(mockHorseRepository.save(any())).thenReturn(newHorse.withId("1"));
-
-
+        //Then
         Horse actual = service.addNewHorse(newHorse);
-
         Horse expected = newHorse.withId("1");
-
         assertEquals(expected, actual);
     }
 
     @Test
     void deleteHorse_AndExpectSuccess() {
+        //Given
         String idToDelete = "1";
+        //When
         when(mockHorseRepository.existsById(idToDelete)).thenReturn(true);
         doNothing().when(mockHorseRepository).deleteById(idToDelete);
-
+        //Then
         assertTrue(service.deleteHorse(idToDelete));
         verify(mockHorseRepository).existsById(idToDelete);
     }
 
     @Test
     void deleteHorse_AndExpectException_404() {
+        //Given
         String idToDelete = "1";
+        //When
         when(mockHorseRepository.existsById(idToDelete))
                 .thenReturn(false);
         doNothing().when(mockHorseRepository).deleteById(idToDelete);
+        //Then
         try {
             service.deleteHorse(idToDelete);
             fail();
@@ -70,10 +74,13 @@ class HorseServiceTest {
 
     @Test
     void UpdateHorse_AndExpectSuccess_201() {
+        //Given
         Horse newHorse = new Horse("id", "name", "owner",
                 List.of(new Consumption("1", "name", new BigDecimal("0"))));
+        //When
         when(mockStockRepository.existsById("1")).thenReturn(true);
         when(mockHorseRepository.existsById("id")).thenReturn(false);
+        //Then
         assertFalse(service.updateHorse(newHorse));
         verify(mockHorseRepository).save(newHorse);
 
@@ -81,10 +88,13 @@ class HorseServiceTest {
 
     @Test
     void UpdateHorse_AndExpectSuccess_200() {
+        //Given
         Horse newHorse = new Horse("id", "name", "owner",
                 List.of(new Consumption("1", "name", new BigDecimal("0"))));
+        //When
         when(mockStockRepository.existsById("1")).thenReturn(true);
         when(mockHorseRepository.existsById("id")).thenReturn(true);
+        //Then
         assertTrue(service.updateHorse(newHorse));
         verify(mockHorseRepository).save(newHorse);
 
@@ -92,9 +102,12 @@ class HorseServiceTest {
 
     @Test
     void UpdateHorse_AndExpectException_400() {
+        //Given
         Horse newHorse = new Horse("id", "name", "owner",
                 List.of(new Consumption("1", "name", new BigDecimal("0")),
                         new Consumption("1", "name", new BigDecimal("0"))));
+        //When
+        //Then
         try {
             service.updateHorse(newHorse);
             fail();
@@ -105,10 +118,12 @@ class HorseServiceTest {
 
     @Test
     void UpdateHorse_NoMatchingStockItem_AndExpectException_400() {
+        //Given
         Horse newHorse = new Horse("id", "name", "owner",
                 List.of(new Consumption("1", "name", new BigDecimal("0"))));
+        //When
         when(mockStockRepository.existsById("1")).thenReturn(false);
-
+        //Then
         try {
             service.updateHorse(newHorse);
             fail();

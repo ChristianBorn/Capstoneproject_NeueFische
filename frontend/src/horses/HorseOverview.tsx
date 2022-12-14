@@ -14,7 +14,7 @@ import AddToIcon from "../icons/AddToIcon";
 
 function HorseOverview() {
 
-    const [horses, setHorses] = useState<HorseModel[]>([])
+    const [horses, setHorses] = useState<HorseModel[]>()
     const [stockItems, setStockItems] = useState<StockItemModel[]>([])
     const [successMessage, setSuccessMessage] = useState<string>()
     const [idToDelete, setIdToDelete] = useState<string>("")
@@ -62,9 +62,7 @@ function HorseOverview() {
     }
 
     const removeConsumption = (consumptionItemToDeleteId: string, editedHorse: HorseModel) => {
-        console.log(editedHorse.consumptionList)
         editedHorse.consumptionList = editedHorse.consumptionList.filter(consumptionItem => consumptionItem.id !== consumptionItemToDeleteId)
-        console.log(editedHorse.consumptionList)
         axios.put("/horses/", editedHorse)
             .catch((e) => console.error("PUT Error: " + e))
             .then(getAllHorses)

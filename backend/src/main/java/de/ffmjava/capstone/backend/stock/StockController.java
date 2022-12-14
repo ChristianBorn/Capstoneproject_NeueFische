@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/stock/")
@@ -24,7 +25,7 @@ class StockController {
     }
 
     @GetMapping("{id}")
-    public StockItem getStockItemById(@PathVariable String id) {
+    public Optional<StockItem> getStockItemById(@PathVariable String id) {
         return service.getStockItemById(id);
     }
 

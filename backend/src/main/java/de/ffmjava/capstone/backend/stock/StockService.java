@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -64,7 +65,7 @@ public class StockService {
         }
     }
 
-    public StockItem getStockItemById(String id) {
-        return stockRepository.getById(id);
+    public Optional<StockItem> getStockItemById(String id) {
+        return stockRepository.findById(id);
     }
 }
