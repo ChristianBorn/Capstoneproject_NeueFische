@@ -20,4 +20,12 @@ public class ClientService {
     public Client addNewClient(Client newClient) {
         return repository.save(newClient.withId(UUID.randomUUID().toString()));
     }
+
+    public boolean deleteClient(String id) {
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException("Kein Eintrag für die gegebene ID gefunden");
+        }
+        repository.deleteById(id);
+        return true;
+    }
 }

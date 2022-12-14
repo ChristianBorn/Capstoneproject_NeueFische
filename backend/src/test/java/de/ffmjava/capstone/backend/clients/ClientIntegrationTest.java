@@ -1,5 +1,7 @@
 package de.ffmjava.capstone.backend.clients;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.ffmjava.capstone.backend.clients.model.Client;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,8 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -21,6 +22,8 @@ class ClientIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @WithMockUser(roles = "Basic")
@@ -39,8 +42,7 @@ class ClientIntegrationTest {
                 """
                             {
                               "name": "Einstaller",
-                              "ownsHorse": [],
-                              "clientSince": "2019-01-21T05:47:08.644"
+                              "ownsHorse": []
                             }
                         """;
         mockMvc.perform(post("/clients/")
@@ -50,8 +52,7 @@ class ClientIntegrationTest {
                 .andExpect(status().is(201))
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.name").isNotEmpty())
-                .andExpect(jsonPath("$.ownsHorse").isEmpty())
-                .andExpect(jsonPath("$.clientSince").isNotEmpty());
+                .andExpect(jsonPath("$.ownsHorse").isEmpty());
     }
 
     @Test
@@ -62,8 +63,7 @@ class ClientIntegrationTest {
                 """
                             {
                               "name": "",
-                              "ownsHorse": [],
-                              "clientSince": "2019-01-21T05:47:08.644"
+                              "ownsHorse": []
                             }
                         """;
         mockMvc.perform(post("/clients/")
@@ -72,5 +72,37 @@ class ClientIntegrationTest {
                 )
                 .andExpect(status().is(400))
                 .andExpect(content().string("Feld \"Name\" darf nicht leer sein"));
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
+    void deleteClient_AndExpect_204() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "name": "Name",
+                              "ownsHorse": []
+                            }
+                        """;
+        String postResponse = mockMvc.perform(post("/clients/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonString)
+        ).andReturn().getResponse().getContentAsString();
+
+
+        String idToDelete = objectMapper.readValue(postResponse, Client.class).id();
+
+        mockMvc.perform(delete
+                        ("/clients/" + idToDelete))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @WithMockUser(roles = "Basic")
+    void deleteClient_AndExpect_404() throws Exception {
+        mockMvc.perform(delete
+                        ("/clients/1"))
+                .andExpect(status().isNotFound());
     }
 }

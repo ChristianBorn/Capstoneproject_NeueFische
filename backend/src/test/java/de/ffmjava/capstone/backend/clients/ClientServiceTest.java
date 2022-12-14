@@ -3,10 +3,9 @@ package de.ffmjava.capstone.backend.clients;
 import de.ffmjava.capstone.backend.clients.model.Client;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -27,7 +26,7 @@ class ClientServiceTest {
 
     @Test
     void addNewClient_AndExpectClient() {
-        Client newClient = new Client(null, "name", List.of(), LocalDateTime.now());
+        Client newClient = new Client(null, "name", List.of());
 
         doReturn(newClient.withId("1")).when(mockRepository).save(any());
 
@@ -36,5 +35,30 @@ class ClientServiceTest {
         Client expected = newClient.withId("1");
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void deleteClient_AndExpectSuccess() {
+        String idToDelete = "1";
+        when(mockRepository.existsById(idToDelete)).thenReturn(true);
+        doNothing().when(mockRepository).deleteById(idToDelete);
+
+        assertTrue(service.deleteClient(idToDelete));
+        verify(mockRepository).existsById(idToDelete);
+    }
+
+    @Test
+    void deleteClient_AndExpectException_404() {
+        String idToDelete = "1";
+        when(mockRepository.existsById(idToDelete))
+                .thenReturn(false);
+        doNothing().when(mockRepository).deleteById(idToDelete);
+        try {
+            service.deleteClient(idToDelete);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("Kein Eintrag für die gegebene ID gefunden", e.getMessage());
+            verify(mockRepository).existsById(idToDelete);
+        }
     }
 }
