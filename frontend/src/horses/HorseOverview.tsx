@@ -6,7 +6,7 @@ import AddIcon from "../icons/AddIcon";
 import AddHorseModal from "./AddHorseModal";
 import DeleteIcon from "../icons/DeleteIcon";
 import DeleteHorseModal from "./DeleteItemModal";
-import EditHorseModal from "./EditItemModal";
+import EditHorseModal from "./EditHorseModal";
 import EditIcon from "../icons/EditIcon";
 import {StockItemModel} from "../stock/StockItemModel";
 import AddConsumptionModal from "./AddConsumptionModal";
