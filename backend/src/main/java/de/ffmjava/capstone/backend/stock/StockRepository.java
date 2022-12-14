@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StockRepository extends MongoRepository<StockItem, String> {
-    StockItem getById(String id);
 
     boolean existsByName(String name);
 }
