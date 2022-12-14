@@ -15,4 +15,8 @@ public class ClientService {
     public List<Client> getAllClients() {
         return repository.findAll();
     }
+
+    public Client addNewClient(Client newClient) {
+        return repository.save(newClient);
+    }
 }
