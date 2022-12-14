@@ -91,7 +91,7 @@ class StockIntegrationTest {
         String idToDelete = objectMapper.readValue(postResponse, StockItem.class).id();
 
         mockMvc.perform(delete
-                        ("/stock//" + idToDelete))
+                        ("/stock/" + idToDelete))
                 .andExpect(status().isNoContent());
     }
 
