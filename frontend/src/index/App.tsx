@@ -68,7 +68,6 @@ function App() {
                             <NavLink to={"/pferde/ueberblick"}>Pferde</NavLink>
                             <NavLink to={"/einstaller/ueberblick"}>Einstaller</NavLink>
                             <NavLink to={"/lager/ueberblick"}>Lager</NavLink>
-                            <NavLink to={"/"}>Account</NavLink>
                         </nav>
                     </div>
                     <Routes>
