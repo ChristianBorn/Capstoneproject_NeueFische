@@ -40,7 +40,8 @@ public class ClientService {
                 throw new IllegalArgumentException("A horse can only be owned by one person");
             }
             for (Horse horseOfUpdatedClient : updatedClient.ownsHorse()) {
-                if (repository.existsByOwnsHorseContains(horseOfUpdatedClient)) {
+                Client foundClient = repository.findByOwnsHorseContains(horseOfUpdatedClient);
+                if (foundClient != null && !foundClient.id().equals(updatedClient.id())) {
                     throw new IllegalArgumentException("One or more horses are already owned");
                 }
             }

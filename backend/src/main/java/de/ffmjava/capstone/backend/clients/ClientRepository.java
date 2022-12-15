@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClientRepository extends MongoRepository<Client, String> {
-    boolean existsByOwnsHorseContains(Horse horseOfUpdatedClient);
+    Client findByOwnsHorseContains(Horse horseOfUpdatedClient);
 }

@@ -8,6 +8,7 @@ import EditIcon from "../icons/EditIcon";
 import AddClientModal from "./AddClientModal";
 import {HorseModel} from "../horses/HorseModel";
 import DeleteClientModal from "./DeleteClientModal";
+import EditClientModal from "./EditClientModal";
 
 function HorseOverview() {
 
@@ -85,11 +86,11 @@ function HorseOverview() {
                                reloadClients={getAllClients}
                                setSuccessMessage={setSuccessMessage}
                                idToDelete={idToDelete} reloadHorses={getAllHorses}/>
-            {/*<EditHorseModal modalIsOpen={openModal === "edit"}*/}
-            {/*                closeModal={closeModal}*/}
-            {/*                reloadHorses={getAllclients}*/}
-            {/*                setSuccessMessage={setSuccessMessage}*/}
-            {/*                horseToEdit={clientToEdit}/>*/}
+            <EditClientModal modalIsOpen={openModal === "edit"}
+                             closeModal={closeModal}
+                             reloadClients={getAllClients}
+                             setSuccessMessage={setSuccessMessage}
+                             clientToEdit={clientToEdit} horseList={horses} registeredClients={clients}/>
             {clients.length > 0 ?
                 <>
                     <div className={"overview-table-wrapper"}>
