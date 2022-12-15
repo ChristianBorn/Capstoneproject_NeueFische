@@ -67,7 +67,7 @@ class ClientServiceTest {
     void updateClient_AndExpectSuccess_200() {
         Client newClient = new Client("id", "name", List.of());
         when(mockRepository.existsById("id")).thenReturn(true);
-        when(mockRepository.existsByOwnsHorseContains(any())).thenReturn(false);
+        when(mockRepository.findByOwnsHorseContains(any())).thenReturn(null);
         assertTrue(service.updateClient(newClient));
     }
 
@@ -75,7 +75,7 @@ class ClientServiceTest {
     void updateClient_AndExpectSuccess_201() {
         Client newClient = new Client("id", "name", List.of());
         when(mockRepository.existsById("id")).thenReturn(false);
-        when(mockRepository.existsByOwnsHorseContains(any())).thenReturn(false);
+        when(mockRepository.findByOwnsHorseContains(any())).thenReturn(null);
         assertFalse(service.updateClient(newClient));
     }
 
@@ -83,8 +83,9 @@ class ClientServiceTest {
     void updateClient_AndExpectException_alreadyOwned() {
         Horse horseToAdd = new Horse("id", "name", "owner", List.of());
         Client newClient = new Client("id", "name", List.of(horseToAdd));
+        Client foundClient = new Client("1", "name2", List.of(horseToAdd));
         when(mockRepository.existsById("id")).thenReturn(false);
-        when(mockRepository.existsByOwnsHorseContains(horseToAdd)).thenReturn(true);
+        when(mockRepository.findByOwnsHorseContains(horseToAdd)).thenReturn(foundClient);
 
         try {
             service.updateClient(newClient);
@@ -99,7 +100,7 @@ class ClientServiceTest {
         Horse horseToAdd = new Horse("id", "name", "owner", List.of());
         Client newClient = new Client("id", "name", List.of(horseToAdd, horseToAdd));
         when(mockRepository.existsById("id")).thenReturn(false);
-        when(mockRepository.existsByOwnsHorseContains(horseToAdd)).thenReturn(false);
+        when(mockRepository.findByOwnsHorseContains(horseToAdd)).thenReturn(null);
 
         try {
             service.updateClient(newClient);
