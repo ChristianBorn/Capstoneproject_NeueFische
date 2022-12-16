@@ -41,7 +41,7 @@ function AddClientModal(props: ModalProps) {
             }
         })
         setHorseSelectList(newHorseSelectList)
-
+        // eslint-disable-next-line
     }, [props.horseList, props.registeredClients])
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
