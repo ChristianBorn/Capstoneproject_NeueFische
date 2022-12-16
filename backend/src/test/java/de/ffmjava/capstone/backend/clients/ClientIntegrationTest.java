@@ -71,7 +71,7 @@ class ClientIntegrationTest {
                         .content(jsonString)
                 )
                 .andExpect(status().is(400))
-                .andExpect(content().string("Feld \"Name\" darf nicht leer sein"));
+                .andExpect(content().string("{\"errorMessage\":\"Feld \\\"Name\\\" darf nicht leer sein\",\"fieldName\":\"name\"}"));
     }
 
     @Test
