@@ -8,11 +8,7 @@ import de.ffmjava.capstone.backend.stock.model.StockItem;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -103,7 +99,6 @@ class StockServiceTest {
     void deleteStockItem_AndExpectException_404() {
         //Given
         String idToDelete = "1";
-        ResponseStatusException expectedException = new ResponseStatusException(HttpStatus.NOT_FOUND, "Kein Eintrag für die gegebene ID gefunden");
         //When
         when(mockStockRepository.existsById(idToDelete))
                 .thenReturn(false);
