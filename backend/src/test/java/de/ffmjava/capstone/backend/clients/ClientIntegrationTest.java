@@ -141,6 +141,34 @@ class ClientIntegrationTest {
     @Test
     @DirtiesContext
     @WithMockUser(roles = "Basic")
+    void putClient_AndExpect_201() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "id": "1",
+                              "name": "Name",
+                              "ownsHorse": []
+                            }
+                        """;
+
+        mockMvc.perform(put("/clients/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+                )
+                .andExpect(status().is(201))
+                .andExpect(content().json("""
+                            {
+                              "id": "1",
+                              "name": "Name",
+                              "ownsHorse": []
+                            }
+                        """));
+
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
     void putClient_AndExpect_DuplicateOwnsHorse_400() throws Exception {
         String jsonString =
                 """
