@@ -5,6 +5,7 @@ import de.ffmjava.capstone.backend.horses.model.Horse;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,11 +30,11 @@ class ClientServiceTest {
     void addNewClient_AndExpectClient() {
         Client newClient = new Client(null, "name", List.of());
 
-        doReturn(newClient.withId("1")).when(mockRepository).save(any());
+        doReturn(newClient.withId(UUID.randomUUID().toString())).when(mockRepository).save(any());
 
         Client actual = service.addNewClient(newClient);
 
-        Client expected = newClient.withId("1");
+        Client expected = newClient.withId(actual.id());
 
         assertEquals(expected, actual);
     }
