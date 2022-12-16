@@ -105,4 +105,111 @@ class ClientIntegrationTest {
                         ("/clients/1"))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
+    void putClient_AndExpect_200() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "name": "Name",
+                              "ownsHorse": []
+                            }
+                        """;
+        String postResponse = mockMvc.perform(post("/clients/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonString)).andReturn().getResponse().getContentAsString();
+
+        Client createdClient = objectMapper.readValue(postResponse, Client.class);
+
+        mockMvc.perform(put("/clients/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(postResponse.replace("Name", "Lord Voldemort"))
+                )
+                .andExpect(status().is(200))
+                .andExpect(content().json("""
+                            {
+                              "id": "<ID>",
+                              "name": "Lord Voldemort",
+                              "ownsHorse": []
+                            }
+                        """
+                        .replace("<ID>", createdClient.id())));
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
+    void putClient_AndExpect_DuplicateOwnsHorse_400() throws Exception {
+        String jsonString =
+                """
+                            {
+                               "id": "6b5a9ae3-4edf-4c5f-9095-3e6f031cb732",
+                               "name": "Client",
+                               "ownsHorse": [
+                                 {
+                                   "id": "b88bc0b4-0638-488a-8b3d-3990dd61bd3c",
+                                   "name": "test",
+                                   "owner": "test",
+                                   "consumptionList": [
+                                     {
+                                       "id": "b40bd21b-6fbe-4291-9c23-7c80039b1eaf",
+                                       "name": "Hafer",
+                                       "dailyConsumption": "1"
+                                     },
+                                     {
+                                       "id": "e9c949de-252a-4e9e-86df-abd64314b4fa",
+                                       "name": "Müsli",
+                                       "dailyConsumption": "1123123"
+                                     }
+                                   ]
+                                 },
+                                 {
+                                   "id": "b88bc0b4-0638-488a-8b3d-3990dd61bd3c",
+                                   "name": "test",
+                                   "owner": "test",
+                                   "consumptionList": [
+                                     {
+                                       "id": "b40bd21b-6fbe-4291-9c23-7c80039b1eaf",
+                                       "name": "Hafer",
+                                       "dailyConsumption": "1"
+                                     },
+                                     {
+                                       "id": "e9c949de-252a-4e9e-86df-abd64314b4fa",
+                                       "name": "Müsli",
+                                       "dailyConsumption": "1123123"
+                                     }
+                                   ]
+                                 }
+                               ]
+                             }
+                        """;
+
+        mockMvc.perform(put("/clients/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+                )
+                .andExpect(status().is(400));
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
+    void putClient_AndExpect_EmptyName_400() throws Exception {
+        String jsonString =
+                """
+                            {
+                               "id": "6b5a9ae3-4edf-4c5f-9095-3e6f031cb732",
+                               "name": "",
+                               "ownsHorse": []
+                             }
+                        """;
+
+        mockMvc.perform(put("/clients/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+                )
+                .andExpect(status().is(400));
+    }
 }
