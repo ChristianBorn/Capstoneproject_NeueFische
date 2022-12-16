@@ -29,9 +29,7 @@ function EditClientModal(props: ModalProps) {
 
     useEffect(() => {
         setEditedClient(props.clientToEdit)
-
-
-    }, [props.modalIsOpen])
+    }, [props.modalIsOpen, props.clientToEdit])
 
     useEffect(() => {
         const newHorseSelectList: { label: string, value: HorseModel }[] = []
@@ -49,7 +47,7 @@ function EditClientModal(props: ModalProps) {
             }
         })
         setHorseSelectList(newHorseSelectList)
-
+        // eslint-disable-next-line
     }, [props.horseList, props.registeredClients])
     useEffect(() => {
         setInitialSelectedHorses(editedClient.ownsHorse.map(horse => ({label: horse.name, value: horse})))
