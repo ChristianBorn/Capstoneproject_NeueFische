@@ -108,7 +108,7 @@ function HorseOverview() {
                                 return <tr key={client.id}>
                                     <td><strong>{client.name}</strong></td>
                                     <td>{client.ownsHorse && client.ownsHorse.map(horse => {
-                                        return <p>{horse.name}</p>
+                                        return <p key={horse.id}>{horse.name}</p>
                                     })}</td>
                                     <td>
                                         <div className={"action-cell"}>
