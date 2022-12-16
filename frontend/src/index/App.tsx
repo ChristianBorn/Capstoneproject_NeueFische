@@ -55,13 +55,9 @@ function App() {
 
     return (
         <div className="App">
-            <header className="App-header">
-            </header>
+            {/*<header className="App-header">*/}
+            {/*</header>*/}
             <main>
-                <div className={"logout-container"}>
-                    <p>Eingeloggt als: {userName}</p>
-                    <button onClick={logout} className={"logout-button"}>Ausloggen</button>
-                </div>
                 <BrowserRouter>
                     <div className={"floating-navbar"}>
                         <nav>
@@ -69,6 +65,10 @@ function App() {
                             <NavLink to={"/einstaller/ueberblick"}>Einstaller</NavLink>
                             <NavLink to={"/lager/ueberblick"}>Lager</NavLink>
                         </nav>
+                    </div>
+                    <div className={"logout-container"}>
+                        <p>Eingeloggt als: {userName}</p>
+                        <button onClick={logout} className={"logout-button"}>Ausloggen</button>
                     </div>
                     <Routes>
                         <Route path={"/lager/ueberblick"} element={<StockOverview/>}></Route>

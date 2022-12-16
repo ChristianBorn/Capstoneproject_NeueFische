@@ -120,11 +120,12 @@ function StockOverview() {
                                 return <tr key={item.id}>
                                     <td><strong>{item.name}</strong></td>
                                     <td>{item.type}</td>
-                                    <td className={item.amountInStock === 0 ? "alert-cell" : ""}>{item.amountInStock}</td>
-                                    <td>{item.pricePerKilo}</td>
+                                    <td className={item.amountInStock === 0 ? "alert-cell" : ""}>{item.amountInStock} kg</td>
+                                    <td>{item.pricePerKilo} €</td>
                                     <td>{dailyConsumption[item.name] ?
                                         dailyConsumption[item.name].dailyAggregatedConsumption
-                                        : <>0</>}</td>
+                                        : <>0</>} kg
+                                    </td>
                                     <td className={dailyConsumption[item.name] && Math.round(item.amountInStock / dailyConsumption[item.name].dailyAggregatedConsumption) < 14 ? "alert-cell" : ""}>
                                         {dailyConsumption[item.name] ?
                                             Math.round(item.amountInStock / dailyConsumption[item.name].dailyAggregatedConsumption) + " Tagen"
