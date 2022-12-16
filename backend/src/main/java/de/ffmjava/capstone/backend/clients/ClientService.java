@@ -32,7 +32,7 @@ public class ClientService {
 
     public boolean updateClient(Client updatedClient) {
         boolean clientExists = repository.existsById(updatedClient.id());
-        if (updatedClient.ownsHorse() != null) {
+        if (!updatedClient.ownsHorse().isEmpty()) {
             List<String> assignedHorses = updatedClient.ownsHorse().stream()
                     .map(Horse::id)
                     .distinct().toList();
