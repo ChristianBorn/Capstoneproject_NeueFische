@@ -6,7 +6,6 @@ import de.ffmjava.capstone.backend.stock.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,10 +24,10 @@ public class HorseService {
     }
 
     @CacheEvict(value = AGGREGATED_CONSUMPTION_CACHE, allEntries = true)
-    public boolean updateHorse(Horse updatedHorse) throws ResponseStatusException {
+    public boolean updateHorse(Horse updatedHorse) throws IllegalArgumentException {
         boolean horseExists = horseRepository.existsById(updatedHorse.id());
-
-        List<String> assignedStockItemIds = updatedHorse.consumptionList().stream()
+        List<String> assignedStockItemIds = updatedHorse.consumptionList()
+                .stream()
                 .map(Consumption::id)
                 .distinct().toList();
         if (updatedHorse.consumptionList().size() != assignedStockItemIds.size()) {

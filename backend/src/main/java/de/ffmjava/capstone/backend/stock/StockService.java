@@ -40,14 +40,15 @@ public class StockService {
 
             for (Horse horse : horsesWithStockItemId) {
                 List<Consumption> consumptionWithoutStockItem = horse.consumptionList()
-                        .stream().filter(consumptionItem -> !consumptionItem.id().equals(id)).toList();
+                        .stream().
+                        filter(consumptionItem -> !consumptionItem.id().equals(id))
+                        .toList();
                 horsesToUpdate.add(horse.withConsumptionList(consumptionWithoutStockItem));
             }
             horseRepository.saveAll(horsesToUpdate);
         }
         stockRepository.deleteById(id);
         return true;
-
     }
 
     public StockItem addNewStockItem(StockItem newStockItem) {
@@ -71,7 +72,8 @@ public class StockService {
 
     @Cacheable(value = AGGREGATED_CONSUMPTION_CACHE)
     public Map<String, AggregatedConsumption> getAggregatedConsumptions() {
-        return horseRepository.aggregateConsumptions().stream()
+        return horseRepository.aggregateConsumptions()
+                .stream()
                 .collect(Collectors.toMap(AggregatedConsumption::id, Function.identity()));
     }
 
@@ -79,13 +81,16 @@ public class StockService {
     public void subtractConsumption() {
         Map<String, AggregatedConsumption> consumptions = getAggregatedConsumptions();
         List<StockItem> stockItemsToUpdate = stockRepository.findByNameIn(consumptions.keySet().stream().toList());
-        List<StockItem> updatedStockItems = stockItemsToUpdate.stream().map(singleItem -> {
-            if (singleItem.amountInStock().compareTo(BigDecimal.ZERO) <= 0) {
-                return singleItem;
-            }
-            return singleItem.withAmountInStock(singleItem.amountInStock()
-                    .subtract(consumptions.get(singleItem.name()).dailyAggregatedConsumption()));
-        }).toList();
+        List<StockItem> updatedStockItems = stockItemsToUpdate
+                .stream()
+                .map(singleItem -> {
+                    if (singleItem.amountInStock().compareTo(BigDecimal.ZERO) <= 0) {
+                        return singleItem;
+                    }
+                    return singleItem.withAmountInStock(singleItem.amountInStock()
+                            .subtract(consumptions.get(singleItem.name()).dailyAggregatedConsumption()));
+                })
+                .toList();
         stockRepository.saveAll(updatedStockItems);
     }
 }

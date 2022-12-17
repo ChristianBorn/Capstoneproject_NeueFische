@@ -34,7 +34,6 @@ function EditClientModal(props: ModalProps) {
     useEffect(() => {
         const newHorseSelectList: { label: string, value: HorseModel }[] = []
         let horsesWithOwners: {}[] = []
-
         setClients(props.registeredClients)
         clients.map(client => client.ownsHorse
             .map(horse => horsesWithOwners.push(horse.id)))
@@ -60,7 +59,6 @@ function EditClientModal(props: ModalProps) {
             .then(props.closeModal)
             .then(() => setEditedClient(props.clientToEdit))
             .then(() => props.setSuccessMessage("Eintrag erfolgreich geändert"))
-
     }
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -83,14 +81,12 @@ function EditClientModal(props: ModalProps) {
         })
     }
 
-
     return (
         <Modal
             isOpen={props.modalIsOpen}
             contentLabel="Edit Modal"
             ariaHideApp={false}
-            onRequestClose={props.closeModal}
-        >
+            onRequestClose={props.closeModal}>
             <CloseIcon closeModal={props.closeModal}/>
             <section>
                 <h2>Einstaller bearbeiten</h2>

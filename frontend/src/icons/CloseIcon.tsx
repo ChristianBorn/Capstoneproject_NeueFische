@@ -11,8 +11,7 @@ function CloseIcon(props: iconProps) {
     return (
         <span className={"modal-close-button"} onClick={() => props.closeModal()}>
             <FontAwesomeIcon icon={faXmark}/>
-            </span>
-
+        </span>
     );
 }
 

@@ -19,7 +19,6 @@ type ModalProps = {
 
 function DeleteItemModal(props: ModalProps) {
 
-
     const deleteStockItem = (id: string) => {
         axios.delete("/stock/" + id)
             .catch(error => {
@@ -30,15 +29,17 @@ function DeleteItemModal(props: ModalProps) {
             .then(props.closeModal)
             .then(() => props.setSuccessMessage("Eintrag erfolgreich gelöscht"))
     }
+
     return (
         <Modal
             isOpen={props.modalIsOpen}
             contentLabel="Delete Modal"
             ariaHideApp={false}
-            onRequestClose={props.closeModal}
-        >
+            onRequestClose={props.closeModal}>
             <CloseIcon closeModal={props.closeModal}/>
-            <span><p>Soll der Eintrag wirklich gelöscht werden?</p></span>
+            <span>
+                <p>Soll der Eintrag wirklich gelöscht werden?</p>
+            </span>
             <div className={"button-group"}>
                 <button className={"abort-button"} onClick={() => props.closeModal()}>Abbrechen</button>
                 <button className={"submit-button"} onClick={() => deleteStockItem(props.idToDelete)}>Eintrag löschen
@@ -47,7 +48,6 @@ function DeleteItemModal(props: ModalProps) {
             <span className={"modal-close-button"} onClick={() => props.closeModal()}>
                 <FontAwesomeIcon icon={faXmark}/>
             </span>
-
         </Modal>
     );
 }

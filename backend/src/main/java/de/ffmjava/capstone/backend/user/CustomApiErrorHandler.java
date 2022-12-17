@@ -31,7 +31,6 @@ public class CustomApiErrorHandler {
         this.errors = errors;
     }
 
-
     public static ResponseEntity<Object> handlePossibleErrors(Errors errors) {
         if (errors.hasErrors()) {
             FieldError fieldError;
@@ -44,10 +43,8 @@ public class CustomApiErrorHandler {
                     formError = new FormError(errorMessage, fieldError.getField());
                 }
             }
-
             return new ResponseEntity<>(formError, HttpStatus.BAD_REQUEST);
         }
         return null;
     }
-
 }

@@ -20,9 +20,7 @@ function HorseOverview() {
     const [idToDelete, setIdToDelete] = useState<string>("")
     const [horseToEdit, setHorseToEdit] = useState<HorseModel>(
         {id: "", name: "", owner: "", consumptionList: []})
-
     const [openModal, setOpenModal] = useState<"add" | "edit" | "delete" | "addConsumption">()
-
 
     const openAddModal = () => {
         setOpenModal("add")
@@ -74,7 +72,6 @@ function HorseOverview() {
         getAllStockItems()
     }, [])
 
-
     if (horses === undefined) {
         return <BounceLoader
             size={100}
@@ -113,7 +110,6 @@ function HorseOverview() {
                 <>
                     <div className={"overview-table-wrapper"}>
                         <table>
-
                             <thead>
                             <tr>
                                 <th>Name</th>
@@ -155,11 +151,9 @@ function HorseOverview() {
                                         </div>
                                     </td>
                                 </tr>
-                            })
-                            }
+                            })}
                             </tbody>
                         </table>
-
                     </div>
                     {successMessage && <div className={"success-message"}>{successMessage}</div>}
                 </>
@@ -168,7 +162,6 @@ function HorseOverview() {
                     {successMessage && <div className={"success-message"}>{successMessage}</div>}
                     <p>Keine Pferde im Stall</p>
                 </div>
-
             }
             <AddIcon openModal={openAddModal} title={"Neuen Verbrauch hinzufügen"}/>
         </>

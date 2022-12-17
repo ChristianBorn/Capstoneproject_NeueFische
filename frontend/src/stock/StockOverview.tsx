@@ -27,7 +27,6 @@ function StockOverview() {
     })
     const [openModal, setOpenModal] = useState<"add" | "edit" | "delete" | "addConsumption">()
 
-
     const getAllStockItems = () => {
         axios.get("/stock/")
             .then((response) => response.data)
@@ -59,12 +58,10 @@ function StockOverview() {
         setOpenModal(undefined)
     }
 
-
     useEffect(() => {
         getAllStockItems()
         getAggregatedConsumption()
     }, [getAggregatedConsumption])
-
 
     if (stockItems === undefined) {
         return <BounceLoader
@@ -78,32 +75,27 @@ function StockOverview() {
         />
     }
 
-
-
     return (
         <>
-
-            {/*Errormessage einfügen*/}
             <AddItemModal modalIsOpen={openModal === "add"}
                           closeModal={closeModal}
                           reloadStockItems={getAllStockItems}
-                          setSuccessMessage={setSuccessMessage}
-            />
+                          setSuccessMessage={setSuccessMessage}/>
             <DeleteItemModal modalIsOpen={openModal === "delete"}
                              closeModal={closeModal}
                              reloadStockItems={getAllStockItems}
-                             setSuccessMessage={setSuccessMessage} idToDelete={idToDelete}
+                             setSuccessMessage={setSuccessMessage}
+                             idToDelete={idToDelete}
                              setErrorMessage={setErrorMessage}/>
-            {/*Errormessage einfügen*/}
             <EditItemModal modalIsOpen={openModal === "edit"}
                            closeModal={closeModal}
                            reloadStockItems={getAllStockItems}
-                           setSuccessMessage={setSuccessMessage} itemToEdit={itemToEdit}/>
+                           setSuccessMessage={setSuccessMessage}
+                           itemToEdit={itemToEdit}/>
             {stockItems.length > 0 ?
                 <>
                     <div className={"overview-table-wrapper"}>
                         <table>
-
                             <thead>
                             <tr>
                                 <th>Name</th>
@@ -122,15 +114,17 @@ function StockOverview() {
                                     <td>{item.type}</td>
                                     <td className={item.amountInStock === 0 ? "alert-cell" : ""}>{item.amountInStock} kg</td>
                                     <td>{item.pricePerKilo} €</td>
-                                    <td>{dailyConsumption[item.name] ?
-                                        dailyConsumption[item.name].dailyAggregatedConsumption
-                                        : <>0</>} kg
+                                    <td>
+                                        {dailyConsumption[item.name] ?
+                                            dailyConsumption[item.name].dailyAggregatedConsumption
+                                            : <>0</>} kg
                                     </td>
-                                    <td className={dailyConsumption[item.name] && Math.round(item.amountInStock / dailyConsumption[item.name].dailyAggregatedConsumption) < 14 ? "alert-cell" : ""}>
+                                    <td
+                                        className={dailyConsumption[item.name] && Math.round(item.amountInStock / dailyConsumption[item.name].dailyAggregatedConsumption) < 14 ? "alert-cell" : ""}>
                                         {dailyConsumption[item.name] ?
                                             Math.round(item.amountInStock / dailyConsumption[item.name].dailyAggregatedConsumption) + " Tagen"
-                                            : <>-</>}</td>
-
+                                            : <>-</>}
+                                    </td>
                                     <td>
                                         <div className={"action-cell"}>
                                             <EditIcon onClickAction={openEditModal}
@@ -140,8 +134,7 @@ function StockOverview() {
                                         </div>
                                     </td>
                                 </tr>
-                            })
-                            }
+                            })}
                             </tbody>
                         </table>
 

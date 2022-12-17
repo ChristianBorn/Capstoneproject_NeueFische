@@ -65,5 +65,4 @@ public class HorseController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-
 }

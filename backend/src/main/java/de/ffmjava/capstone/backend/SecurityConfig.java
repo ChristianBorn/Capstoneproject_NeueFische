@@ -33,7 +33,6 @@ public class SecurityConfig {
         return passwordEncoder;
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -57,7 +56,6 @@ public class SecurityConfig {
                 .hasAnyRole(ROLE_BASIC)
                 .and().build();
     }
-
 
     @Bean
     public UserDetailsManager userDetailsService() {

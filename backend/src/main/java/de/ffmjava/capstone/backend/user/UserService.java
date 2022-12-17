@@ -14,7 +14,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-
     public AppUser findByUsername(String username) {
         return userRepository.findByUsername(username);
     }

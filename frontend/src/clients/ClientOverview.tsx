@@ -54,12 +54,10 @@ function HorseOverview() {
             .catch((error) => console.error("Error while getting horses:" + error))
             .then(setHorses)
     }
-
     useEffect(() => {
         getAllClients()
         getAllHorses()
     }, [])
-
 
     if (clients === undefined) {
         return <BounceLoader
@@ -85,17 +83,20 @@ function HorseOverview() {
                                closeModal={closeModal}
                                reloadClients={getAllClients}
                                setSuccessMessage={setSuccessMessage}
-                               idToDelete={idToDelete} reloadHorses={getAllHorses}/>
+                               idToDelete={idToDelete}
+                               reloadHorses={getAllHorses}/>
             <EditClientModal modalIsOpen={openModal === "edit"}
                              closeModal={closeModal}
                              reloadClients={getAllClients}
                              setSuccessMessage={setSuccessMessage}
-                             clientToEdit={clientToEdit} horseList={horses} registeredClients={clients}/>
+                             clientToEdit={clientToEdit}
+                             horseList={horses}
+                             registeredClients={clients}/>
+
             {clients.length > 0 ?
                 <>
                     <div className={"overview-table-wrapper"}>
                         <table>
-
                             <thead>
                             <tr>
                                 <th>Name</th>
@@ -107,9 +108,11 @@ function HorseOverview() {
                             {clients.map(client => {
                                 return <tr key={client.id}>
                                     <td><strong>{client.name}</strong></td>
-                                    <td>{client.ownsHorse && client.ownsHorse.map(horse => {
-                                        return <p key={horse.id}>{horse.name}</p>
-                                    })}</td>
+                                    <td>
+                                        {client.ownsHorse && client.ownsHorse.map(horse => {
+                                            return <p key={horse.id}>{horse.name}</p>
+                                        })}
+                                    </td>
                                     <td>
                                         <div className={"action-cell"}>
                                             <EditIcon onClickAction={openEditModal}
@@ -119,11 +122,9 @@ function HorseOverview() {
                                         </div>
                                     </td>
                                 </tr>
-                            })
-                            }
+                            })}
                             </tbody>
                         </table>
-
                     </div>
                     {successMessage && <div className={"success-message"}>{successMessage}</div>}
                 </>
@@ -132,7 +133,6 @@ function HorseOverview() {
                     {successMessage && <div className={"success-message"}>{successMessage}</div>}
                     <p>Keine Einstaller angelegt</p>
                 </div>
-
             }
             <AddIcon openModal={openAddModal} title={"Neuen Einstaller hinzufügen"}/>
         </>

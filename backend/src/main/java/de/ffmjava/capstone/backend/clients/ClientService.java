@@ -30,10 +30,11 @@ public class ClientService {
         return true;
     }
 
-    public boolean updateClient(Client updatedClient) {
+    public boolean updateClient(Client updatedClient) throws IllegalArgumentException {
         boolean clientExists = repository.existsById(updatedClient.id());
         if (!updatedClient.ownsHorse().isEmpty()) {
-            List<String> assignedHorses = updatedClient.ownsHorse().stream()
+            List<String> assignedHorses = updatedClient.ownsHorse()
+                    .stream()
                     .map(Horse::id)
                     .distinct().toList();
             if (updatedClient.ownsHorse().size() != assignedHorses.size()) {

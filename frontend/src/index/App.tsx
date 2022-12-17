@@ -14,8 +14,7 @@ import ClientOverview from "../clients/ClientOverview";
 
 
 function App() {
-    const [userName, setUserDetails] = useState<string>();
-
+    const [userName, setUserDetails] = useState<string>()
 
     const fetchUsername = () => {
         axios.get("/api/app-users/me")
@@ -28,7 +27,6 @@ function App() {
     }
 
     useEffect(fetchUsername, [])
-
 
     if (userName === undefined) {
         return <BounceLoader
@@ -43,7 +41,6 @@ function App() {
     }
     if (userName === "anonymousUser") {
         return <>
-
             <BrowserRouter>
                 <Routes>
                     <Route path={"/*"} element={<LoginPage onLogin={fetchUsername}/>}></Route>

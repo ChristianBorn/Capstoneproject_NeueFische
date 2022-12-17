@@ -16,8 +16,7 @@ function AddToIcon(props: iconProps) {
         <span title={props.title} onClick={() => props.onClickAction(props.addTo)}
               className={"clickable-icon add-record-icon"}>
                     <FontAwesomeIcon icon={faCirclePlus}/>
-                            </span>
-
+        </span>
     );
 }
 

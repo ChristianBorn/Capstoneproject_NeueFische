@@ -15,8 +15,7 @@ function EditIcon(props: IconProps) {
         <span title={"Eintrag bearbeiten"} onClick={() => props.onClickAction(props.itemToEdit)}
               className={"clickable-icon edit-record-icon"}>
                     <FontAwesomeIcon icon={faPen}/>
-                            </span>
-
+        </span>
     );
 }
 
