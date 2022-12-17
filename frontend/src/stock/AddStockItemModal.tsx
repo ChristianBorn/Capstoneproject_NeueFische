@@ -52,7 +52,6 @@ function AddItemModal(props: ModalProps) {
             .then(() => props.setSuccessMessage("Eintrag erfolgreich hinzugefügt"))
     }
 
-
     const handleChange = (event: any) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -68,8 +67,7 @@ function AddItemModal(props: ModalProps) {
             isOpen={props.modalIsOpen}
             contentLabel="Add Modal"
             ariaHideApp={false}
-            onRequestClose={props.closeModal}
-        >
+            onRequestClose={props.closeModal}>
             <CloseIcon closeModal={props.closeModal}/>
             <section>
                 <h2>Neue Position dem Lager hinzufügen</h2>
@@ -94,6 +92,7 @@ function AddItemModal(props: ModalProps) {
                                 <div className={"message-container"}><p
                                     className={"error-message"}>{errorMessages.pricePerKilo}</p></div>}
                         </FieldLabelGroup>
+
                         <FieldLabelGroup>
                             <label htmlFor={"amount"}>Menge in <abbr title={"Kilogramm"}>kg</abbr></label>
                             <input onChange={handleChange} placeholder={"0"}
@@ -104,6 +103,7 @@ function AddItemModal(props: ModalProps) {
                                 <div className={"message-container"}><p
                                     className={"error-message"}>{errorMessages.amountInStock}</p></div>}
                         </FieldLabelGroup>
+
                         <FieldLabelGroup>
                             <label htmlFor={"type"}>Typ</label>
                             <select onChange={handleChange} required id={"type"} name={"type"}>
@@ -113,6 +113,7 @@ function AddItemModal(props: ModalProps) {
                             </select>
                         </FieldLabelGroup>
                     </Form3Rows>
+
                     <div className={"button-group"}>
                         <button className={"submit-button"} type={"submit"}>Einlagern</button>
                         <button className={"abort-button"} onClick={props.closeModal}>Abbrechen</button>

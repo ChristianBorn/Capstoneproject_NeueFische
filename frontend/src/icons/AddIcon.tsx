@@ -13,8 +13,7 @@ function AddIcon(props: iconProps) {
     return (
         <span title={props.title} onClick={() => props.openModal()} className={"add-record-icon"}>
                     <FontAwesomeIcon icon={faCirclePlus}/>
-                            </span>
-
+        </span>
     );
 }
 

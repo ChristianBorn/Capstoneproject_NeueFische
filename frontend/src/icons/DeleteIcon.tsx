@@ -14,8 +14,7 @@ function DeleteIcon(props: IconProps) {
         <span title={"Eintrag löschen"} onClick={() => props.onClickAction(props.idToDelete)}
               className={"clickable-icon delete-record-icon"}>
                     <FontAwesomeIcon icon={faTrash}/>
-                            </span>
-
+        </span>
     );
 }
 

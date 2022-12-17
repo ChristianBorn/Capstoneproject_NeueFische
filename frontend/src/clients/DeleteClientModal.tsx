@@ -33,8 +33,7 @@ function DeleteClientModal(props: ModalProps) {
             isOpen={props.modalIsOpen}
             contentLabel="Delete Modal"
             ariaHideApp={false}
-            onRequestClose={props.closeModal}
-        >
+            onRequestClose={props.closeModal}>
             <CloseIcon closeModal={props.closeModal}/>
             <span><p>Soll der Eintrag wirklich gelöscht werden?</p></span>
             <div className={"button-group"}>
@@ -45,7 +44,6 @@ function DeleteClientModal(props: ModalProps) {
             <span className={"modal-close-button"} onClick={() => props.closeModal()}>
                 <FontAwesomeIcon icon={faXmark}/>
             </span>
-
         </Modal>
     );
 }

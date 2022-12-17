@@ -18,7 +18,6 @@ type ModalProps = {
 
 function DeleteHorseModal(props: ModalProps) {
 
-
     const deleteHorse = (id: string) => {
         axios.delete("/horses/" + id)
             .catch(error => console.error("DELETE Error: " + error))
@@ -31,8 +30,7 @@ function DeleteHorseModal(props: ModalProps) {
             isOpen={props.modalIsOpen}
             contentLabel="Delete Modal"
             ariaHideApp={false}
-            onRequestClose={props.closeModal}
-        >
+            onRequestClose={props.closeModal}>
             <CloseIcon closeModal={props.closeModal}/>
             <span><p>Soll der Eintrag wirklich gelöscht werden?</p></span>
             <div className={"button-group"}>
@@ -43,7 +41,6 @@ function DeleteHorseModal(props: ModalProps) {
             <span className={"modal-close-button"} onClick={() => props.closeModal()}>
                 <FontAwesomeIcon icon={faXmark}/>
             </span>
-
         </Modal>
     );
 }

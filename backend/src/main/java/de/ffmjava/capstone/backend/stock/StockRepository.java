@@ -10,7 +10,5 @@ import java.util.List;
 public interface StockRepository extends MongoRepository<StockItem, String> {
 
     boolean existsByName(String name);
-
     List<StockItem> findByNameIn(List<String> keySet);
-
 }

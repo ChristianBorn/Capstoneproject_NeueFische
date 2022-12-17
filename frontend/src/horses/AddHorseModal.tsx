@@ -51,14 +51,12 @@ function AddHorseModal(props: ModalProps) {
         })
     }
 
-
     return (
         <Modal
             isOpen={props.modalIsOpen}
             contentLabel="Add Modal"
             ariaHideApp={false}
-            onRequestClose={props.closeModal}
-        >
+            onRequestClose={props.closeModal}>
             <CloseIcon closeModal={props.closeModal}/>
             <section>
                 <h2>Neues Pferd anlegen</h2>

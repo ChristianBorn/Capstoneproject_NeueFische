@@ -31,7 +31,6 @@ function RegisterPage() {
 
     }
 
-
     return <>
         <div className={"login-form-area"}>
             <h2>Registrierung</h2>
@@ -61,7 +60,6 @@ function RegisterPage() {
             <button className={"submit-button"} onClick={() => register()}>Registrieren</button>
             {successMessage &&
                 <div className={"message-container"}><p className={"success-message"}>{successMessage}</p></div>}
-
 
             <Link to="/">Zurück zu login</Link>
         </div>

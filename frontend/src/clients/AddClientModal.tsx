@@ -71,8 +71,7 @@ function AddClientModal(props: ModalProps) {
             isOpen={props.modalIsOpen}
             contentLabel="Add Modal"
             ariaHideApp={false}
-            onRequestClose={props.closeModal}
-        >
+            onRequestClose={props.closeModal}>
             <CloseIcon closeModal={props.closeModal}/>
             <section>
                 <h2>Neuen Einstaller anlegen</h2>
@@ -98,6 +97,5 @@ function AddClientModal(props: ModalProps) {
         </Modal>
     );
 }
-
 
 export default AddClientModal;

@@ -41,7 +41,6 @@ function EditHorseModal(props: ModalProps) {
             .then(props.closeModal)
             .then(() => setEditedHorse(props.horseToEdit))
             .then(() => props.setSuccessMessage("Eintrag erfolgreich geändert"))
-
     }
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -57,14 +56,12 @@ function EditHorseModal(props: ModalProps) {
         })
     }
 
-
     return (
         <Modal
             isOpen={props.modalIsOpen}
             contentLabel="Edit Modal"
             ariaHideApp={false}
-            onRequestClose={props.closeModal}
-        >
+            onRequestClose={props.closeModal}>
             <CloseIcon closeModal={props.closeModal}/>
             <section>
                 <h2>Pferd bearbeiten</h2>

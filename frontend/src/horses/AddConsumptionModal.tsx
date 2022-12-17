@@ -116,7 +116,6 @@ function AddConsumptionModal(props: ModalProps) {
                     </div>
                 </form>
             </section>
-
         </Modal>
     );
 }

@@ -17,6 +17,7 @@ type ModalProps = {
 }
 
 function EditItemModal(props: ModalProps) {
+
     const [errorMessages, setErrorMessages] = useState({
         name: "", pricePerKilo: "", amountInStock: ""
     })
@@ -25,7 +26,6 @@ function EditItemModal(props: ModalProps) {
     useEffect(() => {
         setErrorMessages({name: "", pricePerKilo: "", amountInStock: ""})
     }, [props.closeModal])
-
 
     const saveNewStockitem = () => {
         axios.put("/stock/", editedStockItem)
@@ -43,7 +43,6 @@ function EditItemModal(props: ModalProps) {
             .then(props.closeModal)
             .then(() => setEditedStockItem(props.itemToEdit))
             .then(() => props.setSuccessMessage("Eintrag erfolgreich geändert"))
-
     }
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -59,14 +58,12 @@ function EditItemModal(props: ModalProps) {
         })
     }
 
-
     return (
         <Modal
             isOpen={props.modalIsOpen}
             contentLabel="Edit Modal"
             ariaHideApp={false}
-            onRequestClose={props.closeModal}
-        >
+            onRequestClose={props.closeModal}>
             <CloseIcon closeModal={props.closeModal}/>
             <section>
                 <h2>Position bearbeiten</h2>
@@ -89,6 +86,7 @@ function EditItemModal(props: ModalProps) {
                                 <div className={"message-container"}><p
                                     className={"error-message"}>{errorMessages.pricePerKilo}</p></div>}
                         </FieldLabelGroup>
+
                         <FieldLabelGroup>
                             <label htmlFor={"amount"}>Menge in <abbr title={"Kilogramm"}>kg</abbr></label>
                             <input value={editedStockItem.amountInStock} onChange={handleChange} placeholder={"0"}
@@ -99,6 +97,7 @@ function EditItemModal(props: ModalProps) {
                                 <div className={"message-container"}><p
                                     className={"error-message"}>{errorMessages.amountInStock}</p></div>}
                         </FieldLabelGroup>
+
                         <FieldLabelGroup>
                             <label htmlFor={"type"}>Typ</label>
                             <select onChange={handleChange} required id={"type"} name={"type"}>
@@ -109,6 +108,7 @@ function EditItemModal(props: ModalProps) {
                             </select>
                         </FieldLabelGroup>
                     </Form3Rows>
+
                     <div className={"button-group"}>
                         <button className={"submit-button"} type={"submit"}>Änderungen speichern</button>
                     </div>
