@@ -65,10 +65,28 @@ class ClientServiceTest {
     }
 
     @Test
-    void updateClient_AndExpectSuccess_200() {
+    void updateClient_WithoutPreownedHorse_AndExpectSuccess_200() {
         Client newClient = new Client("id", "name", List.of());
         when(mockRepository.existsById("id")).thenReturn(true);
         when(mockRepository.findByOwnsHorseContains(any())).thenReturn(null);
+        assertTrue(service.updateClient(newClient));
+    }
+
+    @Test
+    void updateClient_WithPreownedHorse_AndExpectSuccess_200() {
+        Horse ownedHorse = new Horse("id", "name", "owner", List.of());
+        Horse horseToAdd = new Horse("id2", "name2", "owner2", List.of());
+        Client oldClient = new Client("id", "name", List.of(ownedHorse));
+        Client newClient = new Client("id", "name", List.of(ownedHorse, horseToAdd));
+        when(mockRepository.existsById("id")).thenReturn(true);
+        when(mockRepository.findByOwnsHorseContains(ownedHorse)).thenReturn(oldClient);
+        assertTrue(service.updateClient(newClient));
+    }
+
+    @Test
+    void updateClient_NoOwnership_AndExpectSuccess_200() {
+        Client newClient = new Client("id", "name", List.of());
+        when(mockRepository.existsById("id")).thenReturn(true);
         assertTrue(service.updateClient(newClient));
     }
 
