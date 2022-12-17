@@ -126,6 +126,28 @@ class StockServiceTest {
     }
 
     @Test
+    void deleteStockItem_OneMatchingConsumptionToDelete_200() {
+        //Given
+        String idToDelete = "1";
+        Consumption consumptionToDelete = new Consumption("1", "name", new BigDecimal("1.0"));
+        Consumption consumptionToKeep = new Consumption("2", "name", new BigDecimal("1.0"));
+        Horse retrievedHorse = new Horse("id", "name", "owner",
+                List.of(consumptionToDelete, consumptionToKeep));
+        Horse horseToSave = new Horse("id", "name", "owner",
+                List.of(consumptionToKeep));
+        //When
+        when(mockStockRepository.existsById(idToDelete))
+                .thenReturn(true);
+        when(mockHorseRepository.findHorsesByConsumptionId("1")).thenReturn(new ArrayList<>(
+                List.of(retrievedHorse)));
+        when(mockHorseRepository.saveAll(List.of(horseToSave))).thenReturn(List.of(horseToSave));
+        //Then
+        assertTrue(service.deleteStockItem("1"));
+        assertTrue(horseToSave.consumptionList().contains(consumptionToKeep));
+        verify(mockHorseRepository).saveAll(List.of(horseToSave));
+    }
+
+    @Test
     void deleteStockItem_cascadingDeleteConsumption_200() {
         //Given
         String idToDelete = "1";

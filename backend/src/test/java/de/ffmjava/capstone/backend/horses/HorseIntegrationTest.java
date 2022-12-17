@@ -285,4 +285,48 @@ class HorseIntegrationTest {
                 .andExpect(status().is(400))
                 .andExpect(status().reason("Consumption item not in stock"));
     }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
+    void putHorse_withNegativeDailyConsumption_AndExpect_400() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "name": "Hansi",
+                              "owner": "Peter Pan",
+                              "consumptionList": [
+                              {
+                                "id": "43279367-20b8-4b7e-891f-0c8d2a2428d2",
+                                "name": "Hafer",
+                                "dailyConsumption": "10"
+                                }
+                                            ]
+                            }
+                        """;
+        mockMvc.perform(post("/horses/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonString)).andReturn().getResponse().getContentAsString();
+
+
+        mockMvc.perform(put("/horses/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                      {
+                                      "id": "<ID>",
+                                      "name": "Lord Voldemort",
+                                      "owner": "Peter Pan",
+                                      "consumptionList": [
+                                      {
+                                        "id": "43279367-20b8-4b7e-891f-0c8d2a2428d2",
+                                        "name": "Hafer",
+                                        "dailyConsumption": "-10"
+                                      }
+                                                    ]
+                                    }
+                                """)
+                )
+                .andExpect(status().is(400))
+                .andExpect(content().string("{\"errorMessage\":\"Der Wert muss grÃ¶Ã\u009Fer als 0 sein\",\"fieldName\":\"dailyConsumption\"}"));
+    }
 }
