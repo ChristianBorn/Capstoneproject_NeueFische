@@ -147,30 +147,30 @@ class StockServiceTest {
 
     @Test
     void getAggregatedConsumptions() {
+        //Given
         AggregatedConsumption consumption = new AggregatedConsumption("Hafer", new BigDecimal("1.0"));
-
-        when(mockHorseRepository.aggregateConsumptions()).thenReturn(List.of(
-                consumption));
+        //When
+        when(mockHorseRepository.aggregateConsumptions()).thenReturn(List.of(consumption));
+        //Then
         Map<String, AggregatedConsumption> expected = new HashMap<>(
                 Map.of("Hafer", consumption));
         Map<String, AggregatedConsumption> actual = service.getAggregatedConsumptions();
-
         assertEquals(expected, actual);
     }
 
     @Test
     void subtractConsumption() {
+        //Given
         Map<String, AggregatedConsumption> consumption = new HashMap<>(Map.of("Hafer", new AggregatedConsumption("Hafer", new BigDecimal("1"))));
         StockItem retrievedStockItem = new StockItem("id", "Hafer", StockType.FUTTER,
                 new BigDecimal("100"), new BigDecimal("1"));
         List<StockItem> updatedStockitems = List.of(retrievedStockItem.withAmountInStock(new BigDecimal("99")));
-
+        //When
         when(mockHorseRepository.aggregateConsumptions()).thenReturn(List.of(consumption.get("Hafer")));
         when(mockStockRepository.findByNameIn(consumption.keySet().stream().toList())).thenReturn(List.of(retrievedStockItem));
         when(mockStockRepository.saveAll(List.of(retrievedStockItem.withAmountInStock(new BigDecimal("99"))))).thenReturn(updatedStockitems);
-
+        //Then
         service.subtractConsumption();
-
         verify(mockStockRepository).saveAll(updatedStockitems);
         verify(mockHorseRepository).aggregateConsumptions();
         verify(mockStockRepository).findByNameIn(consumption.keySet().stream().toList());
@@ -178,16 +178,16 @@ class StockServiceTest {
 
     @Test
     void subtractConsumption_withEmptyStock() {
+        //Given
         Map<String, AggregatedConsumption> consumption = new HashMap<>(Map.of("Hafer", new AggregatedConsumption("Hafer", new BigDecimal("1"))));
         StockItem retrievedStockItem = new StockItem("id", "Hafer", StockType.FUTTER,
                 new BigDecimal("0"), new BigDecimal("1"));
-
+        //When
         when(mockHorseRepository.aggregateConsumptions()).thenReturn(List.of(consumption.get("Hafer")));
         when(mockStockRepository.findByNameIn(consumption.keySet().stream().toList())).thenReturn(List.of(retrievedStockItem));
         when(mockStockRepository.saveAll(List.of(retrievedStockItem))).thenReturn(List.of(retrievedStockItem));
-
+        //Then
         service.subtractConsumption();
-
         verify(mockHorseRepository).aggregateConsumptions();
         verify(mockStockRepository).findByNameIn(consumption.keySet().stream().toList());
         verify(mockStockRepository).saveAll(List.of(retrievedStockItem));
