@@ -49,7 +49,7 @@ function RegisterPage() {
                 {registrationErrorMessage.rawPassword &&
                     <div className={"message-container"}>
                         {registrationErrorMessage.rawPassword.map(errorMessage =>
-                            <p className={"error-message"}>{errorMessage}</p>
+                            <p key={Math.random() * 100000} className={"error-message"}>{errorMessage}</p>
                         )}
                     </div>}
 
