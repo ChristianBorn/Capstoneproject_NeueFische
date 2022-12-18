@@ -21,7 +21,6 @@ Backend: <br>
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
 <br>
 
 
