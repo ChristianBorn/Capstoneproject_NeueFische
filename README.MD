@@ -35,6 +35,4 @@ Frontend:<br>
 - Start backend application <br>
 - Start frontend application (with start-button in package.json)<br>
 - Open http://localhost:3000 in a browser <br>
-- Open MongoDB-Compass and connect to mongodb://localhost:27017<br>
-- Create a database named "stableManagement"<br>
-- Create a collection named "appUser"<br>
+- Start MongoDB on port 27017
