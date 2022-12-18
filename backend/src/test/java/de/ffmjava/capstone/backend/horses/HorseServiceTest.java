@@ -81,7 +81,7 @@ class HorseServiceTest {
         when(mockHorseRepository.existsById("id")).thenReturn(false);
         //Then
         assertFalse(service.updateHorse(newHorse));
-        verify(mockHorseRepository).save(newHorse);
+        verify(mockHorseRepository).save(any());
 
     }
 

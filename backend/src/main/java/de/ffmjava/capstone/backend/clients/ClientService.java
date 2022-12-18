@@ -47,7 +47,11 @@ public class ClientService {
                 }
             }
         }
-        repository.save(updatedClient);
+        if (!clientExists) {
+            repository.save(updatedClient.withId(UUID.randomUUID().toString()));
+        } else {
+            repository.save(updatedClient);
+        }
         return clientExists;
     }
 }

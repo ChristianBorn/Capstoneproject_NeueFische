@@ -38,7 +38,11 @@ public class HorseService {
                 throw new IllegalArgumentException("Consumption item not in stock");
             }
         }
-        horseRepository.save(updatedHorse);
+        if (!horseExists) {
+            horseRepository.save(updatedHorse.withId(UUID.randomUUID().toString()));
+        } else {
+            horseRepository.save(updatedHorse);
+        }
         return horseExists;
     }
 
