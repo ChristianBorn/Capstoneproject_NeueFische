@@ -62,7 +62,11 @@ public class StockService {
     @CacheEvict(value = AGGREGATED_CONSUMPTION_CACHE, allEntries = true)
     public boolean updateStockItem(StockItem updatedStockItem) {
         boolean stockItemExists = stockRepository.existsById(updatedStockItem.id());
-        stockRepository.save(updatedStockItem);
+        if (!stockItemExists) {
+            stockRepository.save(updatedStockItem.withId(UUID.randomUUID().toString()));
+        } else {
+            stockRepository.save(updatedStockItem);
+        }
         return stockItemExists;
     }
 
