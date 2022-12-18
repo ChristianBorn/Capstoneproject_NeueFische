@@ -17,9 +17,8 @@ https://stable-buddy.fly.dev/
 Backend: <br>
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=coverage)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
 <br>
 
@@ -27,10 +26,8 @@ Backend: <br>
 Frontend:<br>
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_frontend&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_frontend)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_frontend&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_frontend)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_frontend&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_frontend)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_frontend&metric=bugs)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_frontend)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_frontend&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_frontend)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_frontend&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_frontend)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_frontend&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_frontend)
 ### Installation
 
 - Open project in an IDE <br>
