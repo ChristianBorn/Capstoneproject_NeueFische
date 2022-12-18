@@ -22,7 +22,6 @@ Backend: <br>
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_backend&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_backend)
 <br>
 
-
 Frontend:<br>
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_frontend&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_frontend)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=christianborn_Capstone_frontend&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=christianborn_Capstone_frontend)
@@ -38,10 +37,4 @@ Frontend:<br>
 - Open http://localhost:3000 in a browser <br>
 - Open MongoDB-Compass and connect to mongodb://localhost:27017<br>
 - Create a database named "stableManagement"<br>
-- Create a collection named "client"<br>
 - Create a collection named "appUser"<br>
-- Create a collection named "horse"<br>
-- Create a collection named "stockItem"<br>
-
-
-
