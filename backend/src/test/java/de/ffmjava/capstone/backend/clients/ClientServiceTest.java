@@ -1,6 +1,7 @@
 package de.ffmjava.capstone.backend.clients;
 
 import de.ffmjava.capstone.backend.clients.model.Client;
+import de.ffmjava.capstone.backend.horses.HorseRepository;
 import de.ffmjava.capstone.backend.horses.model.Horse;
 import org.junit.jupiter.api.Test;
 
@@ -13,14 +14,15 @@ import static org.mockito.Mockito.*;
 
 class ClientServiceTest {
 
-    private final ClientRepository mockRepository = mock(ClientRepository.class);
-    private final ClientService service = new ClientService(mockRepository);
+    private final ClientRepository mockClientRepository = mock(ClientRepository.class);
+    private final HorseRepository mockHorseRepository = mock(HorseRepository.class);
+    private final ClientService service = new ClientService(mockClientRepository, mockHorseRepository);
 
     @Test
     void getAllClients() {
         //Given
         //When
-        when(mockRepository.findAll()).thenReturn(List.of());
+        when(mockClientRepository.findAll()).thenReturn(List.of());
         //Then
         List<Client> actual = service.getAllClients();
         List<Client> expected = List.of();
@@ -32,7 +34,7 @@ class ClientServiceTest {
         //Given
         Client newClient = new Client(null, "name", List.of());
         //When
-        doReturn(newClient.withId(UUID.randomUUID().toString())).when(mockRepository).save(any());
+        doReturn(newClient.withId(UUID.randomUUID().toString())).when(mockClientRepository).save(any());
         //Then
         Client actual = service.addNewClient(newClient);
         Client expected = newClient.withId(actual.id());
@@ -44,11 +46,11 @@ class ClientServiceTest {
         //Given
         String idToDelete = "1";
         //When
-        when(mockRepository.existsById(idToDelete)).thenReturn(true);
-        doNothing().when(mockRepository).deleteById(idToDelete);
+        when(mockClientRepository.existsById(idToDelete)).thenReturn(true);
+        doNothing().when(mockClientRepository).deleteById(idToDelete);
         //Then
         assertTrue(service.deleteClient(idToDelete));
-        verify(mockRepository).existsById(idToDelete);
+        verify(mockClientRepository).existsById(idToDelete);
     }
 
     @Test
@@ -56,16 +58,16 @@ class ClientServiceTest {
         //Given
         String idToDelete = "1";
         //When
-        when(mockRepository.existsById(idToDelete))
+        when(mockClientRepository.existsById(idToDelete))
                 .thenReturn(false);
-        doNothing().when(mockRepository).deleteById(idToDelete);
+        doNothing().when(mockClientRepository).deleteById(idToDelete);
         //Then
         try {
             service.deleteClient(idToDelete);
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Kein Eintrag für die gegebene ID gefunden", e.getMessage());
-            verify(mockRepository).existsById(idToDelete);
+            verify(mockClientRepository).existsById(idToDelete);
         }
     }
 
@@ -74,8 +76,8 @@ class ClientServiceTest {
         //Given
         Client newClient = new Client("id", "name", List.of());
         //When
-        when(mockRepository.existsById("id")).thenReturn(true);
-        when(mockRepository.findByOwnsHorseContains(any())).thenReturn(null);
+        when(mockClientRepository.existsById("id")).thenReturn(true);
+        when(mockClientRepository.findByOwnsHorseContains(any())).thenReturn(null);
         //Then
         assertTrue(service.updateClient(newClient));
     }
@@ -88,8 +90,8 @@ class ClientServiceTest {
         Client oldClient = new Client("id", "name", List.of(ownedHorse));
         Client newClient = new Client("id", "name", List.of(ownedHorse, horseToAdd));
         //When
-        when(mockRepository.existsById("id")).thenReturn(true);
-        when(mockRepository.findByOwnsHorseContains(ownedHorse)).thenReturn(oldClient);
+        when(mockClientRepository.existsById("id")).thenReturn(true);
+        when(mockClientRepository.findByOwnsHorseContains(ownedHorse)).thenReturn(oldClient);
         //Then
         assertTrue(service.updateClient(newClient));
     }
@@ -99,7 +101,7 @@ class ClientServiceTest {
         //Given
         Client newClient = new Client("id", "name", List.of());
         //When
-        when(mockRepository.existsById("id")).thenReturn(true);
+        when(mockClientRepository.existsById("id")).thenReturn(true);
         //Then
         assertTrue(service.updateClient(newClient));
     }
@@ -109,8 +111,8 @@ class ClientServiceTest {
         //Given
         Client newClient = new Client("id", "name", List.of());
         //When
-        when(mockRepository.existsById("id")).thenReturn(false);
-        when(mockRepository.findByOwnsHorseContains(any())).thenReturn(null);
+        when(mockClientRepository.existsById("id")).thenReturn(false);
+        when(mockClientRepository.findByOwnsHorseContains(any())).thenReturn(null);
         //Then
         assertFalse(service.updateClient(newClient));
     }
@@ -122,8 +124,8 @@ class ClientServiceTest {
         Client newClient = new Client("id", "name", List.of(horseToAdd));
         Client foundClient = new Client("1", "name2", List.of(horseToAdd));
         //When
-        when(mockRepository.existsById("id")).thenReturn(false);
-        when(mockRepository.findByOwnsHorseContains(horseToAdd)).thenReturn(foundClient);
+        when(mockClientRepository.existsById("id")).thenReturn(false);
+        when(mockClientRepository.findByOwnsHorseContains(horseToAdd)).thenReturn(foundClient);
         //Then
         try {
             service.updateClient(newClient);
@@ -139,8 +141,8 @@ class ClientServiceTest {
         Horse horseToAdd = new Horse("id", "name", "owner", List.of());
         Client newClient = new Client("id", "name", List.of(horseToAdd, horseToAdd));
         //When
-        when(mockRepository.existsById("id")).thenReturn(false);
-        when(mockRepository.findByOwnsHorseContains(horseToAdd)).thenReturn(null);
+        when(mockClientRepository.existsById("id")).thenReturn(false);
+        when(mockClientRepository.findByOwnsHorseContains(horseToAdd)).thenReturn(null);
         //Then
         try {
             service.updateClient(newClient);
