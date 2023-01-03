@@ -1,7 +1,9 @@
 package de.ffmjava.capstone.backend.horses;
 
+import de.ffmjava.capstone.backend.clients.ClientRepository;
 import de.ffmjava.capstone.backend.horses.model.Consumption;
 import de.ffmjava.capstone.backend.horses.model.Horse;
+import de.ffmjava.capstone.backend.horses.model.HorseDTO;
 import de.ffmjava.capstone.backend.stock.StockRepository;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +18,8 @@ class HorseServiceTest {
 
     private final HorseRepository mockHorseRepository = mock(HorseRepository.class);
     private final StockRepository mockStockRepository = mock(StockRepository.class);
-    private final HorseService service = new HorseService(mockHorseRepository, mockStockRepository);
+    private final ClientRepository mockClientRepository = mock(ClientRepository.class);
+    private final HorseService service = new HorseService(mockHorseRepository, mockStockRepository, mockClientRepository);
 
     @Test
     void getAllHorses() {
@@ -24,7 +27,7 @@ class HorseServiceTest {
         //When
         when(mockHorseRepository.findAll()).thenReturn(List.of());
         List<Horse> expected = List.of();
-        List<Horse> actual = service.getAllHorses();
+        List<HorseDTO> actual = service.getAllHorses();
         //Then
         assertEquals(expected, actual);
     }
