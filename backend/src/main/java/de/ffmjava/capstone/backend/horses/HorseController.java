@@ -1,6 +1,5 @@
 package de.ffmjava.capstone.backend.horses;
 
-import de.ffmjava.capstone.backend.horses.model.Horse;
 import de.ffmjava.capstone.backend.horses.model.HorseDTO;
 import de.ffmjava.capstone.backend.model.FormError;
 import de.ffmjava.capstone.backend.user.CustomApiErrorHandler;
@@ -47,14 +46,6 @@ public class HorseController {
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-    }
-
-    @PostMapping
-    public ResponseEntity<Object> addNewHorse(@Valid @RequestBody Horse newHorse, Errors errors) {
-        ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
-        if (errorMessage != null) return errorMessage;
-        Horse createdHorse = service.addNewHorse(newHorse);
-        return new ResponseEntity<>(createdHorse, HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")
