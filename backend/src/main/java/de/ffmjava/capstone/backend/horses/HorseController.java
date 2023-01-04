@@ -37,11 +37,12 @@ public class HorseController {
             return new ResponseEntity<>(new FormError("Der Wert muss größer als 0 sein", "dailyConsumption"),
                     HttpStatus.BAD_REQUEST);
         }
-        try {
-            if (service.updateHorse(updatedHorse)) {
-                return new ResponseEntity<>(updatedHorse, HttpStatus.OK);
+       try {
+            HorseDTO horseToReturn = service.updateHorse(updatedHorse);
+            if (horseToReturn.id().equals(updatedHorse.id())) {
+                return new ResponseEntity<>(horseToReturn, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(updatedHorse, HttpStatus.CREATED);
+                return new ResponseEntity<>(horseToReturn, HttpStatus.CREATED);
             }
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
