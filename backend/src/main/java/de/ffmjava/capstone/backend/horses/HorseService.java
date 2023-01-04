@@ -43,8 +43,7 @@ public class HorseService {
     }
 
     @CacheEvict(value = AGGREGATED_CONSUMPTION_CACHE, allEntries = true)
-    public boolean updateHorse(HorseDTO updatedHorse) throws IllegalArgumentException {
-        boolean horseExists = horseRepository.existsById(updatedHorse.id());
+    public HorseDTO updateHorse(HorseDTO updatedHorse) throws IllegalArgumentException {
         List<String> assignedStockItemIds = updatedHorse.consumptionList()
                 .stream()
                 .map(Consumption::id)
@@ -57,12 +56,14 @@ public class HorseService {
                 throw new IllegalArgumentException("Consumption item not in stock");
             }
         }
-        if (!horseExists) {
-            horseRepository.save(Horse.createHorseFromDTO(updatedHorse).withId(UUID.randomUUID().toString()));
+        if (!horseRepository.existsById(updatedHorse.id())) {
+            return updatedHorse.withId(horseRepository
+                    .save(Horse.createHorseFromDTO(updatedHorse)
+                            .withId(UUID.randomUUID().toString())).id());
         } else {
             horseRepository.save(Horse.createHorseFromDTO(updatedHorse));
+            return updatedHorse;
         }
-        return horseExists;
     }
 
     public Horse addNewHorse(Horse newHorse) {
