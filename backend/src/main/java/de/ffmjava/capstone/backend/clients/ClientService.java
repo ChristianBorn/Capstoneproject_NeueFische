@@ -42,16 +42,16 @@ public class ClientService {
         return true;
     }
 
-    public boolean updateClient(Client updatedClient) throws IllegalArgumentException {
+    public boolean updateClient(ClientDTO updatedClient) throws IllegalArgumentException {
         boolean clientExists = clientRepository.existsById(updatedClient.id());
         if (!updatedClient.ownsHorse().isEmpty()) {
             List<String> assignedHorses = updatedClient.ownsHorse()
-                    .stream()
+                    .stream().map(Horse::id)
                     .distinct().toList();
             if (updatedClient.ownsHorse().size() != assignedHorses.size()) {
                 throw new IllegalArgumentException("A horse can only be owned by one person");
             }
-            for (String horseOfUpdatedClientId : updatedClient.ownsHorse()) {
+            for (String horseOfUpdatedClientId : assignedHorses) {
                 Client foundClient = clientRepository.findByOwnsHorseContains(horseOfUpdatedClientId);
                 if (foundClient != null && !foundClient.id().equals(updatedClient.id())) {
                     throw new IllegalArgumentException("One or more horses are already owned");
@@ -61,11 +61,15 @@ public class ClientService {
                     Horse horseToUpdate = retrievedHorse.get();
                     horseRepository.save(horseToUpdate.withOwner(updatedClient.id()));
                 }
+                else {
+                    throw new IllegalArgumentException("Horse with <ID> does not exist"
+                            .replace("<ID>", horseOfUpdatedClientId));
+                }
             }        }
         if (!clientExists) {
-            clientRepository.save(updatedClient.withId(UUID.randomUUID().toString()));
+            clientRepository.save(Client.createClientFromDTO(updatedClient).withId(UUID.randomUUID().toString()));
         } else {
-            clientRepository.save(updatedClient);
+            clientRepository.save(Client.createClientFromDTO(updatedClient));
         }
         return clientExists;
     }

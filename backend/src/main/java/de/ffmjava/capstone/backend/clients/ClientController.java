@@ -44,7 +44,7 @@ public class ClientController {
     }
 
     @PutMapping
-    public ResponseEntity<Object> updateClient(@Valid @RequestBody Client updatedClient, Errors errors) {
+    public ResponseEntity<Object> updateClient(@Valid @RequestBody ClientDTO updatedClient, Errors errors) {
         ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
         if (errorMessage != null) return errorMessage;
         try {
