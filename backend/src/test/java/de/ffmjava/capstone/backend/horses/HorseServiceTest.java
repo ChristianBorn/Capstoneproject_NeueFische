@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,11 +25,38 @@ class HorseServiceTest {
     private final HorseService service = new HorseService(mockHorseRepository, mockStockRepository, mockClientRepository);
 
     @Test
-    void getAllHorses() {
+    void getAllHorses_returnEmptyList() {
         //Given
         //When
         when(mockHorseRepository.findAll()).thenReturn(List.of());
         List<HorseDTO> expected = List.of();
+        List<HorseDTO> actual = service.getAllHorses();
+        //Then
+        assertEquals(expected, actual);
+    }
+    @Test
+    void getAllHorses_withOwnerNotPresent() {
+        //Given
+        Horse retrievedHorse = new Horse("id", "name", "", List.of());
+        HorseDTO returnedHorse = new HorseDTO("id", "name", null, List.of());
+        //When
+        when(mockHorseRepository.findAll()).thenReturn(List.of(retrievedHorse));
+        when(mockClientRepository.findById("")).thenReturn(Optional.empty());
+        List<HorseDTO> expected = List.of(returnedHorse);
+        List<HorseDTO> actual = service.getAllHorses();
+        //Then
+        assertEquals(expected, actual);
+    }
+    @Test
+    void getAllHorses_withOwnerPresent() {
+        //Given
+        Horse retrievedHorse = new Horse("id", "name", "id", List.of());
+        Client retrievedClient = new Client("id", "name", List.of("id"));
+        HorseDTO returnedHorse = new HorseDTO("id", "name", retrievedClient, List.of());
+        //When
+        when(mockHorseRepository.findAll()).thenReturn(List.of(retrievedHorse));
+        when(mockClientRepository.findById("id")).thenReturn(Optional.of(retrievedClient));
+        List<HorseDTO> expected = List.of(returnedHorse);
         List<HorseDTO> actual = service.getAllHorses();
         //Then
         assertEquals(expected, actual);

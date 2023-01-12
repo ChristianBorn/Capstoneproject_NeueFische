@@ -30,13 +30,20 @@ public class HorseService {
         List<Horse> retrievedHorses = horseRepository.findAll();
         List<HorseDTO> horsesToReturn = new ArrayList<>();
         for (Horse horse : retrievedHorses) {
-
             Optional<Client> foundClient = clientRepository.findById(horse.owner());
             if (foundClient.isPresent()) {
-                horsesToReturn.add(new HorseDTO(horse.id(), horse.name(), foundClient.get(), horse.consumptionList()));
+                horsesToReturn.add(new HorseDTO(
+                        horse.id(),
+                        horse.name(),
+                        foundClient.get(),
+                        horse.consumptionList()));
             }
             else {
-                horsesToReturn.add(new HorseDTO(horse.id(), horse.name(), null, horse.consumptionList()));
+                horsesToReturn.add(new HorseDTO(
+                        horse.id(),
+                        horse.name(),
+                        null,
+                        horse.consumptionList()));
             }
         }
         return horsesToReturn;
