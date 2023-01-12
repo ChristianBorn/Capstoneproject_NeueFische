@@ -21,13 +21,27 @@ class ClientServiceTest {
     private final ClientService service = new ClientService(mockClientRepository, mockHorseRepository);
 
     @Test
-    void getAllClients() {
+    void getAllClients_returnEmptyList() {
         //Given
         //When
         when(mockClientRepository.findAll()).thenReturn(List.of());
         //Then
         List<ClientDTO> actual = service.getAllClients();
         List<ClientDTO> expected = List.of();
+        assertEquals(expected, actual);
+    }
+    @Test
+    void getAllClients_returnListWithOwnedHorse() {
+        //Given
+        Horse ownedHorse = new Horse("id", "name", "id", List.of());
+        Client retrievedClient = new Client("id", "name", List.of(ownedHorse.id()));
+        ClientDTO returnedClient = new ClientDTO("id", "name", List.of(ownedHorse));
+        //When
+        when(mockClientRepository.findAll()).thenReturn(List.of(retrievedClient));
+        when(mockHorseRepository.findAllById(retrievedClient.ownsHorse())).thenReturn(List.of(ownedHorse));
+        //Then
+        List<ClientDTO> actual = service.getAllClients();
+        List<ClientDTO> expected = List.of(returnedClient);
         assertEquals(expected, actual);
     }
 
@@ -154,6 +168,23 @@ class ClientServiceTest {
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("A horse can only be owned by one person", e.getMessage());
+        }
+    }
+    @Test
+    void updateClient_AndExpectException_nonExistingHorse() {
+        //Given
+        Horse horseToAdd = new Horse("id", "name", "owner", List.of());
+        ClientDTO newClient = new ClientDTO("id", "name", List.of(horseToAdd));
+        //When
+        when(mockClientRepository.existsById("id")).thenReturn(true);
+        when(mockClientRepository.findByOwnsHorseContains(horseToAdd.id())).thenReturn(null);
+        when(mockHorseRepository.findById(horseToAdd.id())).thenReturn(Optional.empty());
+        //Then
+        try {
+            service.updateClient(newClient);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("Horse with id does not exist", e.getMessage());
         }
     }
 }
