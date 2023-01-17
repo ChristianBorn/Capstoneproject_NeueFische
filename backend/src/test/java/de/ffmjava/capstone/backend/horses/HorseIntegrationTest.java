@@ -108,6 +108,30 @@ class HorseIntegrationTest {
                 )
                 .andExpect(status().is(201));
     }
+    @Test
+    @DirtiesContext
+    @WithMockUser(roles = "Basic")
+    void putHorse_AndExpect_200() throws Exception {
+        String jsonString =
+                """
+                            {
+                              "id": "1",
+                              "name": "Hansi",
+                              "owner": null,
+                              "consumptionList": []
+                            }
+                        """;
+        String returnedHorse = mockMvc.perform(put("/horses/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+                ).andReturn().getResponse().getContentAsString();
+
+        mockMvc.perform(put("/horses/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(returnedHorse.replace("Hansi", "Lord Voldemort")))
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.name").value("Lord Voldemort"));
+    }
 
     @Test
     @DirtiesContext
