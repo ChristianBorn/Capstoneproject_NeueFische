@@ -187,4 +187,17 @@ class ClientServiceTest {
             assertEquals("Horse with id does not exist", e.getMessage());
         }
     }
+    @Test
+    void createClientFromClientDTO() {
+        //Given
+        Horse ownedHorse = new Horse("1", "name", "2", List.of());
+        ClientDTO client = new ClientDTO("2", "name", List.of((ownedHorse)));
+        //When
+
+        //Then
+        Client actual = Client.createClientFromDTO(client);
+        Client expected = new Client("2", "name", List.of(ownedHorse.id()));
+
+        assertEquals(expected, actual);
+    }
 }
