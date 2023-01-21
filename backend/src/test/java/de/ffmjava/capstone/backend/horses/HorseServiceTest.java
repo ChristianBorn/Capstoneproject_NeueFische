@@ -173,4 +173,29 @@ class HorseServiceTest {
             assertEquals("Consumption item not in stock", e.getMessage());
         }
     }
+    @Test
+    void createHorseFromDTO_ownerPresent() {
+        //Given
+        Client owner = new Client("1", "name", List.of("1"));
+        HorseDTO horse = new HorseDTO("1", "name", owner, List.of());
+        //When
+
+        //Then
+        Horse actual = Horse.createHorseFromDTO(horse);
+        Horse expected = new Horse("1", "name", owner.id(), List.of());
+
+        assertEquals(expected, actual);
+    }
+    @Test
+    void createHorseFromDTO_ownerNotPresent() {
+        //Given
+        HorseDTO horse = new HorseDTO("1", "name", null, List.of());
+        //When
+
+        //Then
+        Horse actual = Horse.createHorseFromDTO(horse);
+        Horse expected = new Horse("1", "name", "", List.of());
+
+        assertEquals(expected, actual);
+    }
 }
