@@ -1,6 +1,5 @@
 package de.ffmjava.capstone.backend.clients;
 
-import de.ffmjava.capstone.backend.clients.model.Client;
 import de.ffmjava.capstone.backend.clients.model.ClientDTO;
 import de.ffmjava.capstone.backend.user.CustomApiErrorHandler;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +22,6 @@ public class ClientController {
     @GetMapping
     List<ClientDTO> getAllClients() {
         return service.getAllClients();
-    }
-
-    @PostMapping
-    public ResponseEntity<Object> addNewClient(@Valid @RequestBody ClientDTO newClient, Errors errors) {
-        ResponseEntity<Object> errorMessage = CustomApiErrorHandler.handlePossibleErrors(errors);
-        if (errorMessage != null) return errorMessage;
-        Client createdClient = service.addNewClient(newClient);
-        return new ResponseEntity<>(createdClient, HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")

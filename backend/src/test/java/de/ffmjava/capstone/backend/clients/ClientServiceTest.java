@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,6 +29,7 @@ class ClientServiceTest {
         List<ClientDTO> expected = List.of();
         assertEquals(expected, actual);
     }
+
     @Test
     void getAllClients_returnListWithOwnedHorse() {
         //Given
@@ -42,19 +42,6 @@ class ClientServiceTest {
         //Then
         List<ClientDTO> actual = service.getAllClients();
         List<ClientDTO> expected = List.of(returnedClient);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void addNewClient_AndExpectClient() {
-        //Given
-        ClientDTO newClient = new ClientDTO(null, "name", List.of());
-        Client savedClient = Client.createClientFromDTO(newClient);
-        //When
-        doReturn(savedClient.withId(UUID.randomUUID().toString())).when(mockClientRepository).save(any());
-        //Then
-        Client actual = service.addNewClient(newClient);
-        Client expected = savedClient.withId(actual.id());
         assertEquals(expected, actual);
     }
 
@@ -170,6 +157,7 @@ class ClientServiceTest {
             assertEquals("A horse can only be owned by one person", e.getMessage());
         }
     }
+
     @Test
     void updateClient_AndExpectException_nonExistingHorse() {
         //Given
@@ -187,6 +175,7 @@ class ClientServiceTest {
             assertEquals("Horse with id does not exist", e.getMessage());
         }
     }
+
     @Test
     void createClientFromClientDTO() {
         //Given
@@ -200,6 +189,7 @@ class ClientServiceTest {
 
         assertEquals(expected, actual);
     }
+
     @Test
     void createClientDTOFromClient() {
         //Given
