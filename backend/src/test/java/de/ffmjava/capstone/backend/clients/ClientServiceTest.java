@@ -154,7 +154,7 @@ class ClientServiceTest {
             service.updateClient(newClient);
             fail();
         } catch (IllegalArgumentException e) {
-            assertEquals("A horse can only be owned by one person", e.getMessage());
+            assertEquals("A horse can only be owned once by the same person", e.getMessage());
         }
     }
 
