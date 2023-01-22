@@ -41,33 +41,42 @@ public class ClientService {
 
     public boolean updateClient(ClientDTO updatedClient) throws IllegalArgumentException {
         boolean clientExists = clientRepository.existsById(updatedClient.id());
-        if (!updatedClient.ownsHorse().isEmpty()) {
-            List<String> assignedHorses = updatedClient.ownsHorse()
-                    .stream().map(Horse::id)
-                    .distinct().toList();
-            if (updatedClient.ownsHorse().size() != assignedHorses.size()) {
-                throw new IllegalArgumentException("A horse can only be owned by one person");
+        if (updatedClient.ownsHorse().isEmpty()) {
+            if (!clientExists) {
+                clientRepository.save(Client.createClientFromDTO(updatedClient).withId(UUID.randomUUID().toString()));
+            } else {
+                clientRepository.save(Client.createClientFromDTO(updatedClient));
             }
-            for (String horseOfUpdatedClientId : assignedHorses) {
-                Client foundClient = clientRepository.findByOwnsHorseContains(horseOfUpdatedClientId);
-                if (foundClient != null && !foundClient.id().equals(updatedClient.id())) {
-                    throw new IllegalArgumentException("One or more horses are already owned");
-                }
-                Optional<Horse> retrievedHorse = horseRepository.findById(horseOfUpdatedClientId);
-                if (retrievedHorse.isPresent()) {
-                    Horse horseToUpdate = retrievedHorse.get();
-                    horseRepository.save(horseToUpdate.withOwner(updatedClient.id()));
-                } else {
-                    throw new IllegalArgumentException("Horse with <ID> does not exist"
-                            .replace("<ID>", horseOfUpdatedClientId));
-                }
-            }
-        }
-        if (!clientExists) {
-            clientRepository.save(Client.createClientFromDTO(updatedClient).withId(UUID.randomUUID().toString()));
         } else {
-            clientRepository.save(Client.createClientFromDTO(updatedClient));
+            checkHorseAndSave(updatedClient, clientExists);
         }
         return clientExists;
+    }
+
+    public void checkHorseAndSave(ClientDTO clientToUpdate, boolean clientExists) throws IllegalArgumentException {
+        List<String> assignedHorses = clientToUpdate.ownsHorse()
+                .stream().map(Horse::id)
+                .distinct().toList();
+        if (clientToUpdate.ownsHorse().size() != assignedHorses.size()) {
+            throw new IllegalArgumentException("A horse can only be owned once by the same person");
+        }
+        for (String horseOfUpdatedClientId : assignedHorses) {
+            Client foundClient = clientRepository.findByOwnsHorseContains(horseOfUpdatedClientId);
+            if (foundClient != null && !foundClient.id().equals(clientToUpdate.id())) {
+                throw new IllegalArgumentException("One or more horses are already owned");
+            }
+            Optional<Horse> retrievedHorse = horseRepository.findById(horseOfUpdatedClientId);
+            if (retrievedHorse.isPresent()) {
+                Horse horseToUpdate = retrievedHorse.get();
+                if (!clientExists) {
+                    clientToUpdate = clientToUpdate.withId(UUID.randomUUID().toString());
+                }
+                horseRepository.save(horseToUpdate.withOwner(clientToUpdate.id()));
+                clientRepository.save(Client.createClientFromDTO(clientToUpdate));
+            } else {
+                throw new IllegalArgumentException("Horse with <ID> does not exist"
+                        .replace("<ID>", horseOfUpdatedClientId));
+            }
+        }
     }
 }
