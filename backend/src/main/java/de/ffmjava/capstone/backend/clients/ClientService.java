@@ -30,9 +30,6 @@ public class ClientService {
         return clientsToReturn;
     }
 
-    public Client addNewClient(ClientDTO newClient) {
-        return clientRepository.save(Client.createClientFromDTO(newClient).withId(UUID.randomUUID().toString()));
-    }
 
     public boolean deleteClient(String id) {
         if (!clientRepository.existsById(id)) {
@@ -60,12 +57,12 @@ public class ClientService {
                 if (retrievedHorse.isPresent()) {
                     Horse horseToUpdate = retrievedHorse.get();
                     horseRepository.save(horseToUpdate.withOwner(updatedClient.id()));
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Horse with <ID> does not exist"
                             .replace("<ID>", horseOfUpdatedClientId));
                 }
-            }        }
+            }
+        }
         if (!clientExists) {
             clientRepository.save(Client.createClientFromDTO(updatedClient).withId(UUID.randomUUID().toString()));
         } else {
