@@ -27,7 +27,7 @@ function AddHorseModal(props: ModalProps) {
 
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
-        axios.post("/horses/", newHorse)
+        axios.put("/horses/", newHorse)
             .catch((e) => {
                 if (e.response.status === 400) {
                     setErrorMessages({
