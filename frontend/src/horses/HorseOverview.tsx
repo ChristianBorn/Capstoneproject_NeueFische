@@ -121,7 +121,7 @@ function HorseOverview() {
                             {horses.map(horse => {
                                 return <tr key={horse.id}>
                                     <td><strong>{horse.name}</strong></td>
-                                    <td>{horse.owner.name}</td>
+                                    <td>{horse.owner && horse.owner.name}</td>
                                     <td>
                                         <div className={"consumption-cell"}>
                                             {horse.consumptionList.length > 0 ? horse.consumptionList
