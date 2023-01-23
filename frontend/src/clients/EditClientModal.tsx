@@ -48,6 +48,7 @@ function EditClientModal(props: ModalProps) {
         setHorseSelectList(newHorseSelectList)
         // eslint-disable-next-line
     }, [props.horseList, props.registeredClients])
+
     useEffect(() => {
         setInitialSelectedHorses(editedClient.ownsHorse.map(horse => ({label: horse.name, value: horse})))
     }, [editedClient])
@@ -74,7 +75,12 @@ function EditClientModal(props: ModalProps) {
         })
     }
     const handleSelectChange = (event: any) => {
-        setInitialSelectedHorses(event)
+        console.log(horseSelectList)
+        let allHorses = horseSelectList?.concat(initialSelectedHorses)
+        if (allHorses !== undefined) {
+            setHorseSelectList(allHorses.filter(elem => event.indexOf(elem) === -1))
+        }
+
         setEditedClient({
             ...editedClient,
             ownsHorse: event.map((item: { value: any; }) => item.value)
@@ -101,7 +107,7 @@ function EditClientModal(props: ModalProps) {
                     <FieldLabelGroup>
                         <label htmlFor={"ownsHorse"}>Besitzt</label>
                         <Select value={initialSelectedHorses} isMulti options={horseSelectList}
-                                onChange={handleSelectChange} required id={"ownsHorse"}
+                                onChange={handleSelectChange} id={"ownsHorse"}
                                 name={"ownsHorse"}/>
                     </FieldLabelGroup>
 
