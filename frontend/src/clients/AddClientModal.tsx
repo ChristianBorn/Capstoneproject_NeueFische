@@ -47,7 +47,6 @@ function AddClientModal(props: ModalProps) {
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault()
         selectContent?.map(selectedOption => newClient.ownsHorse.push(selectedOption.value))
-        console.log(newClient)
         axios.put("/clients/", newClient)
             .catch((e) => console.error("POST Error: " + e))
             .then(props.reloadClients)
@@ -84,7 +83,7 @@ function AddClientModal(props: ModalProps) {
 
                     <FieldLabelGroup>
                         <label htmlFor={"owns"}>Besitzt</label>
-                        <Select isMulti options={horseSelectList} onChange={handleSelectChange} required id={"owns"}
+                        <Select isMulti options={horseSelectList} onChange={handleSelectChange} id={"owns"}
                                 name={"owns"}/>
                     </FieldLabelGroup>
 
