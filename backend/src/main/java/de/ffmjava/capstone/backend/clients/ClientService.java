@@ -62,16 +62,6 @@ public class ClientService {
         }
         if (!clientExists) {
             clientToUpdate = clientToUpdate.withId(UUID.randomUUID().toString());
-        } else {
-            Optional<Client> retrievedOldClient = clientRepository.findById(clientToUpdate.id());
-            List<Horse> oldOwnedHorses = new ArrayList<>();
-            List<Horse> newOwnedHorses = clientToUpdate.ownsHorse();
-
-            retrievedOldClient.ifPresent(client -> horseRepository.findAllById(client.ownsHorse()).forEach(oldOwnedHorses::add));
-            List<Horse> horsesToUpdate = oldOwnedHorses.stream()
-                    .filter(oldHorse -> !newOwnedHorses.contains(oldHorse)).map(filteredHorse -> filteredHorse.withOwner(""))
-                    .toList();
-            horseRepository.saveAll(horsesToUpdate);
         }
         for (String horseOfUpdatedClientId : assignedHorses) {
             Client foundClient = clientRepository.findByOwnsHorseContains(horseOfUpdatedClientId);
@@ -86,6 +76,17 @@ public class ClientService {
                 throw new IllegalArgumentException("Horse with <ID> does not exist"
                         .replace("<ID>", horseOfUpdatedClientId));
             }
+        }
+        if (clientExists) {
+            Optional<Client> retrievedOldClient = clientRepository.findById(clientToUpdate.id());
+            List<Horse> oldOwnedHorses = new ArrayList<>();
+            List<Horse> newOwnedHorses = clientToUpdate.ownsHorse();
+
+            retrievedOldClient.ifPresent(client -> horseRepository.findAllById(client.ownsHorse()).forEach(oldOwnedHorses::add));
+            List<Horse> horsesToUpdate = oldOwnedHorses.stream()
+                    .filter(oldHorse -> !newOwnedHorses.contains(oldHorse)).map(filteredHorse -> filteredHorse.withOwner(""))
+                    .toList();
+            horseRepository.saveAll(horsesToUpdate);
         }
         clientRepository.save(Client.createClientFromDTO(clientToUpdate));
     }
