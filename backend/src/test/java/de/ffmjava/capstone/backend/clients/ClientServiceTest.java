@@ -177,6 +177,24 @@ class ClientServiceTest {
     }
 
     @Test
+    void updateClient_AndUpdateHorses_Expect200() {
+        //Given
+        Horse preOwnedHorse = new Horse("1", "name1", "1", List.of());
+        Horse ownedHorse = new Horse("2", "name2", "1", List.of());
+        ClientDTO clientToUpdate = new ClientDTO("1", "name", List.of(ownedHorse));
+        Client foundClient = new Client("1", "name", List.of("1"));
+        //When
+        when(mockClientRepository.existsById(clientToUpdate.id())).thenReturn(true);
+        when(mockClientRepository.findByOwnsHorseContains(ownedHorse.id())).thenReturn(foundClient);
+        when(mockHorseRepository.findById(ownedHorse.id())).thenReturn(Optional.of(ownedHorse));
+        when(mockClientRepository.findById(clientToUpdate.id())).thenReturn(Optional.of(foundClient));
+        when(mockHorseRepository.findAllById(List.of(preOwnedHorse.id()))).thenReturn(List.of(preOwnedHorse));
+        //Then
+        service.updateClient(clientToUpdate);
+        verify(mockHorseRepository).saveAll(List.of(preOwnedHorse.withOwner("")));
+    }
+
+    @Test
     void createClientFromClientDTO() {
         //Given
         Horse ownedHorse = new Horse("1", "name", "2", List.of());
