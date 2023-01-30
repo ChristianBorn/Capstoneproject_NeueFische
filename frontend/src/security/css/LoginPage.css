@@ -1,7 +1,7 @@
 .login-form-area {
     display: flex;
     flex-flow: column wrap;
-    max-width: 25%;
+    max-width: 30em;
     margin: 5% auto;
     padding: 1em;
     box-shadow: 4px 8px 10px 5px rgba(0, 0, 0, 0.5);
