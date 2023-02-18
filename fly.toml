@@ -6,6 +6,7 @@ kill_timeout = 5
 processes = []
 
 [env]
+  LOG_LEVEL = "debug"
 
 [experimental]
   allowed_public_ports = []

@@ -6,6 +6,8 @@ import de.ffmjava.capstone.backend.horses.model.Consumption;
 import de.ffmjava.capstone.backend.horses.model.Horse;
 import de.ffmjava.capstone.backend.stock.model.StockItem;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,6 +25,8 @@ public class StockService {
     public static final String AGGREGATED_CONSUMPTION_CACHE = "AGGREGATED_CONSUMPTION_CACHE";
     private final StockRepository stockRepository;
     private final HorseRepository horseRepository;
+    private final Logger logger = LoggerFactory.getLogger(StockService.class);
+
 
     public List<StockItem> getAllStockItems() {
         return stockRepository.findAll();
@@ -56,6 +60,7 @@ public class StockService {
             throw new StockItemAlreadyExistsException("Der angegebene Name ist bereits vergeben");
         }
         StockItem newStockItemWithId = newStockItem.withId(UUID.randomUUID().toString());
+        logger.info("Added new stockitem {}", newStockItemWithId);
         return stockRepository.save(newStockItemWithId);
     }
 
@@ -96,5 +101,6 @@ public class StockService {
                 })
                 .toList();
         stockRepository.saveAll(updatedStockItems);
+        logger.info("Subtracted following consumptions: {}", consumptions);
     }
 }

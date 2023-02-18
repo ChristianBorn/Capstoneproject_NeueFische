@@ -18,7 +18,6 @@ class StockServiceTest {
 
     private final StockRepository mockStockRepository = mock(StockRepository.class);
     private final HorseRepository mockHorseRepository = mock(HorseRepository.class);
-
     private final StockService service = new StockService(mockStockRepository, mockHorseRepository);
 
     @Test
