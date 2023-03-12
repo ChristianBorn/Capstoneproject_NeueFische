@@ -1,0 +1,4 @@
+.linked-card-collection {
+    display: flex;
+    flex-flow: row wrap;
+}
