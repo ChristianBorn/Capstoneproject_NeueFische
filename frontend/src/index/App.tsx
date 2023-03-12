@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom";
 import axios from "axios";
 import {BounceLoader} from "react-spinners";
@@ -11,22 +11,24 @@ import "../buttons/css/GeneralButtonStyles.css";
 import "../index/css/GeneralOverviewPage.css";
 import './css/App.css';
 import ClientOverview from "../clients/ClientOverview";
+import WelcomePage from "../welcomePage/WelcomePage";
 
 
 function App() {
     const [userName, setUserDetails] = useState<string>()
 
-    const fetchUsername = () => {
-        axios.get("/api/app-users/me")
-            .then(response => response.data)
-            .then(setUserDetails);
-    }
+    const fetchUsername = useCallback(
+        () => {
+            axios.get("/api/app-users/me")
+                .then(response => response.data)
+                .then(setUserDetails)
+        }, [])
 
     const logout = () => {
         axios.get("/api/app-users/logout").then(fetchUsername)
     }
 
-    useEffect(fetchUsername, [])
+    useEffect(fetchUsername, [fetchUsername])
 
     if (userName === undefined) {
         return <BounceLoader
@@ -56,6 +58,7 @@ function App() {
                 <BrowserRouter>
                     <div className={"floating-navbar"}>
                         <nav>
+                            <NavLink to={"/"}>Start</NavLink>
                             <NavLink to={"/pferde/ueberblick"}>Pferde</NavLink>
                             <NavLink to={"/einstaller/ueberblick"}>Einstaller</NavLink>
                             <NavLink to={"/lager/ueberblick"}>Lager</NavLink>
@@ -66,6 +69,7 @@ function App() {
                         <button onClick={logout} className={"logout-button"}>Ausloggen</button>
                     </div>
                     <Routes>
+                        <Route path={"/"} element={<WelcomePage/>}></Route>
                         <Route path={"/lager/ueberblick"} element={<StockOverview/>}></Route>
                         <Route path={"/pferde/ueberblick"} element={<HorseOverview/>}></Route>
                         <Route path={"/einstaller/ueberblick"} element={<ClientOverview/>}></Route>
