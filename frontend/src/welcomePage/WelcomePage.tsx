@@ -5,8 +5,8 @@ import axios from "axios";
 
 function WelcomePage() {
     const [numberHorses, setNumberHorses] = useState<number>()
-    const [numberClients, setNumberclients] = useState<number>()
-    const [numberStockItems, setnumberStockItems] = useState<number>()
+    const [numberClients, setNumberClients] = useState<number>()
+    const [numberStockItems, setNumberStockItems] = useState<number>()
 
     const getAllHorses = useCallback(() => {
         axios.get("/horses/")
@@ -18,21 +18,21 @@ function WelcomePage() {
         axios.get("/clients/")
             .then((response) => response.data.length)
             .catch((error) => console.error("Error while getting clients:" + error))
-            .then(setNumberclients)
+            .then(setNumberClients)
     }, [])
     const getAllStockItems = useCallback(() => {
         axios.get("/stock/")
             .then((response) => response.data.length)
             .catch((error) => console.error("Error while getting Stockitems:" + error))
-            .then(setnumberStockItems)
+            .then(setNumberStockItems)
     }, [])
-
 
     useEffect(() => {
         getAllHorses()
         getAllClients()
         getAllStockItems()
     }, [getAllHorses, getAllClients, getAllStockItems])
+    
     return (<>
             <h2>Willkommen</h2>
             {numberClients !== undefined && numberHorses !== undefined && numberStockItems !== undefined &&
