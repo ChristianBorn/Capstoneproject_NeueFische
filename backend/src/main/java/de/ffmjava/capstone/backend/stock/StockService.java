@@ -96,6 +96,10 @@ public class StockService {
                     if (singleItem.amountInStock().compareTo(BigDecimal.ZERO) <= 0) {
                         return singleItem;
                     }
+                    if (singleItem.amountInStock()
+                            .subtract(consumptions.get(singleItem.name()).dailyAggregatedConsumption()).compareTo(BigDecimal.ZERO) <= 0) {
+                        return singleItem.withAmountInStock(BigDecimal.ZERO);
+                    }
                     return singleItem.withAmountInStock(singleItem.amountInStock()
                             .subtract(consumptions.get(singleItem.name()).dailyAggregatedConsumption()));
                 })
