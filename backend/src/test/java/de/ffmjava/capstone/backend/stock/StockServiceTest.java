@@ -185,7 +185,7 @@ class StockServiceTest {
     @CsvSource({"100, 95",
             "0, 0",
             "4, 0"})
-    void subtractConsumption_withDrainedStock(String stockAmount, String stockAfterSubtraction) {
+    void subtractConsumption(String stockAmount, String stockAfterSubtraction) {
         //Given
         Map<String, AggregatedConsumption> consumption = new HashMap<>(Map.of("Hafer", new AggregatedConsumption("Hafer", new BigDecimal("5"))));
         StockItem retrievedStockItem = new StockItem("id", "Hafer", StockType.FUTTER,
