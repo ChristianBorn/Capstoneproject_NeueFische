@@ -2,6 +2,7 @@ package de.ffmjava.capstone.backend.user;
 
 
 import de.ffmjava.capstone.backend.user.model.AppUser;
+import de.ffmjava.capstone.backend.user.model.AppUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,10 @@ public class UserService {
 
     public AppUser findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public AppUserDTO getDTOByUsername(String username) {
+        return AppUserDTO.createDTOFromUser(userRepository.findByUsername(username));
     }
 
     public String save(AppUser newAppUser, PasswordEncoder passwordEncoder) throws UserAlreadyExistsException {
