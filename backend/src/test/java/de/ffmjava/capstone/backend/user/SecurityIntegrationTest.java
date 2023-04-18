@@ -19,8 +19,7 @@ import java.io.IOException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
@@ -182,5 +181,26 @@ class SecurityIntegrationTest {
                         .content(jsonString))
                 .andExpect(status().is(400))
                 .andExpect(content().string("{\"rawPassword\":[\"Passwort darf nicht leer sein\",\"Passwort muss mindestens acht Zeichen, ein Sonderzeichen und eine Zahl enthalten\"],\"username\":[\"Username darf nicht leer sein\"]}"));
+    }
+
+    @Test
+    @WithMockUser(username = "Chris", roles = "Basic")
+    void expect200_and_AccountDetails() throws Exception {
+        String jsonString =
+                """
+                            {
+                                "username": "Chris",
+                                "rawPassword": "Password123!"
+                            }
+                        """;
+        mockMvc.perform(post("/api/app-users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonString));
+        mockMvc.perform(get("/api/app-users/account-details"))
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.username").value("Chris"))
+                .andExpect(jsonPath("$.role").value("Basic"))
+                .andExpect(jsonPath("$.eMail").isEmpty());
     }
 }
