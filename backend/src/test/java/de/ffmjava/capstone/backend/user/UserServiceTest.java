@@ -57,4 +57,17 @@ class UserServiceTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    void createAppUserDTOFromAppUser() {
+        //Given
+        AppUser appUser = new AppUser("null", "username", "password", "", "", "email");
+        AppUserDTO appUserDTO = new AppUserDTO("null", "username", "", "email");
+        //When
+        //Then
+        AppUserDTO expected = appUserDTO;
+        AppUserDTO actual = AppUserDTO.createDTOFromUser(appUser);
+
+        assertEquals(expected, actual);
+    }
 }
