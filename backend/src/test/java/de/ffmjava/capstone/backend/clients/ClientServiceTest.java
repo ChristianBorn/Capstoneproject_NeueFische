@@ -231,7 +231,6 @@ class ClientServiceTest {
         Horse ownedHorse = new Horse("1", "name", "2", List.of());
         Client client = new Client("2", "name", List.of((ownedHorse.id())));
         //When
-
         //Then
         ClientDTO actual = ClientDTO.createDTOFromClient(client, List.of(ownedHorse));
         ClientDTO expected = new ClientDTO("2", "name", List.of(ownedHorse));
