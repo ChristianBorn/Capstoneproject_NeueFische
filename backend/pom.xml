@@ -81,7 +81,6 @@
         </dependency>
 
     </dependencies>
-
     <build>
         <finalName>Stable-Buddy</finalName>
         <plugins>
