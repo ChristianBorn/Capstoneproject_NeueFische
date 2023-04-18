@@ -24,6 +24,14 @@ public class UserController {
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
+    @GetMapping("/account-details")
+    public AppUser accountDetails() {
+        return service.findByUsername(SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName());
+    }
+
     @GetMapping("/logout")
     public void logout(HttpSession httpSession) {
         httpSession.invalidate();
@@ -31,10 +39,10 @@ public class UserController {
 
     @GetMapping("/me")
     public String me() {
-       return SecurityContextHolder
-               .getContext()
-               .getAuthentication()
-               .getName();
+        return SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
     }
 
     @PostMapping
