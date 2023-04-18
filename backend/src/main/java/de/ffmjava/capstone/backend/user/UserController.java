@@ -2,6 +2,7 @@ package de.ffmjava.capstone.backend.user;
 
 import de.ffmjava.capstone.backend.SecurityConfig;
 import de.ffmjava.capstone.backend.user.model.AppUser;
+import de.ffmjava.capstone.backend.user.model.AppUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,8 @@ public class UserController {
     }
 
     @GetMapping("/account-details")
-    public AppUser accountDetails() {
-        return service.findByUsername(SecurityContextHolder
+    public AppUserDTO accountDetails() {
+        return service.getDTOByUsername(SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getName());
