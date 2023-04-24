@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import Modal from 'react-modal';
-import {ClientModel} from "./ClientModel";
+import {ClientModel} from "./models/ClientModel";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 import CloseIcon from "../icons/CloseIcon";
 import "../index/css/AddItemModal.css";
 import "../buttons/css/SubmitButton.css";
-import {HorseModel} from "../horses/HorseModel";
+import {HorseModel} from "../horses/models/HorseModel";
 import Select from "react-select";
 
 type ModalProps = {

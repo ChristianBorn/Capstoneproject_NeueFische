@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import axios from "axios";
-import {StockItemModel} from "./StockItemModel";
+import {StockItemModel} from "./models/StockItemModel";
 import AddIcon from "../icons/AddIcon";
 import {BounceLoader} from "react-spinners";
 import DeleteIcon from "../icons/DeleteIcon";

@@ -1,12 +1,12 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import Modal from 'react-modal';
 import Select from 'react-select';
-import {HorseModel} from "./HorseModel";
-import {StockItemModel} from "../stock/StockItemModel";
+import {HorseModel} from "./models/HorseModel";
+import {StockItemModel} from "../stock/models/StockItemModel";
 import CloseIcon from "../icons/CloseIcon";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 import axios from "axios";
-import {ConsumptionModel} from "./ConsumptionModel";
+import {ConsumptionModel} from "./models/ConsumptionModel";
 
 type ModalProps = {
     modalIsOpen: boolean,

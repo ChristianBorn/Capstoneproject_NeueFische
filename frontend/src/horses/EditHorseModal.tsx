@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal';
-import {HorseModel} from "./HorseModel";
+import {HorseModel} from "./models/HorseModel";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 import CloseIcon from "../icons/CloseIcon";
 import "../index/css/AddItemModal.css";

@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal';
-import {HorseModel} from "../horses/HorseModel";
+import {HorseModel} from "../horses/models/HorseModel";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 import CloseIcon from "../icons/CloseIcon";
 import "../index/css/AddItemModal.css";
 import "../buttons/css/SubmitButton.css";
-import {ClientModel} from "./ClientModel";
+import {ClientModel} from "./models/ClientModel";
 import Select from "react-select";
 
 

@@ -12,6 +12,7 @@ import "../index/css/GeneralOverviewPage.css";
 import './css/App.css';
 import ClientOverview from "../clients/ClientOverview";
 import WelcomePage from "../welcomePage/WelcomePage";
+import AccountDetails from "../security/AccountDetails";
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
                             <NavLink to={"/pferde/ueberblick"}>Pferde</NavLink>
                             <NavLink to={"/einstaller/ueberblick"}>Einstaller</NavLink>
                             <NavLink to={"/lager/ueberblick"}>Lager</NavLink>
+                            <NavLink to={"/account"}>Account</NavLink>
                         </nav>
                     </div>
                     <div className={"logout-container"}>
@@ -73,6 +75,7 @@ function App() {
                         <Route path={"/lager/ueberblick"} element={<StockOverview/>}></Route>
                         <Route path={"/pferde/ueberblick"} element={<HorseOverview/>}></Route>
                         <Route path={"/einstaller/ueberblick"} element={<ClientOverview/>}></Route>
+                        <Route path={"/account/"} element={<AccountDetails/>}></Route>
                     </Routes>
                 </BrowserRouter>
             </main>

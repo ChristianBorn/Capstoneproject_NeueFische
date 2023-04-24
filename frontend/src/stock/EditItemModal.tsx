@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal';
-import {StockItemModel} from "./StockItemModel";
+import {StockItemModel} from "./models/StockItemModel";
 import Form3Rows from "../structuralComponents/Form3Rows";
 import FieldLabelGroup from "../structuralComponents/FieldLabelGroup";
 import CloseIcon from "../icons/CloseIcon";
