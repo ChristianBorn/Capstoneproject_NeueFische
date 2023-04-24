@@ -1,15 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import axios from "axios";
+import {AccountModel} from "./models/AccountModel";
 
-type accountDetailsProps = {}
 
-function AccountDetails(props: accountDetailsProps) {
-    const [accountDetails, setAccountDetails] = useState<{
-        id: String,
-        username: String,
-        role: String,
-        eMail: String
-    }>()
+function AccountDetails() {
+    const [accountDetails, setAccountDetails] = useState<AccountModel>()
 
     const fetchAccountDetails = useCallback(
         () => {
@@ -23,13 +18,14 @@ function AccountDetails(props: accountDetailsProps) {
         fetchAccountDetails()
     })
 
-    const printUserDetails = () => {
-        console.log(accountDetails?.id)
-    }
-
     return (
         <div>
-            <button title={"asdasdasdas"} onClick={printUserDetails}/>
+            {accountDetails && <>
+                <div>User ID: {accountDetails.id}</div>
+                <div>Username: {accountDetails.username}</div>
+                <div>Rolle: {accountDetails.role}</div>
+                <div>E-Mail Adresse: {accountDetails.eMail ? accountDetails.eMail : "Keine Adresse angegeben"}</div>
+            </>}
         </div>
     );
 }
