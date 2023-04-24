@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {HorseModel} from "./HorseModel";
+import {HorseModel} from "./models/HorseModel";
 import {BounceLoader} from "react-spinners";
 import AddIcon from "../icons/AddIcon";
 import AddHorseModal from "./AddHorseModal";
@@ -8,7 +8,7 @@ import DeleteIcon from "../icons/DeleteIcon";
 import DeleteHorseModal from "./DeleteHorseModal";
 import EditHorseModal from "./EditHorseModal";
 import EditIcon from "../icons/EditIcon";
-import {StockItemModel} from "../stock/StockItemModel";
+import {StockItemModel} from "../stock/models/StockItemModel";
 import AddConsumptionModal from "./AddConsumptionModal";
 import AddToIcon from "../icons/AddToIcon";
 

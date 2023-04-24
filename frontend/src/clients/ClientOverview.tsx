@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {ClientModel} from "./ClientModel";
+import {ClientModel} from "./models/ClientModel";
 import {BounceLoader} from "react-spinners";
 import AddIcon from "../icons/AddIcon";
 import DeleteIcon from "../icons/DeleteIcon";
 import EditIcon from "../icons/EditIcon";
 import AddClientModal from "./AddClientModal";
-import {HorseModel} from "../horses/HorseModel";
+import {HorseModel} from "../horses/models/HorseModel";
 import DeleteClientModal from "./DeleteClientModal";
 import EditClientModal from "./EditClientModal";
 

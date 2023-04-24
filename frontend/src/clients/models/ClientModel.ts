@@ -1,4 +1,4 @@
-import {HorseModel} from "../horses/HorseModel";
+import {HorseModel} from "../../horses/models/HorseModel";
 
 export type ClientModel = {
     id: string,

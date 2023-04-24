@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";
 import "./css/IconClickable.css"
 import "./css/AddIcon.css"
-import {HorseModel} from "../horses/HorseModel";
+import {HorseModel} from "../horses/models/HorseModel";
 
 type iconProps = {
     onClickAction: (addTo: HorseModel) => any
