@@ -4,6 +4,7 @@ package de.ffmjava.capstone.backend.user;
 import de.ffmjava.capstone.backend.user.model.AppUser;
 import de.ffmjava.capstone.backend.user.model.AppUserDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +14,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
 
+    public static final String ACCOUNT_DETAILS = "ACCOUNT_DETAILS";
     private final UserRepository userRepository;
 
     public AppUser findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
+    @Cacheable(value = ACCOUNT_DETAILS)
     public AppUserDTO getDTOByUsername(String username) {
         return AppUserDTO.createDTOFromUser(userRepository.findByUsername(username));
     }

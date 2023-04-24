@@ -4,6 +4,7 @@ import de.ffmjava.capstone.backend.SecurityConfig;
 import de.ffmjava.capstone.backend.user.model.AppUser;
 import de.ffmjava.capstone.backend.user.model.AppUserDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import static de.ffmjava.capstone.backend.user.UserService.ACCOUNT_DETAILS;
 
 @RestController
 @RequestMapping("/api/app-users")
@@ -34,6 +37,7 @@ public class UserController {
     }
 
     @GetMapping("/logout")
+    @CacheEvict(value = ACCOUNT_DETAILS, allEntries = true)
     public void logout(HttpSession httpSession) {
         httpSession.invalidate();
     }
