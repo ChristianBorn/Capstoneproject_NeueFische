@@ -41,7 +41,7 @@ public class SecurityConfig {
         return passwordEncoder;
     }
 
-    private class NoPopupBasicAuthenticationEntryPoint implements AuthenticationEntryPoint {
+    private static class NoPopupBasicAuthenticationEntryPoint implements AuthenticationEntryPoint {
         @Override
         public void commence(HttpServletRequest request, HttpServletResponse response,
                              AuthenticationException authException) throws IOException {
@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/api/app-users/me").permitAll()
                 .antMatchers(HttpMethod.GET,
                         PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH, PROTECTED_CLIENT_PATH,
-                        "/api/app-users/logout", "/api/app-users/login"
+                        "/api/app-users/logout", "/api/app-users/login", "/api/app-users/account-details/"
                 ).hasAnyRole(ROLE_BASIC)
                 .antMatchers(HttpMethod.POST,
                         PROTECTED_STOCK_PATH, PROTECTED_HORSE_PATH, PROTECTED_CLIENT_PATH)
